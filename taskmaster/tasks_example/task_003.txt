@@ -1,0 +1,11 @@
+# Task ID: 3
+# Title: Build FastAPI CRUD Endpoints and Service Layer
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Implement RESTful API endpoints following OpenAPI 3.0 spec with proper validation, error handling, and repository pattern
+# Details:
+Create controller layer with endpoints for /api/v1/projects (GET, POST, PUT, PATCH, DELETE) and /api/v1/notes with full CRUD operations. Implement service layer with business logic for project management, note creation/updates with auto-save every 500ms, and soft delete handling. Add repository layer for data access with proper error handling and validation using Pydantic v2 schemas. Include bulk operations endpoint for batch processing.
+
+# Test Strategy:
+Integration tests for all endpoints, test request/response validation, verify error handling with proper HTTP status codes, test bulk operations

@@ -1,0 +1,49 @@
+# Task ID: 2
+# Title: Implement Core Data Models and Database Schema
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create SQLAlchemy models for Project, Note, NoteLink, Tag, and NoteVersion with proper relationships and constraints
+# Details:
+Define Project model with UUID, name (unique 1-100 chars), description, color, icon, timestamps, and metadata JSON field. Create Note model with UUID, title (1-200 chars), content (Markdown max 1MB), project_id foreign key, timestamps, soft delete, version, word_count, and reading_time. Implement NoteLink for bidirectional relationships, Tag with hierarchical structure, and NoteVersion for lightweight versioning. Setup Alembic migrations and configure optimized indexes.
+
+# Test Strategy:
+Unit tests for model validations, test migrations up/down, verify foreign key constraints, test soft delete functionality
+
+# Subtasks:
+## 1. Implement Project model with validations [pending]
+### Dependencies: None
+### Description: Create SQLAlchemy Project model with UUID primary key, unique slug, metadata JSON field, soft delete, and validation constraints
+### Details:
+Define Project model in models/project.py with: UUID id field using uuid.uuid4, unique slug field with regex validation (alphanumeric-dash), name field (required, max 255 chars), description field (text, optional), metadata field (JSON type), is_active boolean (default True), created_at/updated_at timestamps. Add model validators for slug format and name length.
+
+## 2. Implement Note model with constraints [pending]
+### Dependencies: 2.1
+### Description: Create SQLAlchemy Note model with project relationship, content field, metadata, and soft delete functionality
+### Details:
+Define Note model in models/note.py with: UUID id, project_id foreign key to Project.id with CASCADE delete, title field (required, max 255 chars), content field (text, required), metadata JSON field, is_active boolean, timestamps. Add relationship to Project model with back_populates. Include content length validation (min 1 char).
+
+## 3. Implement NoteLink bidirectional relationships [pending]
+### Dependencies: 2.2
+### Description: Create NoteLink association table for bidirectional note relationships with link types and metadata
+### Details:
+Define NoteLink model in models/note_link.py as association table with: composite primary key (source_note_id, target_note_id), both as foreign keys to Note.id, link_type enum field (reference, related, parent, child), metadata JSON field, created_at timestamp. Add bidirectional relationships to Note model for linked_from and linked_to with proper join conditions. Include constraint to prevent self-referencing.
+
+## 4. Implement Tag hierarchical structure [pending]
+### Dependencies: 2.2
+### Description: Create Tag model with self-referential parent-child relationships and many-to-many note associations
+### Details:
+Define Tag model in models/tag.py with: UUID id, name field (unique per project scope), project_id foreign key, parent_id self-referential foreign key (nullable), color field (hex validation), metadata JSON. Create NoteTag association table for many-to-many relationship. Add methods for path generation (parent.child.grandchild) and cycle detection in hierarchy.
+
+## 5. Implement NoteVersion model [pending]
+### Dependencies: 2.2
+### Description: Create NoteVersion model for tracking note history with content diffs and change metadata
+### Details:
+Define NoteVersion model in models/note_version.py with: UUID id, note_id foreign key to Note.id, version_number (auto-increment per note), content field (full content snapshot), diff field (JSON storing change delta), created_by field (for future user tracking), created_at timestamp. Add relationship to Note model. Include method to generate diff from previous version.
+
+## 6. Create Alembic migrations and indexes [pending]
+### Dependencies: 2.1, 2.2, 2.3, 2.4, 2.5
+### Description: Generate and configure Alembic migrations for all models with proper indexes for performance
+### Details:
+Initialize Alembic if not exists. Generate migration for all models ensuring: indexes on foreign keys (project_id in notes/tags, note_id in versions/links), unique constraints (project.slug, tag.name+project_id composite), indexes on is_active for soft delete queries, created_at for temporal queries. Add database-level constraints for UUID defaults and JSON validation where supported. Test migration up and down.
+

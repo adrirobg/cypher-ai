@@ -1,0 +1,112 @@
+import { query, type SDKMessage } from '@anthropic-ai/claude-code';
+
+/**
+ * Template for Task Master workflow automation scripts
+ * 
+ * REMEMBER: Outputs are for AI agents (Claude Code), not humans!
+ * - Optimize for token efficiency
+ * - Structure for easy parsing
+ * - Focus on implementation details
+ * 
+ * INSTRUCTIONS:
+ * 1. Copy this file: cp template-workflow.ts.example my-workflow.ts
+ * 2. Update the WORKFLOW_NAME and DESCRIPTION
+ * 3. Modify the prompt to describe your workflow
+ * 4. Adjust allowedTools based on needs
+ * 5. Run: npx tsx scripts/my-workflow.ts
+ */
+
+// TODO: Update these constants
+const WORKFLOW_NAME = 'My Workflow';
+const DESCRIPTION = 'Brief description of what this workflow does';
+
+async function executeWorkflow() {
+  console.log(`🚀 Starting ${WORKFLOW_NAME}...\n`);
+  
+  const messages: SDKMessage[] = [];
+  
+  try {
+    // Main workflow execution
+    for await (const message of query({
+      prompt: `
+        TODO: Replace this with your workflow instructions.
+        
+        Example structure:
+        
+        [1/3] PHASE ONE
+        - Execute: npx task-master [command]
+        - Process the output
+        
+        [2/3] PHASE TWO  
+        - Analyze the results
+        - Make decisions based on data
+        
+        [3/3] GENERATE OUTPUT
+        - Create a file with results
+        - Format: JSON or Markdown
+        
+        Important guidelines:
+        - Output must be optimized for AI agent consumption
+        - Minimize tokens while preserving essential context
+        - Use consistent structure for easy parsing
+        - Focus on WHAT to implement, not WHY
+        - Include all necessary implementation details
+      `,
+      options: {
+        maxTurns: 20,  // Adjust based on workflow complexity
+        allowedTools: [
+          'Bash',      // For executing commands
+          'Read',      // For reading files
+          'Write',     // For creating output files
+          // Add Context7 tools if needed:
+          // 'mcp__context7__get-library-docs',
+          // 'mcp__context7__resolve-library-id'
+        ],
+        cwd: process.cwd()
+      }
+    })) {
+      messages.push(message);
+      
+      // Display progress to user
+      if (message.type === 'assistant' && message.message.content) {
+        const content = message.message.content;
+        if (Array.isArray(content)) {
+          content.forEach(block => {
+            if (block.type === 'text') {
+              console.log(block.text);
+            }
+          });
+        }
+      }
+    }
+    
+    // Success message
+    console.log(`\n✅ ${WORKFLOW_NAME} completed successfully!`);
+    
+    // TODO: Add specific success instructions
+    // console.log('📄 Output saved to: output-file.json');
+    
+  } catch (error) {
+    console.error(`❌ Error during ${WORKFLOW_NAME}:`, error.message);
+    
+    // Common error handling
+    if (error.message?.includes('command not found: claude')) {
+      console.error('\n📋 Claude Code CLI not installed.');
+      console.error('Please run:');
+      console.error('  npm install -g @anthropic-ai/claude-code');
+      console.error('  claude login');
+    }
+    
+    process.exit(1);
+  }
+}
+
+// Validate command line arguments if needed
+// const arg = process.argv[2];
+// if (!arg) {
+//   console.error('Usage: npx tsx scripts/my-workflow.ts <argument>');
+//   process.exit(1);
+// }
+
+// Execute the workflow
+executeWorkflow();

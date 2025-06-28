@@ -1,0 +1,311 @@
+{
+  "meta": {
+    "taskId": "2",
+    "taskTitle": "Implement Core Data Models and Database Schema",
+    "generatedAt": "2025-01-28T15:30:00Z",
+    "tepVersion": "1.0.0",
+    "complexity": 8
+  },
+  "structure": {
+    "mainTask": {
+      "id": "2",
+      "title": "Implement Core Data Models and Database Schema", 
+      "description": "Create SQLAlchemy models for Project, Note, NoteLink, Tag, and NoteVersion with proper relationships and constraints",
+      "status": "pending"
+    },
+    "subtasks": [
+      {
+        "id": "2.1",
+        "title": "Implement Project model with validations",
+        "complexity": 4,
+        "estimatedHours": 3,
+        "dependencies": []
+      },
+      {
+        "id": "2.2", 
+        "title": "Implement Note model with constraints",
+        "complexity": 7,
+        "estimatedHours": 5,
+        "dependencies": ["2.1"]
+      },
+      {
+        "id": "2.3",
+        "title": "Implement NoteLink bidirectional relationships", 
+        "complexity": 5,
+        "estimatedHours": 4,
+        "dependencies": ["2.2"]
+      },
+      {
+        "id": "2.4",
+        "title": "Implement Tag hierarchical structure",
+        "complexity": 6,
+        "estimatedHours": 4,
+        "dependencies": ["2.2"]
+      },
+      {
+        "id": "2.5",
+        "title": "Implement NoteVersion model",
+        "complexity": 5,
+        "estimatedHours": 3,
+        "dependencies": ["2.2"]
+      },
+      {
+        "id": "2.6",
+        "title": "Create Alembic migrations and indexes",
+        "complexity": 8,
+        "estimatedHours": 4,
+        "dependencies": ["2.1", "2.2", "2.3", "2.4", "2.5"]
+      },
+      {
+        "id": "2.7",
+        "title": "Create Project model with SQLAlchemy",
+        "complexity": 3,
+        "estimatedHours": 2,
+        "dependencies": []
+      },
+      {
+        "id": "2.8",
+        "title": "Create Note model with soft delete support",
+        "complexity": 6,
+        "estimatedHours": 4,
+        "dependencies": ["2.7"]
+      },
+      {
+        "id": "2.9",
+        "title": "Create Tag model with hierarchical structure",
+        "complexity": 5,
+        "estimatedHours": 3,
+        "dependencies": []
+      },
+      {
+        "id": "2.10",
+        "title": "Create NoteLink model for bidirectional linking",
+        "complexity": 4,
+        "estimatedHours": 3,
+        "dependencies": ["2.8"]
+      },
+      {
+        "id": "2.11",
+        "title": "Create NoteVersion model for version history",
+        "complexity": 4,
+        "estimatedHours": 3,
+        "dependencies": ["2.8"]
+      },
+      {
+        "id": "2.12",
+        "title": "Implement many-to-many relationships and association tables",
+        "complexity": 7,
+        "estimatedHours": 5,
+        "dependencies": ["2.8", "2.9"]
+      },
+      {
+        "id": "2.13",
+        "title": "Create database migrations and indexes",
+        "complexity": 8,
+        "estimatedHours": 4,
+        "dependencies": ["2.7", "2.8", "2.9", "2.10", "2.11", "2.12"]
+      }
+    ],
+    "totalSubtasks": 13,
+    "dependencies": {
+      "graph": "Sequential execution with some parallel opportunities: Phase 1 (2.1,2.7,2.9) → Phase 2 (2.2,2.8) → Phase 3 (2.3,2.4,2.5,2.10,2.11,2.12) → Phase 4 (2.6,2.13)",
+      "criticalPath": ["2.1", "2.2", "2.6"]
+    }
+  },
+  "analysis": {
+    "complexity": {
+      "overall": "Score 8/10 - High complexity due to complex relationships, soft delete patterns, hierarchical structures, and database migration setup",
+      "distribution": "Simple models (3-4), Complex models with relationships (5-7), Migration setup (8)",
+      "highComplexityAreas": ["Soft delete implementation", "Hierarchical tag structure", "Bidirectional relationships", "Alembic migration configuration"]
+    },
+    "parallelization": {
+      "strategy": "Mixed - Some models can be developed in parallel, migrations must be sequential",
+      "opportunities": ["Base models (Project, Tag) can be developed simultaneously", "Relationship models can be developed after base models", "Testing can be parallelized"],
+      "constraints": ["Migration setup must be done after all models", "Foreign key dependencies require sequential model creation"]
+    },
+    "technologies": {
+      "primary": ["SQLAlchemy 2.0", "Alembic", "UUID", "Pydantic"],
+      "secondary": ["SQLite 3.40+", "FTS5", "Python 3.11+"],
+      "libraries": ["sqlalchemy.orm", "alembic", "uuid", "datetime"]
+    },
+    "risks": [
+      {
+        "area": "UUID Primary Keys",
+        "severity": "medium",
+        "mitigation": "Use SQLAlchemy 2.0 native UUID type with default_factory for consistent behavior"
+      },
+      {
+        "area": "Soft Delete Implementation",
+        "severity": "high", 
+        "mitigation": "Implement mixin pattern with automatic filtering and event listeners to ensure consistency"
+      },
+      {
+        "area": "Migration Conflicts",
+        "severity": "medium",
+        "mitigation": "Use proper dependency ordering and test migrations both up and down"
+      },
+      {
+        "area": "Performance with Large Content",
+        "severity": "medium",
+        "mitigation": "Implement proper indexing strategy and consider content size limits"
+      }
+    ]
+  },
+  "research": {
+    "bestPractices": {
+      "SQLAlchemy 2.0": [
+        "Use DeclarativeBase for modern ORM mapping",
+        "Leverage Mapped[] type annotations for better IDE support",
+        "Use mapped_column() instead of Column for declarative mapping",
+        "Implement proper relationship() configurations with back_populates"
+      ],
+      "UUID": [
+        "Use uuid.uuid4 with default_factory for client-side generation",
+        "Map UUID type to custom GUID TypeDecorator if needed",
+        "Consider server_default=func.gen_random_uuid() for database-side generation"
+      ],
+      "Soft Delete": [
+        "Use deleted_at timestamp column pattern",
+        "Implement mixin class for reusable soft delete functionality", 
+        "Use SQLAlchemy events for automatic filtering",
+        "Consider viewonly relationships for complex queries"
+      ],
+      "Alembic": [
+        "Configure target_metadata in env.py for autogenerate",
+        "Use proper naming conventions for constraints",
+        "Test both upgrade and downgrade functions",
+        "Use batch operations for SQLite compatibility"
+      ]
+    },
+    "antiPatterns": {
+      "SQLAlchemy": [
+        "Don't use string-based foreign keys without proper relationships",
+        "Avoid N+1 queries with lazy loading",
+        "Don't ignore transaction boundaries",
+        "Avoid manual SQL for operations that can be done through ORM"
+      ],
+      "Database Design": [
+        "Don't create circular foreign key dependencies", 
+        "Avoid overly complex inheritance hierarchies",
+        "Don't skip database constraints for performance",
+        "Avoid storing large binary data in regular columns"
+      ]
+    },
+    "securityConsiderations": [
+      "Validate all input data through Pydantic models",
+      "Use parameterized queries (SQLAlchemy handles this)",
+      "Implement proper access controls for soft-deleted records",
+      "Consider encryption for sensitive metadata fields"
+    ],
+    "performanceConsiderations": [
+      "Create indexes on foreign key columns",
+      "Use FTS5 for full-text search on content",
+      "Consider pagination for large result sets",
+      "Implement eager loading for predictable access patterns"
+    ]
+  },
+  "context7": {
+    "librariesSearched": [
+      {
+        "name": "SQLAlchemy",
+        "id": "/sqlalchemy/sqlalchemy", 
+        "relevance": "high"
+      },
+      {
+        "name": "Alembic",
+        "id": "/sqlalchemy/alembic",
+        "relevance": "high"
+      }
+    ],
+    "patterns": {
+      "UUID Primary Key": {
+        "description": "Modern SQLAlchemy 2.0 UUID primary key implementation",
+        "snippet": "id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)",
+        "source": "/sqlalchemy/sqlalchemy"
+      },
+      "Declarative Base": {
+        "description": "Modern declarative base class with type annotations",
+        "snippet": "class Base(DeclarativeBase): pass",
+        "source": "/sqlalchemy/sqlalchemy"
+      },
+      "Foreign Key Relationship": {
+        "description": "Proper relationship configuration with back_populates",
+        "snippet": "relationship('Model', back_populates='attr')",
+        "source": "/sqlalchemy/sqlalchemy" 
+      },
+      "Alembic Migration": {
+        "description": "Basic migration script structure with upgrade/downgrade",
+        "snippet": "def upgrade(): op.create_table(...)\ndef downgrade(): op.drop_table(...)",
+        "source": "/sqlalchemy/alembic"
+      }
+    },
+    "resources": [
+      {
+        "type": "documentation",
+        "title": "SQLAlchemy 2.0 ORM Declarative Mapping",
+        "relevance": "Core patterns for model definition with modern type annotations"
+      },
+      {
+        "type": "documentation", 
+        "title": "Alembic Migration Autogeneration",
+        "relevance": "Essential for database schema versioning and deployment"
+      },
+      {
+        "type": "example",
+        "title": "UUID Primary Key Implementation",
+        "relevance": "Required pattern for the application's data model design"
+      }
+    ]
+  },
+  "implementation": {
+    "recommendedApproach": "Implement base models first (Project, Tag), then dependent models (Note with soft delete), followed by relationship models (NoteLink, NoteVersion), and finally set up Alembic migrations with proper indexing strategy.",
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Base Models Setup",
+        "subtasks": ["2.1", "2.7", "2.9"],
+        "duration": "1-2 days",
+        "description": "Create foundational models with UUID primary keys and basic validations"
+      },
+      {
+        "phase": 2, 
+        "name": "Core Note Model",
+        "subtasks": ["2.2", "2.8"],
+        "duration": "1-2 days",
+        "description": "Implement Note model with soft delete, content constraints, and foreign key relationships"
+      },
+      {
+        "phase": 3,
+        "name": "Relationship Models",
+        "subtasks": ["2.3", "2.4", "2.5", "2.10", "2.11", "2.12"],
+        "duration": "2-3 days", 
+        "description": "Add bidirectional links, versioning, and many-to-many relationships"
+      },
+      {
+        "phase": 4,
+        "name": "Database Setup",
+        "subtasks": ["2.6", "2.13"],
+        "duration": "1 day",
+        "description": "Configure Alembic, create initial migration, and set up optimized indexes"
+      }
+    ],
+    "estimatedTotalTime": "5-8 days",
+    "keyDecisions": [
+      {
+        "decision": "UUID Generation Strategy",
+        "recommendation": "Use Python-side generation with default_factory=uuid4",
+        "rationale": "Provides immediate access to IDs and better portability across databases"
+      },
+      {
+        "decision": "Soft Delete Implementation",
+        "recommendation": "Use deleted_at timestamp with mixin pattern and automatic filtering",
+        "rationale": "Most flexible approach that maintains data integrity while providing recovery options"
+      },
+      {
+        "decision": "Migration Strategy", 
+        "recommendation": "Use Alembic autogenerate with manual review and testing",
+        "rationale": "Balances automation with safety, ensuring migrations are correct and reversible"
+      }
+    ]
+  }
+}

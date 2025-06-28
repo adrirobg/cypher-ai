@@ -1,0 +1,133 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-28",
+    "purpose": "Track completed conversions and prioritize future work"
+  },
+  
+  "completed": [
+    {
+      "id": "analyze-tasks",
+      "workflow": "Task Analysis Report",
+      "script": "analyze-tasks.ts",
+      "value": "high",
+      "complexity": "low",
+      "outcome": "Generates comprehensive markdown report of all tasks",
+      "linesOfCode": 40,
+      "completedDate": "2025-01-28"
+    },
+    {
+      "id": "tep",
+      "workflow": "Task Enrichment Protocol",
+      "script": "tep-analyze.ts",
+      "value": "high", 
+      "complexity": "medium",
+      "outcome": "Creates enriched JSON planning artifacts for complex tasks",
+      "linesOfCode": 150,
+      "completedDate": "2025-01-28"
+    }
+  ],
+  
+  "highPriority": [
+    {
+      "id": "full-project-setup",
+      "workflow": "Initialize + Parse PRD + Expand All",
+      "value": "very-high",
+      "complexity": "medium",
+      "reason": "Automates entire project setup from PRD in one command",
+      "estimatedCommands": ["init", "parse-prd", "expand --all", "analyze-complexity"],
+      "expectedOutcome": "Complete project ready for development"
+    },
+    {
+      "id": "intelligent-update",
+      "workflow": "Research + Update Tasks",
+      "value": "high",
+      "complexity": "medium", 
+      "reason": "Updates task descriptions with current best practices",
+      "estimatedCommands": ["research", "update", "update-subtask"],
+      "expectedOutcome": "Tasks enriched with research findings"
+    },
+    {
+      "id": "dependency-optimizer",
+      "workflow": "Analyze Dependencies + Suggest Reordering",
+      "value": "high",
+      "complexity": "low",
+      "reason": "Optimizes task order for maximum parallelization",
+      "estimatedCommands": ["validate-dependencies", "list", "analyze"],
+      "expectedOutcome": "Dependency optimization report"
+    }
+  ],
+  
+  "mediumPriority": [
+    {
+      "id": "task-estimator",
+      "workflow": "Time Estimation Analysis",
+      "value": "medium",
+      "complexity": "low",
+      "reason": "Provides realistic time estimates based on complexity",
+      "estimatedCommands": ["analyze-complexity", "show"],
+      "expectedOutcome": "Time estimation report"
+    },
+    {
+      "id": "progress-dashboard",
+      "workflow": "Generate Progress Dashboard",
+      "value": "medium",
+      "complexity": "medium",
+      "reason": "Visual representation of project progress",
+      "estimatedCommands": ["list", "complexity-report"],
+      "expectedOutcome": "HTML/Markdown dashboard"
+    }
+  ],
+  
+  "experimental": [
+    {
+      "id": "auto-implement",
+      "workflow": "Read Enriched File + Generate Implementation",
+      "value": "unknown",
+      "complexity": "high",
+      "reason": "Experimental: Actually write code based on TEP artifacts",
+      "warning": "High risk - generates actual code",
+      "dependencies": ["tep"]
+    }
+  ],
+  
+  "notSuitable": [
+    {
+      "workflow": "set-status",
+      "reason": "Simple CRUD operation, no orchestration value"
+    },
+    {
+      "workflow": "add-task", 
+      "reason": "Single command, no automation benefit"
+    },
+    {
+      "workflow": "remove-task",
+      "reason": "Destructive operation, should remain manual"
+    }
+  ],
+  
+  "metrics": {
+    "totalCompleted": 2,
+    "totalPlanned": 5,
+    "averageLinesOfCode": 95,
+    "averageValueDelivered": "high"
+  },
+  
+  "selectionCriteria": {
+    "mustHave": [
+      "Multi-step workflow (3+ commands)",
+      "Variable outputs requiring intelligence",
+      "Produces valuable persistent artifact"
+    ],
+    "niceToHave": [
+      "Research or analysis component",
+      "Cross-task operations",
+      "Time-consuming when done manually"
+    ],
+    "avoid": [
+      "Single command wrappers",
+      "Destructive operations",
+      "Real-time interactive workflows"
+    ]
+  }
+}

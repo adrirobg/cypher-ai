@@ -1,0 +1,55 @@
+# Task ID: 6
+# Title: Build Advanced Markdown Editor with Auto-Save
+# Status: pending
+# Dependencies: 3, 4
+# Priority: high
+# Description: Integrate sophisticated markdown editor with real-time preview, auto-save, and productivity features
+# Details:
+Integrate CodeMirror 6 or Monaco Editor with markdown syntax highlighting, auto-completion, and vim keybindings support. Implement auto-save functionality with 500ms debounce and visual save indicators. Create split-pane view with live markdown preview. Add markdown toolbar with formatting shortcuts, code block support with syntax highlighting, and table editing. Implement focus mode for distraction-free writing and full-screen editing option.
+
+# Test Strategy:
+Test auto-save functionality with network interruptions, verify markdown rendering accuracy, test editor performance with large documents, validate keyboard shortcuts
+
+# Subtasks:
+## 1. Editor Integration Setup [pending]
+### Dependencies: None
+### Description: Integrate CodeMirror or Monaco editor into the application with proper React component wrapper and configuration
+### Details:
+Set up the base editor component with React integration, configure basic options like syntax highlighting, line numbers, and theme. Ensure proper TypeScript types and handle editor lifecycle (mount/unmount). Create abstraction layer for potential editor switching.
+
+## 2. Markdown Syntax and Keybindings [pending]
+### Dependencies: 6.1
+### Description: Implement comprehensive Markdown syntax support with custom keybindings for common formatting actions
+### Details:
+Configure Markdown mode/language support, implement keyboard shortcuts for bold (Ctrl+B), italic (Ctrl+I), headers, lists, links, etc. Add custom commands for Markdown-specific actions like toggling checkboxes, increasing/decreasing header levels.
+
+## 3. Auto-save with Debounce Logic [pending]
+### Dependencies: 6.1
+### Description: Implement auto-save functionality with debouncing to optimize network requests and prevent data loss
+### Details:
+Create debounced save mechanism (e.g., 2-second delay after last keystroke), handle network failures with retry logic, show save status indicators, implement conflict resolution for concurrent edits, add manual save option with Ctrl+S.
+
+## 4. Split-pane Preview Implementation [pending]
+### Dependencies: 6.1, 6.2
+### Description: Build resizable split-pane layout with live Markdown preview alongside the editor
+### Details:
+Implement split-pane component with draggable divider, render Markdown to HTML in real-time, sync scroll positions between editor and preview, add toggle for preview visibility, ensure responsive behavior on different screen sizes.
+
+## 5. Toolbar and Formatting Features [pending]
+### Dependencies: 6.1, 6.2
+### Description: Create toolbar with formatting buttons and dropdown menus for quick Markdown formatting
+### Details:
+Design toolbar UI with common formatting options (bold, italic, headers, lists, quotes, code), implement dropdown for header levels and other options, add insert helpers for links, images, tables, ensure toolbar actions work with selections and cursor positions.
+
+## 6. Code Block Highlighting [pending]
+### Dependencies: 6.1, 6.2, 6.4
+### Description: Implement syntax highlighting for code blocks within Markdown with language detection and theming
+### Details:
+Integrate syntax highlighting library (e.g., Prism.js or highlight.js), support language detection from code fence syntax, add language selector for code blocks, implement copy-to-clipboard for code blocks, ensure proper styling in both editor and preview.
+
+## 7. Focus Mode and Full-screen [pending]
+### Dependencies: 6.1, 6.4, 6.5
+### Description: Implement distraction-free focus mode and full-screen editing capabilities with proper UI transitions
+### Details:
+Create focus mode that hides UI elements except editor, implement full-screen API integration, add keyboard shortcuts for mode toggling (F11, Esc), ensure smooth transitions between modes, maintain editor state across mode changes, handle edge cases like browser restrictions.
+

@@ -1,0 +1,377 @@
+# **Product Requirements Document: Personal PKM Application**
+
+## **# Overview**
+Este producto resuelve la necesidad de un sistema de gestión de conocimiento personal (PKM) centralizado y a medida. Está diseñado para un único usuario —el propio desarrollador— que busca organizar sus proyectos personales y las notas asociadas en un único lugar. Su valor principal reside en proporcionar una experiencia de captura rápida con organización flexible, búsqueda instantánea y descubrimiento de conexiones entre ideas. Actúa como un 'segundo cerebro' digital optimizado para la velocidad de captura y la profundidad de exploración, con una arquitectura local-first que garantiza privacidad y rendimiento.
+
+## **# Core Features**
+
+### **1. Gestión de Proyectos (CRUD + Plantillas)**
+- **Qué hace:** Permite crear, visualizar, editar y eliminar contenedores llamados "Proyectos" que agrupan notas relacionadas.
+- **Por qué es importante:** Proporciona contexto y organización sin imponer jerarquías rígidas.
+- **Cómo funciona:** Los proyectos son carpetas lógicas con metadatos opcionales (descripción, fecha objetivo, estado). Incluye plantillas predefinidas para tipos comunes de proyectos (investigación, desarrollo, aprendizaje).
+
+### **2. Gestión de Notas (CRUD + Versionado Ligero)**
+- **Qué hace:** Crear, editar, guardar y eliminar notas con soporte completo para Markdown.
+- **Por qué es importante:** Las notas son la unidad atómica de conocimiento, deben ser rápidas de crear y fáciles de evolucionar.
+- **Cómo funciona:** Guardado automático cada 500ms de inactividad, soporte para "Ideas Sueltas" (notas sin proyecto), y versionado ligero (últimas 5 versiones) para recuperación de cambios.
+
+### **3. Búsqueda Full-Text con Ranking**
+- **Qué hace:** Búsqueda instantánea en títulos, contenido y tags con resultados rankeados por relevancia.
+- **Por qué es importante:** La recuperación rápida de información es crítica cuando el sistema crece.
+- **Cómo funciona:** SQLite FTS5 con índices optimizados, búsqueda en tiempo real (debounce 300ms), snippets con highlighting, y filtros por proyecto/fecha/tags.
+
+### **4. Enlaces Bidireccionales y Grafo de Conocimiento**
+- **Qué hace:** Crear conexiones entre notas usando sintaxis `[[Título de Nota]]` con backlinks automáticos.
+- **Por qué es importante:** Transforma notas aisladas en una red de conocimiento interconectado.
+- **Cómo funciona:** Parser en tiempo real detecta enlaces mientras escribes, vista de backlinks en panel lateral, y futura visualización de grafo interactivo (post-MVP).
+
+### **5. Sistema de Tags Flexible**
+- **Qué hace:** Etiquetar notas con tags jerárquicos (#dev/python, #ideas/producto).
+- **Por qué es importante:** Permite organización transversal sin limitarse a carpetas.
+- **Cómo funciona:** Autocompletado de tags existentes, tags anidados con herencia, y vista de "tag cloud" para navegación visual.
+
+## **# User Experience**
+
+### **User Personas**
+1. **El Arquitecto (Modo Planificación):** Organiza proyectos complejos con estructura y método. Necesita plantillas, vistas de proyecto y estadísticas de progreso.
+2. **El Capturador (Modo Rápido):** Anota ideas al vuelo con mínima fricción. Necesita acceso instantáneo (Ctrl+N global), captura por voz (futura), y proceso posterior de organización.
+3. **El Explorador (Modo Investigación):** Navega y conecta conocimiento existente. Necesita búsqueda potente, visualización de relaciones, y sugerencias de conexiones.
+
+### **Key User Flows**
+1. **Captura Instantánea:** Ctrl+N → escribir título → Tab → escribir contenido → automáticamente guardado
+2. **Búsqueda y Refinamiento:** Ctrl+K → escribir término → ver resultados en tiempo real → filtrar por proyecto/fecha
+3. **Exploración de Conexiones:** Click en nota → ver backlinks → navegar a nota relacionada → descubrir nuevas conexiones
+4. **Organización Batch:** Vista "Ideas Sueltas" → selección múltiple → asignar a proyecto/tags → archivar procesadas
+
+### **UI/UX Considerations**
+- **Diseño Minimalista con Densidad de Información:** Interfaz limpia pero informativa, modo focus para escritura sin distracciones.
+- **Atajos de Teclado Comprehensivos:** Todo accesible sin mouse para usuarios power.
+- **Respuesta Visual Instantánea:** Indicadores de guardado, sincronización de enlaces, y estado de búsqueda.
+- **Temas Light/Dark:** Soporte nativo con transición suave.
+- **Layout Adaptativo:** Panel de notas colapsable, vista dividida para edición y preview.
+
+## **# Technical Architecture**
+
+### **System Components**
+- **Frontend (React SPA con Vite):**
+  - Tecnología: React 18+ con TypeScript estricto
+  - Build: Vite para desarrollo rápido y bundles optimizados
+  - Styling: CSS Modules + CSS Variables para temas
+  
+- **Backend (FastAPI con arquitectura en capas):**
+  - Tecnología: Python 3.11+ con FastAPI
+  - Arquitectura: Controller → Service → Repository pattern
+  - Validación: Pydantic v2 con esquemas estrictos
+  
+- **Database (SQLite con optimizaciones PKM):**
+  - Tecnología: SQLite 3.40+ con FTS5 habilitado
+  - Configuración: WAL mode, 64MB cache, índices optimizados
+  - Backup: Automático cada 24h + manual on-demand
+
+### **Data Models Detallados**
+```python
+# Modelos principales con campos de auditoría
+Project:
+  - id: UUID
+  - name: str (unique, 1-100 chars)
+  - description: str (optional, max 500 chars)
+  - color: str (hex color)
+  - icon: str (emoji or icon name)
+  - created_at: datetime
+  - updated_at: datetime
+  - archived_at: datetime (nullable)
+  - metadata: JSON (extensible properties)
+
+Note:
+  - id: UUID
+  - title: str (1-200 chars)
+  - content: str (Markdown, max 1MB)
+  - project_id: UUID (nullable - for loose ideas)
+  - created_at: datetime
+  - updated_at: datetime
+  - deleted_at: datetime (soft delete)
+  - version: int (for optimistic locking)
+  - word_count: int (calculated)
+  - reading_time: int (minutes)
+
+NoteLink:
+  - source_note_id: UUID
+  - target_note_id: UUID
+  - context: str (surrounding text)
+  - created_at: datetime
+
+Tag:
+  - id: UUID
+  - name: str (unique per level)
+  - parent_id: UUID (nullable - for hierarchical tags)
+  - color: str
+  - usage_count: int (denormalized for performance)
+
+NoteVersion:
+  - id: UUID
+  - note_id: UUID
+  - content: str
+  - created_at: datetime
+  - change_summary: str (auto-generated)
+```
+
+### **APIs and Integrations**
+```yaml
+# API Structure siguiendo OpenAPI 3.0
+/api/v1:
+  /projects:
+    GET: List con paginación y filtros
+    POST: Create con validación
+    /{id}:
+      GET: Detail con estadísticas
+      PUT: Update completo
+      PATCH: Update parcial
+      DELETE: Soft delete con confirmación
+  
+  /notes:
+    GET: List con búsqueda full-text
+    POST: Create con auto-linking
+    /bulk:
+      POST: Operaciones batch
+    /{id}:
+      GET: Detail con backlinks
+      PUT: Update con detección de conflictos
+      DELETE: Soft delete
+      /versions:
+        GET: Historial de versiones
+        POST: Restaurar versión
+  
+  /search:
+    GET: Búsqueda unificada
+    /suggest:
+      GET: Autocompletado
+  
+  /tags:
+    GET: Tree structure
+    POST: Create con jerarquía
+    /merge:
+      POST: Fusionar tags
+```
+
+### **Infrastructure Requirements**
+- **Desarrollo:** 100% local, sin dependencias externas
+- **Runtime:** Node.js 18+ y Python 3.11+
+- **Storage:** SQLite file en `~/.pkm/data/` con backups en `~/.pkm/backups/`
+- **Recursos:** 100MB RAM típico, 500MB máximo con 10k notas
+
+## **# Development Roadmap**
+
+### **MVP Requirements (Fase 1 - Fundación)**
+**Objetivo:** Sistema funcional mínimo para validar el flujo core de captura y organización.
+
+- **Backend Core:**
+  - Modelos de datos para Projects y Notes
+  - CRUD endpoints básicos
+  - Autenticación simple (single-user con token)
+  - Configuración SQLite optimizada
+  
+- **Frontend Básico:**
+  - Layout principal con navegación
+  - Lista de proyectos y notas
+  - Editor de markdown simple (sin preview)
+  - Guardado automático
+  
+- **Features Excluidas del MVP:**
+  - Búsqueda, enlaces, tags, versionado
+  - Temas, atajos avanzados, estadísticas
+
+### **Fase 2 - Conectar (Búsqueda y Enlaces)**
+**Objetivo:** Transformar notas aisladas en conocimiento conectado.
+
+- **Búsqueda Full-Text:**
+  - Implementar FTS5 con índices
+  - UI de búsqueda con filtros
+  - Búsqueda en tiempo real con debounce
+  
+- **Sistema de Enlaces:**
+  - Parser de wikilinks
+  - Cálculo de backlinks
+  - UI de panel de conexiones
+  
+- **Tags Básicos:**
+  - Modelo de datos para tags
+  - Autocompletado simple
+  - Filtrado por tags
+
+### **Fase 3 - Mejorar UX (Pulido y Productividad)**
+**Objetivo:** Optimizar la experiencia para uso diario intensivo.
+
+- **Editor Avanzado:**
+  - Preview en tiempo real
+  - Atajos de formato
+  - Soporte para code blocks con syntax highlighting
+  
+- **Vistas y Organización:**
+  - Vista de tarjetas para proyectos
+  - Drag & drop para reorganizar
+  - Bulk operations
+  
+- **Productividad:**
+  - Atajos de teclado globales
+  - Plantillas de notas
+  - Quick switcher (Ctrl+P)
+
+### **Fase 4 - Expandir (Desktop y AI)**
+**Objetivo:** Evolucionar hacia una aplicación completa con capacidades avanzadas.
+
+- **Aplicación Desktop:**
+  - Empaquetar con Tauri
+  - Tray icon y acceso rápido
+  - Sincronización opcional (futura)
+  
+- **Integración AI (Agno):**
+  - Sugerencias de tags automáticas
+  - Detección de notas relacionadas
+  - Resúmenes automáticos
+  
+- **Visualizaciones:**
+  - Grafo interactivo de conocimiento
+  - Timeline de actividad
+  - Estadísticas de uso
+
+## **# Logical Dependency Chain**
+
+### **Orden de Desarrollo Crítico:**
+1. **Capa de Datos (Semana 1):**
+   - SQLite setup con configuración óptima
+   - Modelos SQLAlchemy con relaciones
+   - Migraciones con Alembic
+   
+2. **API Core (Semana 1-2):**
+   - FastAPI app structure
+   - CRUD services con validación
+   - Error handling consistente
+   
+3. **Frontend Base (Semana 2):**
+   - React project con TypeScript
+   - Routing y layout
+   - API client con interceptors
+   
+4. **Editor y Notas (Semana 3):**
+   - Integración CodeMirror/Monaco
+   - Guardado automático
+   - Lista de notas con virtualización
+   
+5. **Búsqueda (Semana 4):**
+   - FTS5 implementation
+   - Search UI con highlighting
+   - Filtros y facetas
+   
+6. **Enlaces y Relaciones (Semana 5):**
+   - Wikilink parser
+   - Backlinks calculator
+   - UI de navegación
+
+### **Dependencias Técnicas:**
+- Projects debe existir antes que Notes (foreign key)
+- FTS5 requiere triggers para sincronización
+- Enlaces requieren que existan notas objetivo
+- Tags jerárquicos requieren self-referential queries
+
+## **# Risks and Mitigations**
+
+### **Riesgo 1: Rendimiento con Volumen de Datos**
+- **Impacto:** Degradación UX con miles de notas
+- **Mitigación:** 
+  - Índices diseñados desde el inicio
+  - Paginación y virtualización en listas
+  - Lazy loading de contenido
+  - Benchmarks regulares con datasets realistas
+
+### **Riesgo 2: Complejidad del Parser de Enlaces**
+- **Impacto:** Bugs en detección o inconsistencias
+- **Mitigación:**
+  - Implementar con regex simple primero
+  - Test suite exhaustiva con edge cases
+  - Parser AST en fase posterior si necesario
+
+### **Riesgo 3: Pérdida de Datos**
+- **Impacto:** Crítico - pérdida de conocimiento personal
+- **Mitigación:**
+  - Backups automáticos diarios
+  - Versionado ligero de notas
+  - Soft deletes con período de gracia
+  - Export a Markdown plano
+
+### **Riesgo 4: Scope Creep en Features**
+- **Impacto:** Proyecto interminable
+- **Mitigación:**
+  - Definición estricta de fases
+  - Feature flags para experimentos
+  - Revisión semanal de prioridades
+  - "No" por defecto a features no planeadas
+
+### **Riesgo 5: Migración Futura a Multi-Usuario**
+- **Impacto:** Reescritura major si se necesita
+- **Mitigación:**
+  - Diseñar modelos con tenant_id (unused)
+  - Separación clara de concerns
+  - APIs stateless desde el inicio
+
+## **# Success Metrics**
+
+### **Métricas de Rendimiento:**
+- Tiempo de inicio de aplicación: < 2 segundos
+- Búsqueda en 10k notas: < 200ms
+- Guardado automático: < 50ms
+- Consumo de memoria: < 150MB típico
+
+### **Métricas de Usabilidad:**
+- Tiempo para crear nota: < 5 segundos (Ctrl+N → escribiendo)
+- Tiempo para encontrar nota: < 10 segundos (búsqueda + navegación)
+- Cero pérdida de datos en 6 meses de uso
+
+### **Métricas de Adopción Personal:**
+- Uso diario consistente después de 1 mes
+- 100+ notas creadas en primer mes
+- 50+ enlaces entre notas establecidos
+
+## **# Testing Strategy**
+
+### **Niveles de Testing:**
+1. **Unit Tests:** 80% cobertura en lógica de negocio
+2. **Integration Tests:** Todos los endpoints API
+3. **E2E Tests:** Flujos críticos de usuario
+4. **Performance Tests:** Benchmarks con 1k, 10k, 50k notas
+
+### **Casos de Prueba Críticos:**
+- Creación concurrente de notas
+- Búsqueda con caracteres especiales
+- Enlaces circulares entre notas
+- Recuperación de versiones anteriores
+- Import/Export de datos
+
+## **# Appendix**
+
+### **Stack Tecnológico Final:**
+- **Frontend:** React 18 + TypeScript + Vite + Zustand
+- **Backend:** Python 3.11 + FastAPI + SQLAlchemy 2.0
+- **Database:** SQLite 3.40+ con FTS5
+- **Desktop:** Tauri (Fase 4)
+- **AI:** Agno Framework (Fase 4)
+- **Testing:** Jest + Pytest + Playwright
+
+### **Decisiones de Diseño Clave:**
+1. **Local-First:** Privacidad y rendimiento sobre colaboración
+2. **Markdown Puro:** Portabilidad sobre features ricas
+3. **Sin Login:** Simplicidad para usuario único
+4. **Enlaces Explícitos:** Control sobre detección automática
+5. **Soft Deletes:** Seguridad sobre espacio en disco
+
+### **Recursos de Investigación:**
+- Análisis de competidores: Obsidian, Logseq, Foam
+- Estudios de PKM workflows efectivos
+- Benchmarks de rendimiento SQLite con FTS5
+- Patrones de UI para aplicaciones de notas
+
+### **Consideraciones Futuras (Post v1.0):**
+- Sincronización P2P con CRDTs
+- Plugins system para extensibilidad
+- Mobile app con React Native
+- OCR para notas escaneadas
+- Voice-to-text para captura rápida

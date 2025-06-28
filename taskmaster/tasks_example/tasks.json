@@ -1,0 +1,807 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Infrastructure and Database Foundation",
+        "description": "Initialize the project structure with SQLite database, FastAPI backend foundation, and React frontend scaffold",
+        "details": "Create project directory structure with separate backend and frontend folders. Setup SQLite 3.40+ with WAL mode, 64MB cache, and FTS5 enabled. Initialize FastAPI project with Python 3.11+ using controller-service-repository pattern. Create React 18+ project with TypeScript and Vite. Setup package.json/requirements.txt with all required dependencies including SQLAlchemy 2.0, Pydantic v2, and development tools.",
+        "testStrategy": "Verify database connection, test FastAPI startup, confirm React development server runs successfully, validate TypeScript compilation",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create project directory structure and initialize repository",
+            "description": "Set up the foundational directory structure for the full-stack application with separate backend and frontend directories, including proper .gitignore files and README structure",
+            "dependencies": [],
+            "details": "Create root project directory with /backend and /frontend subdirectories. Initialize git repository at root level. Create .gitignore files for Python (backend) and Node.js (frontend) with appropriate patterns. Set up basic README.md with project overview and setup instructions placeholder.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Initialize SQLite database with WAL mode and FTS5 configuration",
+            "description": "Set up SQLite database with Write-Ahead Logging (WAL) mode enabled and Full-Text Search (FTS5) extension configured for optimal performance",
+            "dependencies": [
+              1
+            ],
+            "details": "Create database initialization script in backend/database/ directory. Configure SQLite with PRAGMA journal_mode=WAL for better concurrency. Enable FTS5 extension for full-text search capabilities. Create initial schema with tables for users, sessions, and a sample FTS5 virtual table. Include connection pooling setup and database configuration module.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Scaffold FastAPI backend with repository pattern and middleware",
+            "description": "Create FastAPI application structure following repository pattern with proper middleware setup for CORS, authentication, and error handling",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Set up FastAPI project structure with app/, api/, models/, repositories/, services/, and middleware/ directories. Create main.py with FastAPI app initialization. Implement base repository pattern with abstract base class and SQLite-specific implementation. Configure CORS middleware for frontend communication. Set up basic error handling middleware and logging configuration. Create health check endpoint.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Initialize React frontend with TypeScript and Vite configuration",
+            "description": "Create React application using Vite with TypeScript support, including proper project structure and development environment setup",
+            "dependencies": [
+              1
+            ],
+            "details": "Initialize React project with Vite and TypeScript template in frontend/ directory. Configure tsconfig.json with strict mode and proper module resolution. Set up ESLint and Prettier for code quality. Create basic folder structure: src/components/, src/pages/, src/services/, src/hooks/, src/types/. Configure Vite for API proxy to backend during development. Set up basic App component with routing structure.",
+            "status": "done",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Configure dependency management and development environment",
+            "description": "Set up dependency management for both backend and frontend with virtual environments, package files, and development scripts",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Create requirements.txt and requirements-dev.txt for Python backend with FastAPI, SQLAlchemy, pytest, and development tools. Set up Python virtual environment instructions. Configure package.json with necessary React, TypeScript, and development dependencies. Create docker-compose.yml for local development with backend and frontend services. Add Makefile or npm scripts for common development tasks (install, migrate, test, lint). Create .env.example files for both backend and frontend configuration.",
+            "status": "done",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Implement Core Data Models and Database Schema",
+        "description": "Create SQLAlchemy models for Project, Note, NoteLink, Tag, and NoteVersion with proper relationships and constraints",
+        "details": "Define Project model with UUID, name (unique 1-100 chars), description, color, icon, timestamps, and metadata JSON field. Create Note model with UUID, title (1-200 chars), content (Markdown max 1MB), project_id foreign key, timestamps, soft delete, version, word_count, and reading_time. Implement NoteLink for bidirectional relationships, Tag with hierarchical structure, and NoteVersion for lightweight versioning. Setup Alembic migrations and configure optimized indexes.",
+        "testStrategy": "Unit tests for model validations, test migrations up/down, verify foreign key constraints, test soft delete functionality",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Project model with validations",
+            "description": "Create SQLAlchemy Project model with UUID primary key, unique slug, metadata JSON field, soft delete, and validation constraints",
+            "dependencies": [],
+            "details": "Define Project model in models/project.py with: UUID id field using uuid.uuid4, unique slug field with regex validation (alphanumeric-dash), name field (required, max 255 chars), description field (text, optional), metadata field (JSON type), is_active boolean (default True), created_at/updated_at timestamps. Add model validators for slug format and name length.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Implement Note model with constraints",
+            "description": "Create SQLAlchemy Note model with project relationship, content field, metadata, and soft delete functionality",
+            "dependencies": [
+              1
+            ],
+            "details": "Define Note model in models/note.py with: UUID id, project_id foreign key to Project.id with CASCADE delete, title field (required, max 255 chars), content field (text, required), metadata JSON field, is_active boolean, timestamps. Add relationship to Project model with back_populates. Include content length validation (min 1 char).",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement NoteLink bidirectional relationships",
+            "description": "Create NoteLink association table for bidirectional note relationships with link types and metadata",
+            "dependencies": [
+              2
+            ],
+            "details": "Define NoteLink model in models/note_link.py as association table with: composite primary key (source_note_id, target_note_id), both as foreign keys to Note.id, link_type enum field (reference, related, parent, child), metadata JSON field, created_at timestamp. Add bidirectional relationships to Note model for linked_from and linked_to with proper join conditions. Include constraint to prevent self-referencing.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement Tag hierarchical structure",
+            "description": "Create Tag model with self-referential parent-child relationships and many-to-many note associations",
+            "dependencies": [
+              2
+            ],
+            "details": "Define Tag model in models/tag.py with: UUID id, name field (unique per project scope), project_id foreign key, parent_id self-referential foreign key (nullable), color field (hex validation), metadata JSON. Create NoteTag association table for many-to-many relationship. Add methods for path generation (parent.child.grandchild) and cycle detection in hierarchy.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement NoteVersion model",
+            "description": "Create NoteVersion model for tracking note history with content diffs and change metadata",
+            "dependencies": [
+              2
+            ],
+            "details": "Define NoteVersion model in models/note_version.py with: UUID id, note_id foreign key to Note.id, version_number (auto-increment per note), content field (full content snapshot), diff field (JSON storing change delta), created_by field (for future user tracking), created_at timestamp. Add relationship to Note model. Include method to generate diff from previous version.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Create Alembic migrations and indexes",
+            "description": "Generate and configure Alembic migrations for all models with proper indexes for performance",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "details": "Initialize Alembic if not exists. Generate migration for all models ensuring: indexes on foreign keys (project_id in notes/tags, note_id in versions/links), unique constraints (project.slug, tag.name+project_id composite), indexes on is_active for soft delete queries, created_at for temporal queries. Add database-level constraints for UUID defaults and JSON validation where supported. Test migration up and down.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Create Project model with SQLAlchemy",
+            "description": "Implement the Project model with all fields, validations, and constraints",
+            "dependencies": [],
+            "details": "Define Project model with id (UUID primary key), name (unique, 1-100 chars), description (optional, max 500 chars), color (hex validation), icon (emoji), created_at, updated_at, archived_at (nullable for soft delete), and metadata (JSON field). Include all column constraints, indexes, and validation methods.\n<info added on 2025-06-28T11:05:26.975Z>\nSQLAlchemy 2.0 implementation notes: Store UUID as String(36) for SQLite compatibility while maintaining UUID type semantics. Add hybrid_property methods to handle UUID string conversion automatically. Include server_default values for timestamps to support future PostgreSQL migration. Implement validation methods: color field should validate hex format (#RRGGBB), icon field should validate single emoji character. Use declarative mapping with proper type hints and consider adding __table_args__ for composite indexes on commonly queried fields like (name, archived_at).\n</info added on 2025-06-28T11:05:26.975Z>",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Create Note model with soft delete support",
+            "description": "Implement the Note model with versioning support and soft delete functionality",
+            "dependencies": [
+              7
+            ],
+            "details": "Define Note model with id (UUID), title (1-200 chars), content (text), project_id (foreign key to Project, nullable), created_at, updated_at, deleted_at (for soft delete), version (integer, default 1), word_count, reading_time. Include calculated properties for word count and reading time, soft delete query filters.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "Create Tag model with hierarchical structure",
+            "description": "Implement the Tag model supporting parent-child relationships for hierarchical tagging",
+            "dependencies": [],
+            "details": "Define Tag model with id (UUID), name (unique, 1-50 chars), color (hex), parent_id (self-referential foreign key for hierarchy), created_at. Include recursive relationship configuration, path materialization for efficient queries, and validation to prevent circular references.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 10,
+            "title": "Create NoteLink model for bidirectional linking",
+            "description": "Implement the NoteLink model to support bidirectional relationships between notes",
+            "dependencies": [
+              8
+            ],
+            "details": "Define NoteLink model with id (UUID), source_note_id (foreign key to Note), target_note_id (foreign key to Note), link_type (enum: reference/related/child), created_at. Include unique constraint on source-target pairs, validation to prevent self-links, and bidirectional relationship configuration.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 11,
+            "title": "Create NoteVersion model for version history",
+            "description": "Implement the NoteVersion model to track all changes to notes",
+            "dependencies": [
+              8
+            ],
+            "details": "Define NoteVersion model with id (UUID), note_id (foreign key to Note), version_number, title, content, created_at, created_by. Include automatic versioning triggers, efficient diff storage, and methods to restore previous versions.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 12,
+            "title": "Implement many-to-many relationships and association tables",
+            "description": "Create association tables for Note-Tag relationships and configure SQLAlchemy relationships",
+            "dependencies": [
+              8,
+              9
+            ],
+            "details": "Create note_tags association table with note_id and tag_id foreign keys. Configure bidirectional many-to-many relationships on Note and Tag models. Add relationship properties with lazy loading strategies, cascade options, and helper methods for tag management.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 13,
+            "title": "Create database migrations and indexes",
+            "description": "Generate Alembic migrations for all models and create performance indexes",
+            "dependencies": [
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "details": "Generate initial migration with all tables and relationships. Add indexes on frequently queried fields (project.name, note.title, tag.name, foreign keys). Include FTS5 virtual table setup for full-text search on note content. Add migration for initial data and validation constraints.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Build FastAPI CRUD Endpoints and Service Layer",
+        "description": "Implement RESTful API endpoints following OpenAPI 3.0 spec with proper validation, error handling, and repository pattern",
+        "details": "Create controller layer with endpoints for /api/v1/projects (GET, POST, PUT, PATCH, DELETE) and /api/v1/notes with full CRUD operations. Implement service layer with business logic for project management, note creation/updates with auto-save every 500ms, and soft delete handling. Add repository layer for data access with proper error handling and validation using Pydantic v2 schemas. Include bulk operations endpoint for batch processing.",
+        "testStrategy": "Integration tests for all endpoints, test request/response validation, verify error handling with proper HTTP status codes, test bulk operations",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Create React Frontend Foundation and Routing",
+        "description": "Setup React application structure with TypeScript, routing, state management, and basic layout components",
+        "details": "Create React app structure with TypeScript strict mode, setup React Router for navigation, implement Zustand for state management. Create main layout with navigation sidebar, content area, and header. Setup CSS Modules with CSS Variables for theming support (light/dark). Implement API client with interceptors for error handling and request/response transformation. Create basic components for project list, note list, and navigation.",
+        "testStrategy": "Unit tests for components, test routing functionality, verify state management updates, test API client with mock responses",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "TypeScript configuration and project structure",
+            "description": "Set up TypeScript with strict mode, configure tsconfig.json, establish folder structure following feature-based architecture, and implement path aliases for clean imports",
+            "dependencies": [],
+            "details": "Configure TypeScript strict mode settings, set up path aliases (@components, @features, @utils), create base folder structure (src/features, src/components, src/utils, src/hooks, src/services), configure ESLint and Prettier for TypeScript",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "React Router setup and navigation",
+            "description": "Implement React Router v6 with type-safe routing, create route configuration system, set up protected routes, and implement navigation guards",
+            "dependencies": [
+              1
+            ],
+            "details": "Install and configure React Router v6, create typed route definitions, implement RouteGuard component for protected routes, set up lazy loading for route components, create navigation hooks with TypeScript support",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Zustand state management integration",
+            "description": "Set up Zustand store with TypeScript, implement slice pattern for modular state management, create typed hooks, and add Redux DevTools integration",
+            "dependencies": [
+              1
+            ],
+            "details": "Install Zustand and configure with TypeScript, create store slices (auth, user, app), implement persist middleware for local storage, create typed selectors and actions, integrate Redux DevTools for debugging",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Layout components and theming",
+            "description": "Build responsive layout system with header, sidebar, and content areas, implement dark/light theme switching with CSS variables, and create reusable UI components",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Create Layout wrapper component with responsive design, implement theme context with CSS variables, build common UI components (Button, Card, Modal, Form elements), set up component library structure, implement theme persistence",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "API client with interceptors",
+            "description": "Create Axios-based API client with TypeScript generics, implement request/response interceptors for auth and error handling, and create reusable API hooks",
+            "dependencies": [
+              1,
+              3
+            ],
+            "details": "Set up Axios with TypeScript configuration, create API client singleton with base configuration, implement auth token interceptor, create global error handler, build typed API hooks using React Query or SWR, implement retry logic and request cancellation",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Implement Project Management Interface",
+        "description": "Build complete project CRUD interface with templates, organization features, and responsive design",
+        "details": "Create project creation form with name, description, color picker, and icon selector. Implement project list view with cards showing metadata and statistics. Add project templates for common types (research, development, learning). Build project detail view with associated notes listing. Implement drag & drop for project organization, bulk operations for project management, and project archiving functionality. Add responsive design for different screen sizes.",
+        "testStrategy": "E2E tests for project creation flow, test template application, verify project statistics calculation, test responsive design on multiple screen sizes",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Project Creation Form with Validation",
+            "description": "Create a comprehensive form component for project creation with field validation, error handling, and user feedback",
+            "dependencies": [],
+            "details": "Build form with fields for project name, description, start/end dates, status, and tags. Implement client-side validation rules, real-time error messages, form submission handling, and success/error notifications. Include form reset and draft saving capabilities.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Build Project Templates System",
+            "description": "Develop a template management system allowing users to create, save, and apply project templates",
+            "dependencies": [],
+            "details": "Create template data structure, template creation/editing interface, template storage mechanism, template preview functionality, and template application logic. Include default templates for common project types and ability to customize templates.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Design Project List View with Card Components",
+            "description": "Create a grid-based project list view displaying projects as interactive cards with filtering and sorting capabilities",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement project card component with thumbnail, title, description preview, status indicator, and action buttons. Add grid layout system, pagination or infinite scroll, search functionality, and filter options by status, date, and tags.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Develop Project Detail View Interface",
+            "description": "Build a comprehensive project detail page showing all project information with editing capabilities",
+            "dependencies": [
+              1,
+              3
+            ],
+            "details": "Create detail view layout with project header, description section, metadata display, activity timeline, file attachments area, and comments section. Implement inline editing, status updates, and project settings management.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Implement Drag & Drop Organization System",
+            "description": "Add drag and drop functionality for organizing projects within the list view and between different categories",
+            "dependencies": [
+              3
+            ],
+            "details": "Integrate drag and drop library, create draggable project cards, implement drop zones for categories/groups, add visual feedback during drag operations, handle reordering logic, and persist position changes. Include touch support for mobile devices.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Apply Responsive Design Implementation",
+            "description": "Ensure all project management components are fully responsive across desktop, tablet, and mobile devices",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "details": "Implement responsive grid systems, mobile-optimized navigation, touch-friendly interactions, adaptive layouts for different screen sizes, and performance optimizations for mobile. Test and refine breakpoints for optimal user experience.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Build Advanced Markdown Editor with Auto-Save",
+        "description": "Integrate sophisticated markdown editor with real-time preview, auto-save, and productivity features",
+        "details": "Integrate CodeMirror 6 or Monaco Editor with markdown syntax highlighting, auto-completion, and vim keybindings support. Implement auto-save functionality with 500ms debounce and visual save indicators. Create split-pane view with live markdown preview. Add markdown toolbar with formatting shortcuts, code block support with syntax highlighting, and table editing. Implement focus mode for distraction-free writing and full-screen editing option.",
+        "testStrategy": "Test auto-save functionality with network interruptions, verify markdown rendering accuracy, test editor performance with large documents, validate keyboard shortcuts",
+        "priority": "high",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Editor Integration Setup",
+            "description": "Integrate CodeMirror or Monaco editor into the application with proper React component wrapper and configuration",
+            "dependencies": [],
+            "details": "Set up the base editor component with React integration, configure basic options like syntax highlighting, line numbers, and theme. Ensure proper TypeScript types and handle editor lifecycle (mount/unmount). Create abstraction layer for potential editor switching.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Markdown Syntax and Keybindings",
+            "description": "Implement comprehensive Markdown syntax support with custom keybindings for common formatting actions",
+            "dependencies": [
+              1
+            ],
+            "details": "Configure Markdown mode/language support, implement keyboard shortcuts for bold (Ctrl+B), italic (Ctrl+I), headers, lists, links, etc. Add custom commands for Markdown-specific actions like toggling checkboxes, increasing/decreasing header levels.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Auto-save with Debounce Logic",
+            "description": "Implement auto-save functionality with debouncing to optimize network requests and prevent data loss",
+            "dependencies": [
+              1
+            ],
+            "details": "Create debounced save mechanism (e.g., 2-second delay after last keystroke), handle network failures with retry logic, show save status indicators, implement conflict resolution for concurrent edits, add manual save option with Ctrl+S.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Split-pane Preview Implementation",
+            "description": "Build resizable split-pane layout with live Markdown preview alongside the editor",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Implement split-pane component with draggable divider, render Markdown to HTML in real-time, sync scroll positions between editor and preview, add toggle for preview visibility, ensure responsive behavior on different screen sizes.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Toolbar and Formatting Features",
+            "description": "Create toolbar with formatting buttons and dropdown menus for quick Markdown formatting",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Design toolbar UI with common formatting options (bold, italic, headers, lists, quotes, code), implement dropdown for header levels and other options, add insert helpers for links, images, tables, ensure toolbar actions work with selections and cursor positions.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Code Block Highlighting",
+            "description": "Implement syntax highlighting for code blocks within Markdown with language detection and theming",
+            "dependencies": [
+              1,
+              2,
+              4
+            ],
+            "details": "Integrate syntax highlighting library (e.g., Prism.js or highlight.js), support language detection from code fence syntax, add language selector for code blocks, implement copy-to-clipboard for code blocks, ensure proper styling in both editor and preview.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Focus Mode and Full-screen",
+            "description": "Implement distraction-free focus mode and full-screen editing capabilities with proper UI transitions",
+            "dependencies": [
+              1,
+              4,
+              5
+            ],
+            "details": "Create focus mode that hides UI elements except editor, implement full-screen API integration, add keyboard shortcuts for mode toggling (F11, Esc), ensure smooth transitions between modes, maintain editor state across mode changes, handle edge cases like browser restrictions.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement Full-Text Search with FTS5 and Advanced Filtering",
+        "description": "Build powerful search functionality using SQLite FTS5 with real-time search, ranking, and filtering capabilities",
+        "details": "Configure SQLite FTS5 with optimized indexes for note titles and content. Implement search service with ranking algorithm considering title matches, content relevance, and recency. Create search API endpoint with debounced real-time search (300ms delay), snippet generation with highlighting, and advanced filters (project, date range, tags). Add search suggestions and autocomplete functionality. Implement search result caching for performance.",
+        "testStrategy": "Performance tests with 10k+ notes, test search accuracy with various query types, verify snippet highlighting, test filter combinations",
+        "priority": "high",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "FTS5 configuration and indexes",
+            "description": "Configure SQLite FTS5 extension for full-text search capabilities, create virtual tables with proper tokenizers, define custom ranking functions, and establish indexes for optimal performance",
+            "dependencies": [],
+            "details": "Set up FTS5 virtual tables with porter stemmer tokenizer, configure column weights for tasks/projects/tags, implement trigram tokenization for fuzzy matching, create auxiliary functions for rank calculation, establish proper indexes on foreign keys and frequently queried columns",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Search ranking algorithm",
+            "description": "Implement custom ranking algorithm that combines BM25 scores with domain-specific factors like task priority, due dates, completion status, and user interaction history",
+            "dependencies": [
+              1
+            ],
+            "details": "Create weighted scoring system combining FTS5 rank(), task priority multipliers, recency boost for recently modified items, relevance decay for completed tasks, tag match bonuses, and contextual ranking based on current project/workspace",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Real-time search API with debouncing",
+            "description": "Build performant search API endpoint with request debouncing, streaming results, pagination support, and optimized query execution for sub-100ms response times",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Implement search endpoint with 300ms debounce timer, streaming JSON response format, cursor-based pagination for large result sets, query optimization with prepared statements, connection pooling for concurrent requests, and graceful degradation for complex queries",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Snippet generation and highlighting",
+            "description": "Create snippet extraction system that generates contextual previews with search term highlighting, smart truncation, and markdown rendering support",
+            "dependencies": [
+              1,
+              3
+            ],
+            "details": "Implement FTS5 snippet() and highlight() functions, configure optimal snippet length and surrounding context, handle markdown formatting preservation, create HTML-safe highlighting with customizable mark tags, support multi-term highlighting with different colors",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Advanced filters implementation",
+            "description": "Build comprehensive filtering system supporting status filters, date ranges, tag combinations, project scopes, assignee filters, and custom field queries with boolean logic",
+            "dependencies": [
+              3
+            ],
+            "details": "Create filter parser for complex boolean expressions, implement date range queries with natural language support, build tag filtering with AND/OR/NOT operations, add project hierarchy filtering, support custom field filtering with type-aware comparisons",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Search caching and suggestions",
+            "description": "Implement intelligent caching layer with Redis for frequent queries, search history tracking, autocomplete suggestions, and popular search recommendations",
+            "dependencies": [
+              3,
+              5
+            ],
+            "details": "Set up Redis cache with 5-minute TTL for search results, implement query normalization for cache key generation, track search history per user with privacy controls, build autocomplete using FTS5 prefix queries, generate trending searches based on usage analytics",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Create Bidirectional Linking System and Backlinks",
+        "description": "Implement WikiLink parser for automatic note connections with backlink tracking and navigation",
+        "details": "Build regex-based parser to detect [[Note Title]] syntax in markdown content. Implement real-time link detection while typing with auto-completion of existing note titles. Create NoteLink service to maintain bidirectional relationships and calculate backlinks. Build backlinks panel showing all notes referencing current note with context snippets. Add link validation and broken link detection with suggestions for similar note titles.",
+        "testStrategy": "Test link detection with edge cases and special characters, verify backlink accuracy, test performance with heavily linked notes, validate auto-completion functionality",
+        "priority": "medium",
+        "dependencies": [
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "WikiLink regex parser",
+            "description": "Implement regex-based parser to detect and parse WikiLink syntax [[note-name]] in markdown content",
+            "dependencies": [],
+            "details": "Create a robust regex pattern to identify WikiLinks in text, extract note names, handle edge cases like nested brackets, and provide parsed link objects with position information for further processing",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Real-time link detection and auto-completion",
+            "description": "Implement real-time detection of WikiLink syntax while user types and provide auto-completion suggestions",
+            "dependencies": [
+              1
+            ],
+            "details": "Monitor text input for [[ triggers, query available notes based on partial input, display dropdown with matching note titles, handle selection to complete the link, and integrate with editor's cursor position",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "NoteLink service for relationships",
+            "description": "Create service to manage bidirectional relationships between notes through WikiLinks",
+            "dependencies": [
+              1
+            ],
+            "details": "Build data structures to track forward and backward links, implement methods to update link relationships when notes are created/edited/deleted, maintain link integrity, and provide APIs to query note connections",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Backlinks panel with context",
+            "description": "Develop UI panel showing all notes that link to the current note with surrounding context",
+            "dependencies": [
+              3
+            ],
+            "details": "Create panel component to display backlinks, show link context (surrounding text), implement navigation to source notes on click, update panel reactively when links change, and integrate with existing UI layout",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Link validation and broken link detection",
+            "description": "Implement validation system to detect broken WikiLinks and provide suggestions for fixes",
+            "dependencies": [
+              1,
+              3
+            ],
+            "details": "Validate all WikiLinks against existing notes, highlight broken links in editor, suggest similar note names for broken links, provide bulk fix options, and integrate validation into save/edit workflows",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Build Flexible Tagging System with Hierarchy",
+        "description": "Implement hierarchical tag system with auto-completion, tag cloud visualization, and advanced filtering",
+        "details": "Create Tag model supporting hierarchical structure (#dev/python, #ideas/product) with parent-child relationships. Implement tag auto-completion with existing tag suggestions and hierarchy visualization. Build tag cloud interface for visual navigation with usage count indicators. Create tag management interface for merging, renaming, and organizing tags. Add tag-based filtering integration with search functionality and tag inheritance for hierarchical filtering.",
+        "testStrategy": "Test hierarchical tag creation and navigation, verify tag auto-completion accuracy, test tag cloud performance with large tag sets, validate tag filtering integration",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design and implement hierarchical tag data model",
+            "description": "Create database schema and models for hierarchical tag structure supporting parent-child relationships, tag metadata, and efficient querying",
+            "dependencies": [],
+            "details": "Design tables for tags with parent_id foreign key, create indexes for performance, implement model classes with methods for tree traversal, ancestry paths, and subtree queries. Include fields for tag name, slug, description, usage count, and timestamps.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Build tag auto-completion API and frontend component",
+            "description": "Develop backend endpoint for tag suggestions and create responsive auto-complete UI component with debouncing and hierarchical display",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement REST endpoint with fuzzy search, relevance scoring, and hierarchy-aware suggestions. Create React/Vue component with typeahead functionality, keyboard navigation, tag creation option, and visual hierarchy indicators. Include caching for performance.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Develop interactive tag cloud visualization",
+            "description": "Create dynamic tag cloud component showing tag popularity, relationships, and supporting interactive filtering with D3.js or similar library",
+            "dependencies": [
+              1
+            ],
+            "details": "Build visualization showing tag sizes based on usage frequency, color coding for categories/hierarchy levels, hover effects showing related tags, click-to-filter functionality, and responsive layout. Include zoom/pan for large tag sets and export capabilities.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Implement comprehensive tag management interface",
+            "description": "Create admin interface for CRUD operations on tags including bulk actions, hierarchy management, merging, and usage analytics",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Build management dashboard with tree view for hierarchy, drag-and-drop reorganization, bulk edit/delete operations, tag merging with redirect handling, usage statistics and trends, and audit trail. Include permission controls and validation rules.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Integrate tag filtering with search system",
+            "description": "Enhance existing search functionality to support tag-based filtering, faceted search, and combined text/tag queries with proper indexing",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Modify search queries to include tag filters, implement faceted search UI with tag selection, create compound indexes for performance, support AND/OR/NOT tag operations, and integrate with existing filters. Include search result highlighting and tag-based recommendations.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Add Note Versioning and Data Protection Features",
+        "description": "Implement lightweight versioning system with automatic backups and data recovery capabilities",
+        "details": "Create NoteVersion model storing last 5 versions of each note with change summaries. Implement automatic version creation on significant edits with conflict detection using optimistic locking. Build version history interface showing diff visualization and restore functionality. Add automatic backup system creating daily SQLite dumps in ~/.pkm/backups/. Implement export functionality to Markdown files and import from external markdown sources. Add data integrity checks and repair tools.",
+        "testStrategy": "Test version creation and restoration, verify backup automation, test data export/import accuracy, validate conflict resolution, test data integrity checks",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "NoteVersion model and storage",
+            "description": "Create database model for note versions with fields for version number, timestamp, content, diff data, and parent version reference. Implement storage layer with efficient compression for version data.",
+            "dependencies": [],
+            "details": "Design schema to store full content snapshots and deltas. Include metadata like author, change summary, and version size. Implement version chain validation and orphan detection.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Version creation and conflict detection",
+            "description": "Implement version creation logic with automatic conflict detection when multiple users edit simultaneously. Create merge strategies and conflict resolution UI.",
+            "dependencies": [
+              1
+            ],
+            "details": "Detect concurrent edits using version timestamps and parent references. Implement three-way merge algorithm for automatic resolution. Create conflict markers for manual resolution.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Version history UI with diffs",
+            "description": "Build version history interface showing timeline of changes with visual diff viewer. Include side-by-side and inline diff modes with syntax highlighting.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Create timeline component with version metadata. Implement diff algorithms for text comparison. Add version restore, compare, and rollback actions.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Automated backup system",
+            "description": "Develop automated backup service with configurable schedules, retention policies, and storage destinations. Include incremental and full backup strategies.",
+            "dependencies": [
+              1
+            ],
+            "details": "Create backup scheduler with cron-like configuration. Implement compression and encryption for backup files. Add backup verification and restore testing.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Export/import functionality",
+            "description": "Build export/import system supporting multiple formats (JSON, Markdown, ZIP archives) with version history preservation and selective export options.",
+            "dependencies": [
+              1,
+              3
+            ],
+            "details": "Create export formats for single notes and bulk operations. Implement import validation and conflict handling. Add format conversion and migration tools.",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Data integrity tools",
+            "description": "Implement data integrity checking tools with corruption detection, repair utilities, and monitoring dashboard for version consistency and storage health.",
+            "dependencies": [
+              1,
+              4,
+              5
+            ],
+            "details": "Create checksum verification for all versions. Build repair tools for common corruption scenarios. Add monitoring alerts for integrity issues.",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-25T14:21:59.557Z",
+      "updated": "2025-06-28T01:42:57.094Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+# Task ID: 8
+# Title: Create Bidirectional Linking System and Backlinks
+# Status: pending
+# Dependencies: 6, 7
+# Priority: medium
+# Description: Implement WikiLink parser for automatic note connections with backlink tracking and navigation
+# Details:
+Build regex-based parser to detect [[Note Title]] syntax in markdown content. Implement real-time link detection while typing with auto-completion of existing note titles. Create NoteLink service to maintain bidirectional relationships and calculate backlinks. Build backlinks panel showing all notes referencing current note with context snippets. Add link validation and broken link detection with suggestions for similar note titles.
+
+# Test Strategy:
+Test link detection with edge cases and special characters, verify backlink accuracy, test performance with heavily linked notes, validate auto-completion functionality
+
+# Subtasks:
+## 1. WikiLink regex parser [pending]
+### Dependencies: None
+### Description: Implement regex-based parser to detect and parse WikiLink syntax [[note-name]] in markdown content
+### Details:
+Create a robust regex pattern to identify WikiLinks in text, extract note names, handle edge cases like nested brackets, and provide parsed link objects with position information for further processing
+
+## 2. Real-time link detection and auto-completion [pending]
+### Dependencies: 8.1
+### Description: Implement real-time detection of WikiLink syntax while user types and provide auto-completion suggestions
+### Details:
+Monitor text input for [[ triggers, query available notes based on partial input, display dropdown with matching note titles, handle selection to complete the link, and integrate with editor's cursor position
+
+## 3. NoteLink service for relationships [pending]
+### Dependencies: 8.1
+### Description: Create service to manage bidirectional relationships between notes through WikiLinks
+### Details:
+Build data structures to track forward and backward links, implement methods to update link relationships when notes are created/edited/deleted, maintain link integrity, and provide APIs to query note connections
+
+## 4. Backlinks panel with context [pending]
+### Dependencies: 8.3
+### Description: Develop UI panel showing all notes that link to the current note with surrounding context
+### Details:
+Create panel component to display backlinks, show link context (surrounding text), implement navigation to source notes on click, update panel reactively when links change, and integrate with existing UI layout
+
+## 5. Link validation and broken link detection [pending]
+### Dependencies: 8.1, 8.3
+### Description: Implement validation system to detect broken WikiLinks and provide suggestions for fixes
+### Details:
+Validate all WikiLinks against existing notes, highlight broken links in editor, suggest similar note names for broken links, provide bulk fix options, and integrate validation into save/edit workflows
+

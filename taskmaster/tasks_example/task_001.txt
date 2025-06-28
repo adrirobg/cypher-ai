@@ -1,0 +1,43 @@
+# Task ID: 1
+# Title: Setup Project Infrastructure and Database Foundation
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Initialize the project structure with SQLite database, FastAPI backend foundation, and React frontend scaffold
+# Details:
+Create project directory structure with separate backend and frontend folders. Setup SQLite 3.40+ with WAL mode, 64MB cache, and FTS5 enabled. Initialize FastAPI project with Python 3.11+ using controller-service-repository pattern. Create React 18+ project with TypeScript and Vite. Setup package.json/requirements.txt with all required dependencies including SQLAlchemy 2.0, Pydantic v2, and development tools.
+
+# Test Strategy:
+Verify database connection, test FastAPI startup, confirm React development server runs successfully, validate TypeScript compilation
+
+# Subtasks:
+## 1. Create project directory structure and initialize repository [pending]
+### Dependencies: None
+### Description: Set up the foundational directory structure for the full-stack application with separate backend and frontend directories, including proper .gitignore files and README structure
+### Details:
+Create root project directory with /backend and /frontend subdirectories. Initialize git repository at root level. Create .gitignore files for Python (backend) and Node.js (frontend) with appropriate patterns. Set up basic README.md with project overview and setup instructions placeholder.
+
+## 2. Initialize SQLite database with WAL mode and FTS5 configuration [pending]
+### Dependencies: 1.1
+### Description: Set up SQLite database with Write-Ahead Logging (WAL) mode enabled and Full-Text Search (FTS5) extension configured for optimal performance
+### Details:
+Create database initialization script in backend/database/ directory. Configure SQLite with PRAGMA journal_mode=WAL for better concurrency. Enable FTS5 extension for full-text search capabilities. Create initial schema with tables for users, sessions, and a sample FTS5 virtual table. Include connection pooling setup and database configuration module.
+
+## 3. Scaffold FastAPI backend with repository pattern and middleware [pending]
+### Dependencies: 1.1, 1.2
+### Description: Create FastAPI application structure following repository pattern with proper middleware setup for CORS, authentication, and error handling
+### Details:
+Set up FastAPI project structure with app/, api/, models/, repositories/, services/, and middleware/ directories. Create main.py with FastAPI app initialization. Implement base repository pattern with abstract base class and SQLite-specific implementation. Configure CORS middleware for frontend communication. Set up basic error handling middleware and logging configuration. Create health check endpoint.
+
+## 4. Initialize React frontend with TypeScript and Vite configuration [pending]
+### Dependencies: 1.1
+### Description: Create React application using Vite with TypeScript support, including proper project structure and development environment setup
+### Details:
+Initialize React project with Vite and TypeScript template in frontend/ directory. Configure tsconfig.json with strict mode and proper module resolution. Set up ESLint and Prettier for code quality. Create basic folder structure: src/components/, src/pages/, src/services/, src/hooks/, src/types/. Configure Vite for API proxy to backend during development. Set up basic App component with routing structure.
+
+## 5. Configure dependency management and development environment [pending]
+### Dependencies: 1.3, 1.4
+### Description: Set up dependency management for both backend and frontend with virtual environments, package files, and development scripts
+### Details:
+Create requirements.txt and requirements-dev.txt for Python backend with FastAPI, SQLAlchemy, pytest, and development tools. Set up Python virtual environment instructions. Configure package.json with necessary React, TypeScript, and development dependencies. Create docker-compose.yml for local development with backend and frontend services. Add Makefile or npm scripts for common development tasks (install, migrate, test, lint). Create .env.example files for both backend and frontend configuration.
+

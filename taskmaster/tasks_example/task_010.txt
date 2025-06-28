@@ -1,0 +1,49 @@
+# Task ID: 10
+# Title: Add Note Versioning and Data Protection Features
+# Status: pending
+# Dependencies: 2, 3, 6
+# Priority: medium
+# Description: Implement lightweight versioning system with automatic backups and data recovery capabilities
+# Details:
+Create NoteVersion model storing last 5 versions of each note with change summaries. Implement automatic version creation on significant edits with conflict detection using optimistic locking. Build version history interface showing diff visualization and restore functionality. Add automatic backup system creating daily SQLite dumps in ~/.pkm/backups/. Implement export functionality to Markdown files and import from external markdown sources. Add data integrity checks and repair tools.
+
+# Test Strategy:
+Test version creation and restoration, verify backup automation, test data export/import accuracy, validate conflict resolution, test data integrity checks
+
+# Subtasks:
+## 1. NoteVersion model and storage [pending]
+### Dependencies: None
+### Description: Create database model for note versions with fields for version number, timestamp, content, diff data, and parent version reference. Implement storage layer with efficient compression for version data.
+### Details:
+Design schema to store full content snapshots and deltas. Include metadata like author, change summary, and version size. Implement version chain validation and orphan detection.
+
+## 2. Version creation and conflict detection [pending]
+### Dependencies: 10.1
+### Description: Implement version creation logic with automatic conflict detection when multiple users edit simultaneously. Create merge strategies and conflict resolution UI.
+### Details:
+Detect concurrent edits using version timestamps and parent references. Implement three-way merge algorithm for automatic resolution. Create conflict markers for manual resolution.
+
+## 3. Version history UI with diffs [pending]
+### Dependencies: 10.1, 10.2
+### Description: Build version history interface showing timeline of changes with visual diff viewer. Include side-by-side and inline diff modes with syntax highlighting.
+### Details:
+Create timeline component with version metadata. Implement diff algorithms for text comparison. Add version restore, compare, and rollback actions.
+
+## 4. Automated backup system [pending]
+### Dependencies: 10.1
+### Description: Develop automated backup service with configurable schedules, retention policies, and storage destinations. Include incremental and full backup strategies.
+### Details:
+Create backup scheduler with cron-like configuration. Implement compression and encryption for backup files. Add backup verification and restore testing.
+
+## 5. Export/import functionality [pending]
+### Dependencies: 10.1, 10.3
+### Description: Build export/import system supporting multiple formats (JSON, Markdown, ZIP archives) with version history preservation and selective export options.
+### Details:
+Create export formats for single notes and bulk operations. Implement import validation and conflict handling. Add format conversion and migration tools.
+
+## 6. Data integrity tools [pending]
+### Dependencies: 10.1, 10.4, 10.5
+### Description: Implement data integrity checking tools with corruption detection, repair utilities, and monitoring dashboard for version consistency and storage health.
+### Details:
+Create checksum verification for all versions. Build repair tools for common corruption scenarios. Add monitoring alerts for integrity issues.
+

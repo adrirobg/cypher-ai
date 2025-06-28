@@ -1,0 +1,49 @@
+# Task ID: 7
+# Title: Implement Full-Text Search with FTS5 and Advanced Filtering
+# Status: pending
+# Dependencies: 2, 3
+# Priority: high
+# Description: Build powerful search functionality using SQLite FTS5 with real-time search, ranking, and filtering capabilities
+# Details:
+Configure SQLite FTS5 with optimized indexes for note titles and content. Implement search service with ranking algorithm considering title matches, content relevance, and recency. Create search API endpoint with debounced real-time search (300ms delay), snippet generation with highlighting, and advanced filters (project, date range, tags). Add search suggestions and autocomplete functionality. Implement search result caching for performance.
+
+# Test Strategy:
+Performance tests with 10k+ notes, test search accuracy with various query types, verify snippet highlighting, test filter combinations
+
+# Subtasks:
+## 1. FTS5 configuration and indexes [pending]
+### Dependencies: None
+### Description: Configure SQLite FTS5 extension for full-text search capabilities, create virtual tables with proper tokenizers, define custom ranking functions, and establish indexes for optimal performance
+### Details:
+Set up FTS5 virtual tables with porter stemmer tokenizer, configure column weights for tasks/projects/tags, implement trigram tokenization for fuzzy matching, create auxiliary functions for rank calculation, establish proper indexes on foreign keys and frequently queried columns
+
+## 2. Search ranking algorithm [pending]
+### Dependencies: 7.1
+### Description: Implement custom ranking algorithm that combines BM25 scores with domain-specific factors like task priority, due dates, completion status, and user interaction history
+### Details:
+Create weighted scoring system combining FTS5 rank(), task priority multipliers, recency boost for recently modified items, relevance decay for completed tasks, tag match bonuses, and contextual ranking based on current project/workspace
+
+## 3. Real-time search API with debouncing [pending]
+### Dependencies: 7.1, 7.2
+### Description: Build performant search API endpoint with request debouncing, streaming results, pagination support, and optimized query execution for sub-100ms response times
+### Details:
+Implement search endpoint with 300ms debounce timer, streaming JSON response format, cursor-based pagination for large result sets, query optimization with prepared statements, connection pooling for concurrent requests, and graceful degradation for complex queries
+
+## 4. Snippet generation and highlighting [pending]
+### Dependencies: 7.1, 7.3
+### Description: Create snippet extraction system that generates contextual previews with search term highlighting, smart truncation, and markdown rendering support
+### Details:
+Implement FTS5 snippet() and highlight() functions, configure optimal snippet length and surrounding context, handle markdown formatting preservation, create HTML-safe highlighting with customizable mark tags, support multi-term highlighting with different colors
+
+## 5. Advanced filters implementation [pending]
+### Dependencies: 7.3
+### Description: Build comprehensive filtering system supporting status filters, date ranges, tag combinations, project scopes, assignee filters, and custom field queries with boolean logic
+### Details:
+Create filter parser for complex boolean expressions, implement date range queries with natural language support, build tag filtering with AND/OR/NOT operations, add project hierarchy filtering, support custom field filtering with type-aware comparisons
+
+## 6. Search caching and suggestions [pending]
+### Dependencies: 7.3, 7.5
+### Description: Implement intelligent caching layer with Redis for frequent queries, search history tracking, autocomplete suggestions, and popular search recommendations
+### Details:
+Set up Redis cache with 5-minute TTL for search results, implement query normalization for cache key generation, track search history per user with privacy controls, build autocomplete using FTS5 prefix queries, generate trending searches based on usage analytics
+
