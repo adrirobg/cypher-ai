@@ -26,5 +26,89 @@
         "status": "pending"
       }
     ]
+  },
+  {
+    "id": "2",
+    "title": "Implementar Comandos Básicos",
+    "description": "Crear los comandos fundamentales que usan TaskEngine para operaciones básicas.",
+    "status": "pending",
+    "priority": "high",
+    "dependencies": ["1"],
+    "subtasks": [
+      {
+        "id": "2.1",
+        "title": "Implementar comando 'decode' para mostrar tareas",
+        "description": "Crear src/commands/decode.ts que use TaskEngine para mostrar una tarea o listar todas. Output en formato AI-optimizado.",
+        "status": "pending"
+      },
+      {
+        "id": "2.2",
+        "title": "Implementar comando 'transmit' (pre-flight check)",
+        "description": "Crear src/commands/transmit.ts que genere contexto optimizado para una tarea usando PREFLIGHT_TEMPLATE.md.",
+        "status": "pending"
+      },
+      {
+        "id": "2.3",
+        "title": "Implementar comando 'update' para cambiar estado",
+        "description": "Crear src/commands/update.ts que use TaskEngine.updateTask() para cambiar el estado de una tarea.",
+        "status": "pending"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Integración con Claude Code SDK",
+    "description": "Añadir capacidades de IA usando Claude SDK para flujos complejos.",
+    "status": "pending",
+    "priority": "medium",
+    "dependencies": ["2"],
+    "subtasks": [
+      {
+        "id": "3.1",
+        "title": "Crear interfaz AIProvider",
+        "description": "Definir src/providers/ai-provider.interface.ts con métodos generateTasks() y expandTask().",
+        "status": "pending"
+      },
+      {
+        "id": "3.2",
+        "title": "Implementar ClaudeProvider",
+        "description": "Crear src/providers/claude-provider.ts usando @anthropic-ai/claude-code para implementar la interfaz.",
+        "status": "pending"
+      },
+      {
+        "id": "3.3",
+        "title": "Comando 'setup-project' con IA",
+        "description": "Implementar comando que use ClaudeProvider para generar tareas desde un PRD.",
+        "status": "pending"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Sistema Multi-Proveedor (Futuro)",
+    "description": "Expandir para soportar múltiples proveedores de IA como Gemini.",
+    "status": "pending",
+    "priority": "low",
+    "dependencies": ["3"],
+    "subtasks": [
+      {
+        "id": "4.1",
+        "title": "Implementar GeminiProvider",
+        "description": "Crear src/providers/gemini-provider.ts cuando Gemini CLI esté disponible.",
+        "status": "pending"
+      },
+      {
+        "id": "4.2",
+        "title": "Sistema de selección de proveedor",
+        "description": "Permitir al usuario elegir qué IA usar via flag --provider=claude|gemini.",
+        "status": "pending"
+      },
+      {
+        "id": "4.3",
+        "title": "Modo colaborativo experimental",
+        "description": "Explorar usar múltiples IAs para generar y validar resultados.",
+        "status": "pending"
+      }
+    ]
   }
 ]

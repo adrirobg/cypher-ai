@@ -28,3 +28,13 @@ La orquestación de herramientas CLI externas es frágil, ineficiente y crea un 
 
 5.  **Planning as Artifact (La Planificación como Artefacto):**
     La planificación no es un documento de referencia, es un paso de "compilación". Genera artefactos (especificaciones) precisos, accionables y verificables que sirven como input directo para la siguiente fase del sistema.
+
+## Technical Foundation
+
+Cypher leverages the Claude Code SDK (@anthropic-ai/claude-code) as its intelligence engine. This is fundamentally different from wrapping external CLIs:
+
+- **We compose with the SDK**: Claude Code SDK is our AI brain, not a wrapped tool
+- **We build our own logic**: Task management, context generation, and orchestration are our code
+- **We abstract complexity**: Users don't need to know Claude Code SDK syntax
+
+The result: A specialized AI-native tool that happens to use Claude as its intelligence provider, with future support for other AI providers (Gemini, GPT).

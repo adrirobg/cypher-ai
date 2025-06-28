@@ -1,7 +1,7 @@
 {
   "name": "cypher-ai",
   "version": "0.1.0",
-  "description": "Cypher: Bridging human intent and AI implementation - An AI-first task orchestration tool",
+  "description": "Cypher: AI-powered task orchestration tool using Claude Code SDK to bridge human intent and AI implementation",
   "keywords": [
     "ai",
     "development",

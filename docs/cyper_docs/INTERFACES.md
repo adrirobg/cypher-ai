@@ -24,6 +24,22 @@ interface Task {
   description: string;
 
   /**
+   * Detalles adicionales o técnicos de la tarea (opcional).
+   */
+  details?: string;
+
+  /**
+   * Estrategia o enfoque para probar la implementación de la tarea (opcional).
+   */
+  testStrategy?: string;
+
+  /**
+   * Lista de tecnologías clave o librerías asociadas a la tarea (opcional).
+   * Ej: ["FastAPI", "React", "SQLAlchemy"]
+   */
+  keyTechnologies?: string[];
+
+  /**
    * El estado actual del trabajo.
    */
   status: 'pending' | 'in-progress' | 'done' | 'blocked' | 'cancelled';

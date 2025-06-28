@@ -183,6 +183,14 @@ cypher decode tasks                       # List all tasks
 cypher transmit <id>                      # Generate pre-flight context
 cypher update <id> <status>               # Update task status
 ```
+
+### Note on AI Integration
+When using commands that require AI intelligence (like `setup-project` or `expand`), Cypher uses Claude Code SDK internally. You'll need:
+- Valid ANTHROPIC_API_KEY in your environment
+- Internet connection for API calls
+- Sufficient API credits for your usage
+
+The beauty is that you don't need to learn Claude Code SDK - Cypher handles all the complexity.
 </essential_commands>
 
 ## **7. Workflow Integration**

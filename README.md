@@ -65,6 +65,16 @@ Install Cypher in any project - new or existing:
 - Dependency tracking and validation
 - Multiple status states (pending, in-progress, done, blocked)
 
+## 🧠 Powered by AI
+
+Cypher itself is AI-powered, using Claude Code SDK (@anthropic-ai/claude-code) internally to provide intelligent orchestration:
+
+- **Task Generation**: Transforms PRDs into structured tasks using AI
+- **Smart Expansion**: Breaks complex tasks into subtasks with AI analysis
+- **Context Optimization**: Uses AI to generate the most efficient pre-flight contexts
+
+This creates a unique **AI-to-AI pipeline**: Cypher (powered by Claude) generates perfect contexts for other AI agents (Claude, GPT, Gemini) to implement.
+
 ## 📦 Installation
 
 ### Prerequisites
@@ -171,6 +181,11 @@ cypher/
 │   └── templates/     # Init templates
 ├── .cypher/           # Self-hosted development
 │   └── tasks.json     # Cypher's own tasks
+|── docs/             # Documentation
+    cypher_docs/
+    task_master_docs/
+    claude_code_sdk_docs/    
+
 └── package.json
 ```
 

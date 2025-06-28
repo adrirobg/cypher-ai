@@ -22,11 +22,20 @@ Este documento detalla el plan de construcción por fases para el sistema de orq
 *   **Artefacto:** `scripts/preflight-check.ts`
 *   **Lógica:** Usará el `TaskEngine` directamente para componer el artefacto de contexto definido en `PREFLIGHT_TEMPLATE.md`.
 *   **Hito:** Demuestra que nuestro enfoque de composición funciona.
+*   **Integración IA**: Aunque el pre-flight básico no requiere IA, versiones avanzadas podrán usar Claude Code SDK para optimizar el contexto generado basándose en el tipo de tarea.
 
 ## Fase 3: Flujos de Escritura y Complejos
 *   **Objetivo:** Reemplazar la funcionalidad de escritura y los flujos de trabajo más complejos.
 *   **Artefactos:** `scripts/set-status.ts`, `scripts/setup-project.ts`
-*   **Dependencia Futura:** Flujos como `setup-project.ts` requerirán invocar a un LLM para replicar la inteligencia de `task-master` (ej. `parse-prd`, `expand`). Esta dependencia se gestionará dentro del propio script.
+*   **Integración IA Completa**: 
+    *   `setup-project.ts` usará Claude Code SDK para:
+        - Analizar PRDs y generar estructura de tareas
+        - Identificar dependencias automáticamente
+        - Sugerir estimaciones de complejidad
+    *   `expand.ts` usará Claude Code SDK para:
+        - Descomponer tareas complejas inteligentemente
+        - Generar descripciones detalladas
+        - Proponer estrategias de testing
 
 ## Fase 4: Empaquetado como Herramienta Reutilizable
 *   **Objetivo:** Transformar el sistema en una herramienta npm instalable.
@@ -39,14 +48,26 @@ Este documento detalla el plan de construcción por fases para el sistema de orq
     *   Comando `setup-project` para parsear PRD
     *   Todos los comandos accesibles via CLI
 
-## Fase 5: Publicación y Distribución
+## Fase 5: Sistema de Proveedores de IA
+*   **Objetivo:** Añadir soporte para múltiples proveedores de IA manteniendo la simplicidad.
+*   **Artefactos:**
+    *   `src/providers/ai-provider.interface.ts` - Interfaz común
+    *   `src/providers/claude-provider.ts` - Implementación con Claude SDK
+    *   `src/providers/gemini-provider.ts` - Implementación con Gemini CLI (futura)
+*   **Principio:** Empezar simple con Claude, luego añadir Gemini cuando el sistema esté maduro.
+*   **Beneficios:** 
+    *   Usuarios eligen su IA preferida
+    *   Posibilidad futura de colaboración entre AIs
+    *   Flexibilidad de costos y capacidades
+
+## Fase 6: Publicación y Distribución
 *   **Objetivo:** Hacer la herramienta disponible públicamente.
 *   **Acciones:**
-    *   Publicar en npm registry
+    *   Publicar en npm registry como `cypher-ai`
     *   Crear documentación completa
     *   Ejemplos de uso en diferentes tipos de proyectos
 *   **Resultado Final:** Cualquier desarrollador puede ejecutar:
     ```bash
-    npm install -g ai-orchestrator
-    ai-orchestrator init
+    npm install -g cypher-ai
+    cypher init
     ```
