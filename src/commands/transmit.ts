@@ -1,5 +1,5 @@
 import { TaskEngine, Task } from '../core/TaskEngine';
-import * as fs from 'fs-extra';
+import { PromptManager } from '../utils/PromptManager';
 import * as path from 'path';
 
 async function getParentTask(taskId: string, tasks: Task[]): Promise<Task | null> {
@@ -17,33 +17,9 @@ async function getParentTask(taskId: string, tasks: Task[]): Promise<Task | null
   return null;
 }
 
-function replaceTemplateVariables(template: string, data: Record<string, any>): string {
-  let result = template
-    .replace(/{{current\.id}}/g, data.taskId)
-    .replace(/{{current\.title}}/g, data.taskTitle)
-    .replace(/{{current\.description}}/g, data.taskDescription);
-  
-  if (data.parentId && data.parentTitle && data.parentDescription) {
-    result = result
-      .replace(/{{parent\.id}}/g, data.parentId)
-      .replace(/{{parent\.title}}/g, data.parentTitle)
-      .replace(/{{parent\.description}}/g, data.parentDescription);
-  } else {
-    result = result.replace(/`## 2\. OBJETIVO PRINCIPAL[^`]*`\n`[^`]*`\n\n`---`/, '');
-  }
-  
-  result = result
-    .replace(/`{{#if current\.details}}`[\s\S]*?`{{\/if}}`/g, '')
-    .replace(/`{{#if current\.testStrategy}}`[\s\S]*?`{{\/if}}`/g, '')
-    .replace(/`{{#each parent\.subtasks}}`[\s\S]*?`{{\/each}}`/g, data.siblingContext)
-    .replace(/`{{#if current\.dependencies}}`[\s\S]*?`{{else}}`[\s\S]*?`{{\/if}}`/g, data.dependenciesContext)
-    .replace(/`/g, '');
-  
-  return result.trim();
-}
-
 export async function transmit(taskId: string): Promise<void> {
   const engine = new TaskEngine();
+  const promptManager = new PromptManager(path.join(__dirname, '../providers/prompts'));
   
   try {
     const task = await engine.getTaskById(taskId);
@@ -52,7 +28,6 @@ export async function transmit(taskId: string): Promise<void> {
       return;
     }
     
-    const template = await fs.readFile(path.resolve(__dirname, '../templates/PREFLIGHT_TEMPLATE.md'), 'utf8');
     const tasks = await engine.readTasks();
     const parentTask = await getParentTask(taskId, tasks);
     
@@ -70,15 +45,12 @@ export async function transmit(taskId: string): Promise<void> {
       ? task.dependencies.map(dep => `- **Depende de ${dep}:** Debes asumir que la funcionalidad de esta tarea ya está completada y disponible.`).join('\n')
       : '- **Sin dependencias directas.** Eres el punto de partida para esta sección del trabajo.';
     
-    const output = replaceTemplateVariables(template, {
-      taskId: task.id,
-      taskTitle: task.title,
-      taskDescription: task.description,
-      parentId: parentTask?.id,
-      parentTitle: parentTask?.title,
-      parentDescription: parentTask?.description,
+    const output = promptManager.render('commands/preflight', {
+      current: task,
+      parent: parentTask,
       siblingContext,
-      dependenciesContext
+      dependenciesContext,
+      executionHint: task.executionHint
     });
     
     console.log(output);

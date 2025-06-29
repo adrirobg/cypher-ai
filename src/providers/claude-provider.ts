@@ -1,56 +1,14 @@
 import { AIProvider, TaskGenerationOptions, TaskExpansionOptions, CollaborativeAnalysisOptions, CollaborativeAnalysisResult } from './ai-provider.interface';
 import { Task } from '../core/TaskEngine';
 import { query, type SDKMessage } from '@anthropic-ai/claude-code';
-import * as fs from 'fs';
 import * as path from 'path';
-
-class PromptManager {
-  private promptCache: Map<string, string> = new Map();
-
-  constructor(private promptsDir: string) {}
-
-  private loadPrompt(name: string): string {
-    if (this.promptCache.has(name)) {
-      return this.promptCache.get(name)!;
-    }
-
-    const filePath = path.join(this.promptsDir, `${name}.prompt.md`);
-    try {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      this.promptCache.set(name, content);
-      return content;
-    } catch (error) {
-      throw new Error(`Failed to load prompt ${name}: ${error}`);
-    }
-  }
-
-  render(name: string, context: Record<string, any>): string {
-    let template = this.loadPrompt(name);
-
-    // Handle conditional blocks {{#if variable}}...{{/if}}
-    template = template.replace(/\{\{#if (.*?)\}\}(.*?)\{\{\/if\}\}/gs, (match, variable, content) => {
-      return context[variable.trim()] ? content : '';
-    });
-
-    // Handle variable replacements {{variable}}
-    template = template.replace(/\{\{(.*?)\}\}/g, (match, variable) => {
-      const key = variable.trim();
-      // Access nested properties like task.id
-      const value = key.split('.').reduce((o: any, i: string) => o?.[i], context);
-      return value !== undefined ? String(value) : match;
-    });
-
-    return template;
-  }
-}
-
+import { PromptManager } from '../utils/PromptManager';
 
 export class ClaudeProvider implements AIProvider {
   private promptManager: PromptManager;
 
   constructor() {
-    const promptsDir = path.join(__dirname, 'prompts');
-    this.promptManager = new PromptManager(promptsDir);
+    this.promptManager = new PromptManager(path.join(__dirname, 'prompts'));
   }
 
   private async getTextResponse(
