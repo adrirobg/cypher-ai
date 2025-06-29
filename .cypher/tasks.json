@@ -3,7 +3,7 @@
     "id": "1",
     "title": "Implementar TaskEngine - Core del Sistema",
     "description": "Crear la capa de acceso a datos minimalista que será la base de todo el sistema, operando directamente sobre este archivo.",
-    "status": "pending",
+    "status": "done",
     "priority": "high",
     "dependencies": [],
     "subtasks": [
