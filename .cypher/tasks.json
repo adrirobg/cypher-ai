@@ -31,39 +31,41 @@
     "id": "2",
     "title": "Implementar Comandos Básicos",
     "description": "Crear los comandos fundamentales que usan TaskEngine para operaciones básicas.",
-    "status": "pending",
+    "status": "done",
     "priority": "high",
-    "dependencies": ["1"],
+    "dependencies": [
+      "1"
+    ],
     "subtasks": [
       {
         "id": "2.1",
         "title": "Comando 'decode' (list/show)",
         "description": "Mostrar tareas en formato AI-optimizado.",
-        "status": "pending"
+        "status": "done"
       },
       {
         "id": "2.2",
         "title": "Comando 'transmit' (pre-flight)",
         "description": "Generar contexto optimizado para una tarea usando PREFLIGHT_TEMPLATE.md.",
-        "status": "pending"
+        "status": "done"
       },
       {
         "id": "2.3",
         "title": "Comando 'update' (universal)",
         "description": "Actualizar cualquier campo de una tarea: status, title, description, dependencies, subtasks.",
-        "status": "pending"
+        "status": "done"
       },
       {
         "id": "2.4",
         "title": "Comando 'next'",
         "description": "Identificar la siguiente tarea a implementar basada en dependencias y prioridades.",
-        "status": "pending"
+        "status": "done"
       },
       {
         "id": "2.5",
         "title": "Comando 'validate'",
         "description": "Validar la integridad del grafo de tareas, con opción --fix para corregir dependencias inválidas.",
-        "status": "pending"
+        "status": "done"
       }
     ]
   },
@@ -73,7 +75,14 @@
     "description": "Añadir capacidades de IA usando Claude SDK para flujos complejos.",
     "status": "pending",
     "priority": "medium",
-    "dependencies": ["2"],
+    "dependencies": [
+      "2"
+    ],
+    "executionHint": {
+      "strategy": "supervisor-executor",
+      "parallelizable": true,
+      "estimatedFiles": 6
+    },
     "subtasks": [
       {
         "id": "3.1",
@@ -119,7 +128,9 @@
     "description": "Expandir para soportar múltiples proveedores de IA como Gemini.",
     "status": "pending",
     "priority": "low",
-    "dependencies": ["3"],
+    "dependencies": [
+      "3"
+    ],
     "subtasks": [
       {
         "id": "4.1",

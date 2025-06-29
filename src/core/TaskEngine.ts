@@ -11,6 +11,16 @@ export interface Task {
   subtasks?: Task[];
   context?: string;
   outputs?: string[];
+  collaboration?: {
+    perspectives?: string[];
+    synthesizedAt?: string;
+    consensusPoints?: string[];
+  };
+  executionHint?: {
+    strategy?: 'direct' | 'supervisor-executor';
+    parallelizable?: boolean;
+    estimatedFiles?: number;
+  };
 }
 
 export class TaskEngine {

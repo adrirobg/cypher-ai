@@ -93,5 +93,15 @@ interface Task {
      */
     consensusPoints?: string[];
   };
+
+  /**
+   * Hint for optimal execution strategy (optional).
+   * Suggests whether to use supervisor pattern for complex tasks.
+   */
+  executionHint?: {
+    strategy?: 'direct' | 'supervisor-executor';
+    parallelizable?: boolean;
+    estimatedFiles?: number;
+  };
 }
 ```
