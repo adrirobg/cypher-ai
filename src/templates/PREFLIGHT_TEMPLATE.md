@@ -44,4 +44,30 @@ Esta es la plantilla exacta para el artefacto de contexto que se genera para un 
 
 `---`
 
+`{{#if executionHint}}`
+`## EXECUTION PATTERN HINT`
+
+`{{#if executionHint.strategy}}`
+`**Recommended Strategy**: {{executionHint.strategy}}`
+`{{/if}}`
+
+`{{#if (eq executionHint.strategy "supervisor-executor")}}`
+`For optimal execution:`
+`1. Act as SUPERVISOR, not direct implementer`
+`2. Create subagents for file operations`
+`3. Parallelize independent work`
+`4. Trust subagent outputs`
+`{{/if}}`
+
+`{{#if executionHint.parallelizable}}`
+`**Parallelizable**: This task can be broken into parallel phases`
+`{{/if}}`
+
+`{{#if executionHint.estimatedFiles}}`
+`**Estimated Files**: ~{{executionHint.estimatedFiles}} files`
+`{{/if}}`
+`{{/if}}`
+
+`---`
+
 `**INSTRUCCIÓN:** Procede a implementar la Tarea {{current.id}}.`
