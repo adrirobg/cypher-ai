@@ -11,7 +11,7 @@ async function analyzeTasksOfficial() {
       prompt: `
         Por favor realiza un análisis de las tareas del proyecto:
         
-        1. Ejecuta: npx task-master list
+        1. Lee el archivo: taskmaster/tasks_example/task_002.txt
         2. Analiza la complejidad de cada tarea pendiente
         3. Crea un archivo task-analysis-report.md con:
            - Resumen de tareas
