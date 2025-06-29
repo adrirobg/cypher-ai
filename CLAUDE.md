@@ -66,13 +66,12 @@ interface Task {
 ### **2.3. System Architecture**
 <architecture>
 ```
-.cypher/                 # Cypher configuration (like .git)
-├── manifest.md         # Core principles
-├── roadmap.md          # Technical plan  
-├── interfaces.ts       # Data contracts
+docs/cyper_docs/          # Cypher documentation and planning artifacts
+├── MANIFESTO.md         # Core principles
+├── ROADMAP.md          # Technical plan  
+├── INTERFACES.md       # Data contracts
 ├── tasks.json          # Project tasks
-├── contexts/           # Generated pre-flight contexts
-└── artifacts/          # AI-first artifacts
+├── PREFLIGHT_TEMPLATE.md # Context template
 
 src/                    # Cypher source code
 ├── core/               # Foundation layer
@@ -128,7 +127,7 @@ src/                    # Cypher source code
 
 <guardrails>
 <rule name="TRUST_THE_ARTIFACTS">
-The files in .cypher/ are the single source of truth. Do not deviate from their specifications.
+The files in docs/cyper_docs/ are the single source of truth. Do not deviate from their specifications.
 </rule>
 
 <rule name="NO_OVER_ENGINEERING">

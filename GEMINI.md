@@ -71,11 +71,13 @@ interface Task {
 ### **2.3. System Architecture**
 <architecture>
 ```
-system_planning/          # Immutable planning artifacts
+docs/cyper_docs/          # Immutable planning artifacts
 ├── MANIFESTO.md         # Core principles
 ├── ROADMAP.md          # Technical plan
 ├── INTERFACES.md       # Data contracts
 ├── PREFLIGHT_TEMPLATE.md # Context template
+
+.cypher/                 # Cypher configuration and data
 └── tasks.json          # System's own tasks
 
 core/                   # Foundation layer
@@ -131,7 +133,7 @@ scripts/                # AI-to-AI tools
 
 <guardrails>
 <rule name="TRUST_THE_ARTIFACTS">
-The files in system_planning/ are the single source of truth. Do not deviate from their specifications.
+The files in docs/cyper_docs/ are the single source of truth. Do not deviate from their specifications.
 </rule>
 
 <rule name="NO_OVER_ENGINEERING">
@@ -218,7 +220,7 @@ npx tsx scripts/setup-project.ts <prd>       # Initialize project
 
 ### Meta Development
 We're using the system to build itself:
-- Check system_planning/tasks.json for what to build
+- Check .cypher/tasks.json for what to build
 - Update task status as we progress
 - Generate artifacts that future scripts will consume
 </workflow_integration>

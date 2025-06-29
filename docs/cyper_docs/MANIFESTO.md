@@ -1,5 +1,9 @@
 # MANIFESTO: Cypher - Bridging Human Intent and AI Implementation
 
+## Summary
+
+Cypher's UI strategy is firmly rooted in its "AI-First" philosophy. The CLI serves as the primary human interface, with a focus on structured, token-efficient output. A dedicated GUI is explicitly out of scope for the initial phases, prioritizing the core AI-to-AI orchestration capabilities and leveraging existing developer tools for human interaction and visualization.
+
 ## Vision
 Build **Cypher**: a reusable AI-to-AI orchestration tool that can be installed in any project to provide a complete framework for AI-driven development.
 
