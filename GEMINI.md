@@ -89,6 +89,9 @@ scripts/                # AI-to-AI tools
 ├── preflight-check.ts # Generate implementation context
 ├── set-status.ts      # Update task status
 └── setup-project.ts   # Initialize projects
+
+references/             # External code for reference and inspiration
+└── taskmaster/         # Cloned TaskMaster repository
 ```
 </architecture>
 </project_context>
@@ -230,10 +233,8 @@ We're using the system to build itself:
 <current_mission>
 Build the foundation of our AI-to-AI orchestration system:
 
-1. ✅ Planning artifacts created (system_planning/)
-2. 🎯 **NEXT:** Implement TaskEngine (Task 1 in tasks.json)
-3. 📋 Then: Build basic scripts (show, list)
-4. 🚀 Finally: Create pre-flight check system
+1. ✅ Planning artifacts created (docs/cyper_docs/)
+2. 🎯 **NEXT:** Check next pending task in .cypher/tasks.json
 
 ### Development Phases:
 - **Phase 1 (Current):** Build core functionality using the system to manage itself

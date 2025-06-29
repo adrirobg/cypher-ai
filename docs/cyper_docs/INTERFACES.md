@@ -72,5 +72,26 @@ interface Task {
    * Ej: ["src/components/Login.tsx", "src/tests/Login.test.ts"]
    */
   outputs?: string[];
+
+  /**
+   * Metadatos de colaboración AI cuando múltiples perspectivas fueron usadas (opcional).
+   */
+  collaboration?: {
+    /**
+     * Perspectivas AI que analizaron esta tarea.
+     * Ej: ["architecture", "security", "performance"]
+     */
+    perspectives?: string[];
+    
+    /**
+     * Timestamp ISO de cuando se sintetizaron las perspectivas.
+     */
+    synthesizedAt?: string;
+    
+    /**
+     * Puntos de consenso entre las diferentes perspectivas.
+     */
+    consensusPoints?: string[];
+  };
 }
 ```

@@ -37,20 +37,32 @@
     "subtasks": [
       {
         "id": "2.1",
-        "title": "Implementar comando 'decode' para mostrar tareas",
-        "description": "Crear src/commands/decode.ts que use TaskEngine para mostrar una tarea o listar todas. Output en formato AI-optimizado.",
+        "title": "Comando 'decode' (list/show)",
+        "description": "Mostrar tareas en formato AI-optimizado.",
         "status": "pending"
       },
       {
         "id": "2.2",
-        "title": "Implementar comando 'transmit' (pre-flight check)",
-        "description": "Crear src/commands/transmit.ts que genere contexto optimizado para una tarea usando PREFLIGHT_TEMPLATE.md.",
+        "title": "Comando 'transmit' (pre-flight)",
+        "description": "Generar contexto optimizado para una tarea usando PREFLIGHT_TEMPLATE.md.",
         "status": "pending"
       },
       {
         "id": "2.3",
-        "title": "Implementar comando 'update' para cambiar estado",
-        "description": "Crear src/commands/update.ts que use TaskEngine.updateTask() para cambiar el estado de una tarea.",
+        "title": "Comando 'update' (universal)",
+        "description": "Actualizar cualquier campo de una tarea: status, title, description, dependencies, subtasks.",
+        "status": "pending"
+      },
+      {
+        "id": "2.4",
+        "title": "Comando 'next'",
+        "description": "Identificar la siguiente tarea a implementar basada en dependencias y prioridades.",
+        "status": "pending"
+      },
+      {
+        "id": "2.5",
+        "title": "Comando 'validate'",
+        "description": "Validar la integridad del grafo de tareas, con opción --fix para corregir dependencias inválidas.",
         "status": "pending"
       }
     ]
@@ -65,8 +77,8 @@
     "subtasks": [
       {
         "id": "3.1",
-        "title": "Crear interfaz AIProvider",
-        "description": "Definir src/providers/ai-provider.interface.ts con métodos generateTasks() y expandTask().",
+        "title": "Crear interfaz AIProvider con collaborativeAnalysis",
+        "description": "Definir src/providers/ai-provider.interface.ts con métodos generateTasks(), expandTask() y collaborativeAnalysis() para análisis multi-perspectiva.",
         "status": "pending"
       },
       {
@@ -77,8 +89,26 @@
       },
       {
         "id": "3.3",
+        "title": "Comando 'research' - Investigación multi-perspectiva",
+        "description": "Implementar el comando estrella que usa collaborativeAnalysis para investigar temas con múltiples perspectivas AI, generando síntesis automática.",
+        "status": "pending"
+      },
+      {
+        "id": "3.4",
         "title": "Comando 'setup-project' con IA",
         "description": "Implementar comando que use ClaudeProvider para generar tareas desde un PRD.",
+        "status": "pending"
+      },
+      {
+        "id": "3.5",
+        "title": "Comando 'expand' con IA",
+        "description": "Implementar comando que use ClaudeProvider para descomponer tareas complejas y generar descripciones detalladas/estrategias de testing.",
+        "status": "pending"
+      },
+      {
+        "id": "3.6",
+        "title": "Añadir flag --perspective a comandos existentes",
+        "description": "Extender transmit, validate y otros comandos para soportar diferentes perspectivas de análisis (architecture, security, performance, etc).",
         "status": "pending"
       }
     ]
@@ -106,7 +136,7 @@
       {
         "id": "4.3",
         "title": "Modo colaborativo experimental",
-        "description": "Explorar usar múltiples IAs para generar y validar resultados.",
+        "description": "Explorar usar múltiples proveedores de IA simultáneamente para comparar resultados.",
         "status": "pending"
       }
     ]

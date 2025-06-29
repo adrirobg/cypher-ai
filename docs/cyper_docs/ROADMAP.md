@@ -2,7 +2,7 @@
 
 Este documento detalla el plan de construcción por fases para el sistema de orquestación.
 
-## Fase 0: El Motor - `core/TaskEngine.ts`
+## Fase 0: El Motor - `core/TaskEngine.ts` ✅ COMPLETADO
 *   **Objetivo:** Crear la capa de acceso a datos (DAL) mínima y pura. Es el corazón del sistema.
 *   **Artefacto:** `core/TaskEngine.ts`
 *   **Funcionalidad MVP:**
@@ -11,56 +11,95 @@ Este documento detalla el plan de construcción por fases para el sistema de orq
     *   `getTaskById(id: string): Promise<Task | null>`
     *   `updateTask(id: string, updates: Partial<Task>): Promise<void>`
 *   **Anti-Sobreingeniería:** No tendrá caché, ni validación compleja. Será un simple adaptador de sistema de archivos.
+*   **Estado:** ✅ Implementado con tests completos
 
-## Fase 1: Herramientas de Lectura - `scripts/`
-*   **Objetivo:** Validar el `TaskEngine` y crear nuestras primeras herramientas AI-First.
-*   **Artefactos:** `scripts/show.ts`, `scripts/list.ts`
-*   **Clave:** La salida de estos scripts debe ser un formato optimizado para IA (ej. Markdown estructurado), no un simple `console.log` del objeto.
+## Fase 1: Comando Read - `decode`
+*   **Objetivo:** Primer comando para validar arquitectura CLI y TaskEngine.
+*   **Artefacto:** `src/commands/decode.ts`
+*   **Funcionalidad:**
+    *   `cypher decode tasks` - Listar todas las tareas
+    *   `cypher decode 1.2` - Mostrar tarea específica
+*   **Output:** Markdown estructurado para consumo AI
+*   **Preparación futura:** Estructura que permita añadir `--perspective`
+*   **Hito:** Arquitectura CLI probada, lectura funcional.
 
-## Fase 2: El "Pre-flight Check" - El Primer Flujo de Valor
-*   **Objetivo:** Componer nuestra primera herramienta compleja que genera un artefacto de alto valor.
-*   **Artefacto:** `scripts/preflight-check.ts`
-*   **Lógica:** Usará el `TaskEngine` directamente para componer el artefacto de contexto definido en `PREFLIGHT_TEMPLATE.md`.
-*   **Hito:** Demuestra que nuestro enfoque de composición funciona.
-*   **Integración IA**: Aunque el pre-flight básico no requiere IA, versiones avanzadas podrán usar Claude Code SDK para optimizar el contexto generado basándose en el tipo de tarea.
-
-## Fase 3: Flujos de Escritura y Complejos
-*   **Objetivo:** Reemplazar la funcionalidad de escritura y los flujos de trabajo más complejos.
-*   **Artefactos:** `scripts/set-status.ts`, `scripts/setup-project.ts`
-*   **Integración IA Completa**: 
-    *   `setup-project.ts` usará Claude Code SDK para:
-        - Analizar PRDs y generar estructura de tareas
-        - Identificar dependencias automáticamente
-        - Sugerir estimaciones de complejidad
-    *   `expand.ts` usará Claude Code SDK para:
-        - Descomponer tareas complejas inteligentemente
-        - Generar descripciones detalladas
-        - Proponer estrategias de testing
-
-## Fase 4: Empaquetado como Herramienta Reutilizable
-*   **Objetivo:** Transformar el sistema en una herramienta npm instalable.
-*   **Artefactos:** 
-    *   `package.json` con configuración de publicación
-    *   `bin/ai-orchestrator` CLI principal
-    *   `README.md` con documentación de instalación y uso
+## Fase 2: Comando Context - `transmit`
+*   **Objetivo:** Generar contextos pre-flight de alto valor.
+*   **Artefacto:** `src/commands/transmit.ts`
 *   **Funcionalidad:** 
-    *   Comando `init` para inicializar en cualquier proyecto
-    *   Comando `setup-project` para parsear PRD
-    *   Todos los comandos accesibles via CLI
+    *   `cypher transmit 1.2` - Contexto estándar
+    *   `cypher transmit 1.2 --perspective=security` - Contexto especializado (futura extensión)
+*   **Template:** PREFLIGHT_TEMPLATE con soporte para perspectivas
+*   **Hito:** Primera herramienta de valor real para AI agents.
 
-## Fase 5: Sistema de Proveedores de IA
-*   **Objetivo:** Añadir soporte para múltiples proveedores de IA manteniendo la simplicidad.
+## Fase 3: Comando Write - `update`
+*   **Objetivo:** Modificación universal de tareas.
+*   **Artefacto:** `src/commands/update.ts`
+*   **Funcionalidad:** 
+    *   `cypher update 1.2 --status=done`
+    *   `cypher update 1.2 --title="..." --dependencies=[]`
+*   **Hito:** CRUD completo sobre tasks.json.
+
+## Fase 4: Comandos de Análisis - `next` y `validate`
+*   **Objetivo:** Inteligencia sobre el grafo de tareas.
 *   **Artefactos:**
-    *   `src/providers/ai-provider.interface.ts` - Interfaz común
+    *   `src/commands/next.ts` - Siguiente tarea por dependencias
+    *   `src/commands/validate.ts` - Integridad del grafo
+*   **Extensión futura:**
+    *   `validate --collaborative` - Validación multi-perspectiva
+    *   `validate --fix` - Corrección automática
+*   **Hito:** Sistema inteligente sin IA.
+
+## Fase 5: Capa de Integración IA - `src/providers/`
+*   **Objetivo:** Crear la infraestructura para integración con proveedores de IA.
+*   **Artefactos:**
+    *   `src/providers/ai-provider.interface.ts` - Interfaz común con `collaborativeAnalysis`
     *   `src/providers/claude-provider.ts` - Implementación con Claude SDK
-    *   `src/providers/gemini-provider.ts` - Implementación con Gemini CLI (futura)
-*   **Principio:** Empezar simple con Claude, luego añadir Gemini cuando el sistema esté maduro.
+*   **Nuevas capacidades:**
+    *   Flag `--perspective` en comandos existentes
+    *   Método `collaborativeAnalysis` para multi-perspectiva
+    *   Síntesis automática de perspectivas
+*   **Principio:** La IA mejora pero no es requerida para funcionalidad básica.
+
+## Fase 6: Comandos Avanzados con IA
+*   **Objetivo:** Implementar comandos que requieren IA desde su concepción.
+*   **Artefactos:**
+    *   `src/commands/research.ts` - Investigación multi-perspectiva ⭐
+    *   `src/commands/setup-project.ts` - Parsear PRD y generar estructura
+    *   `src/commands/expand.ts` - Descomponer tareas complejas
+*   **Comando `research` (estrella):**
+    *   `cypher research "JWT best practices"` - Investigación simple
+    *   `cypher research "OAuth vs JWT" --perspectives=security,performance`
+    *   `cypher research --task=1.2` - Investigación contextual
+*   **Integración IA Completa**: 
+    *   Usa `collaborativeAnalysis` del provider
+    *   Output estructurado con síntesis automática
+    *   Resultados optimizados para consumo AI
+
+## Fase 7: Empaquetado y CLI - `src/cli.ts`
+*   **Objetivo:** Crear la interfaz de línea de comandos y preparar para distribución npm.
+*   **Artefactos:** 
+    *   `src/cli.ts` - Entry point con Commander.js
+    *   `src/commands/init.ts` - Inicializar .cypher/ en proyectos
+    *   Actualizar `package.json` con bin y scripts
+*   **Funcionalidad:** 
+    *   `cypher init` - Crear estructura .cypher/
+    *   `cypher decode/transmit/update/next/validate` - Comandos base
+    *   `cypher setup-project/expand` - Comandos con IA
+*   **Hito:** Tool usable localmente con `npm link`.
+
+## Fase 8: Sistema Multi-Proveedor de IA (Futuro)
+*   **Objetivo:** Expandir soporte a múltiples proveedores manteniendo simplicidad.
+*   **Artefactos:**
+    *   `src/providers/gemini-provider.ts` - Implementación alternativa
+    *   `src/providers/openai-provider.ts` - Soporte GPT
+*   **Principio:** La interfaz ya existe desde Fase 2, solo añadir implementaciones.
 *   **Beneficios:** 
     *   Usuarios eligen su IA preferida
-    *   Posibilidad futura de colaboración entre AIs
     *   Flexibilidad de costos y capacidades
+    *   Evitar vendor lock-in
 
-## Fase 6: Publicación y Distribución
+## Fase 9: Publicación y Distribución
 *   **Objetivo:** Hacer la herramienta disponible públicamente.
 *   **Acciones:**
     *   Publicar en npm registry como `cypher-ai`
