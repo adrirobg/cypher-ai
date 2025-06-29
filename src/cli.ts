@@ -8,6 +8,7 @@ import { transmit } from './commands/transmit';
 import { update } from './commands/update';
 import { validate } from './commands/validate';
 import { next } from './commands/next';
+import { research } from './commands/research';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -90,6 +91,27 @@ program
       await validate({ fix: options.fix });
     } catch (error) {
       console.error('Error executing validate command:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('research <query>')
+  .description('Research a topic with multiple AI perspectives')
+  .option('-p, --perspectives <perspectives>', 'Comma-separated list of perspectives (default: architecture,security,performance)')
+  .option('-t, --task <taskId>', 'Research in context of a specific task')
+  .action(async (query: string, options) => {
+    try {
+      const perspectives = options.perspectives 
+        ? options.perspectives.split(',').map((p: string) => p.trim())
+        : undefined;
+      
+      await research(query, {
+        perspectives,
+        task: options.task
+      });
+    } catch (error) {
+      console.error('Error executing research command:', error);
       process.exit(1);
     }
   });

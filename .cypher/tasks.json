@@ -124,7 +124,7 @@
         "id": "3.7",
         "title": "Externalizar y Versionar Plantillas de Prompts",
         "description": "Refactorizar ClaudeProvider para cargar las plantillas de prompts desde archivos .md externos en un directorio src/providers/prompts/. Esto permitirá el versionado con Git y facilitará la experimentación.",
-        "status": "pending",
+        "status": "done",
         "priority": "medium"
       }
     ]
