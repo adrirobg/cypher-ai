@@ -11,4 +11,5 @@ Requirements:
 {{#if includeTestStrategy}}- Include testStrategy for each task{{/if}}
 {{#if includeExecutionHints}}- Include executionHint for complex tasks (5+ subtasks or multi-file){{/if}}
 
-Output format: JSON array of Task objects following the TypeScript interface.
+Respond with ONLY a JSON object, using the format below:
+[{"id":"1","title":"Task Title","description":"Task description","status":"pending","subtasks":[{"id":"1.1","title":"Subtask","description":"Subtask description","status":"pending"}]}]

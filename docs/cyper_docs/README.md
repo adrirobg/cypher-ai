@@ -2,11 +2,23 @@
 
 This directory contains core documentation for the Cypher AI-to-AI orchestration system.
 
-### Files:
-- `ARCHITECTURE.md`: Overview of the system's architecture and components.
-- `INTERFACES.md`: Defines the core data structures and interfaces, such as the `Task` interface.
-- `MANIFESTO.md`: Outlines the vision, problem statement, and guiding principles of the Cypher project.
-- `PREFLIGHT_TEMPLATE.md`: The template used for generating AI-optimized context artifacts for tasks.
-- `ROADMAP.md`: Details the phased implementation plan for the Cypher system.
-- `TECHNICAL_NOTES.md`: Provides in-depth technical details and best practices for development.
-- `UI_STRATEGY.md`: Describes the user interface strategy, emphasizing AI-first design and CLI interaction.
+### Core Documentation Files:
+- `MANIFESTO.md`: Vision, problem statement, and guiding principles (START HERE)
+- `ARCHITECTURE.md`: System architecture and components overview
+- `INTERFACES.md`: Core data structures and TypeScript interfaces (Task interface)
+- `ROADMAP.md`: Phased implementation plan for the Cypher system
+- `TECHNICAL_NOTES.md`: In-depth technical details and best practices
+- `UI_STRATEGY.md`: User interface strategy, AI-first design and CLI interaction
+- `COLLABORATION_PLAN.md`: Multi-perspective AI collaboration patterns
+
+### Project Configuration:
+- `/CLAUDE.md`: Claude Code instructions (IMPORTANT: AI agents should read this)
+- `/package.json`: Project dependencies and scripts
+- `/jest.config.js`: Test configuration
+- `/tsconfig.json`: TypeScript configuration
+- `/.cypher/tasks.json`: Current project tasks and status
+
+### Implementation Notes:
+- Prompt templates are now in `/src/providers/prompts/` (versioned with Git)
+- Commands are in `/src/commands/`
+- Core TaskEngine is in `/src/core/TaskEngine.ts`

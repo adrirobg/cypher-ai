@@ -9,6 +9,7 @@ import { update } from './commands/update';
 import { validate } from './commands/validate';
 import { next } from './commands/next';
 import { research } from './commands/research';
+import { setupProject } from './commands/setup-project';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -112,6 +113,27 @@ program
       });
     } catch (error) {
       console.error('Error executing research command:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('setup-project <prd-path>')
+  .description('Generate tasks from a PRD file')
+  .option('-d, --max-depth <depth>', 'Maximum task hierarchy depth (default: 2)', '2')
+  .option('-f, --force', 'Overwrite existing tasks without confirmation')
+  .option('--no-test-strategy', 'Do not include test strategy in generated tasks')
+  .option('--no-execution-hints', 'Do not include execution hints for complex tasks')
+  .action(async (prdPath: string, options) => {
+    try {
+      await setupProject(prdPath, {
+        maxDepth: parseInt(options.maxDepth),
+        force: options.force,
+        includeTestStrategy: options.testStrategy,
+        includeExecutionHints: options.executionHints,
+      });
+    } catch (error) {
+      console.error('Error executing setup-project command:', error);
       process.exit(1);
     }
   });

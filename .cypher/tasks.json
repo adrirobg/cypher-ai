@@ -106,7 +106,7 @@
         "id": "3.4",
         "title": "Comando 'setup-project' con IA",
         "description": "Implementar comando que use ClaudeProvider para generar tareas desde un PRD.",
-        "status": "pending"
+        "status": "done"
       },
       {
         "id": "3.5",

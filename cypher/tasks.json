@@ -1,0 +1,276 @@
+[
+  {
+    "id": "1",
+    "title": "Database Layer and Core Data Models",
+    "description": "Implement SQLite database with optimized configuration, core data models (Project, Note, NoteLink, Tag, NoteVersion), and migration system using SQLAlchemy 2.0 and Alembic",
+    "status": "pending",
+    "testStrategy": "Unit tests for all models, integration tests for database operations, performance tests with sample datasets",
+    "executionHint": "Multi-file task involving database schema, models, migrations, and configuration",
+    "subtasks": [
+      {
+        "id": "1.1",
+        "title": "SQLite Configuration and Setup",
+        "description": "Configure SQLite with WAL mode, FTS5 enabled, 64MB cache, and optimal settings for PKM workload",
+        "status": "pending",
+        "testStrategy": "Test database connection, configuration validation, and performance benchmarks"
+      },
+      {
+        "id": "1.2",
+        "title": "Core Data Models",
+        "description": "Implement SQLAlchemy models for Project, Note, NoteLink, Tag, and NoteVersion with proper relationships and constraints",
+        "status": "pending",
+        "testStrategy": "Unit tests for model validation, relationship integrity, and constraint enforcement"
+      },
+      {
+        "id": "1.3",
+        "title": "Database Migration System",
+        "description": "Set up Alembic for database migrations and create initial migration scripts",
+        "status": "pending",
+        "testStrategy": "Test migration up/down operations and schema consistency"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "FastAPI Backend Core",
+    "description": "Build FastAPI application structure with Controller-Service-Repository pattern, CRUD operations, validation with Pydantic v2, and error handling",
+    "status": "pending",
+    "dependencies": [
+      "1"
+    ],
+    "testStrategy": "Unit tests for services, integration tests for API endpoints, API contract testing",
+    "executionHint": "Multi-layered architecture with controllers, services, repositories, and middleware",
+    "subtasks": [
+      {
+        "id": "2.1",
+        "title": "FastAPI Application Structure",
+        "description": "Set up FastAPI app with proper project structure, dependency injection, middleware, and configuration management",
+        "status": "pending",
+        "testStrategy": "Test application startup, middleware chain, and configuration loading"
+      },
+      {
+        "id": "2.2",
+        "title": "Repository Layer Implementation",
+        "description": "Implement repository pattern for data access with CRUD operations for all entities",
+        "status": "pending",
+        "testStrategy": "Unit tests for repository methods and database interaction patterns"
+      },
+      {
+        "id": "2.3",
+        "title": "Service Layer and Business Logic",
+        "description": "Implement service layer with business logic, validation, and entity relationship management",
+        "status": "pending",
+        "testStrategy": "Unit tests for business logic and service method validation"
+      },
+      {
+        "id": "2.4",
+        "title": "API Controllers and Endpoints",
+        "description": "Create REST API endpoints for projects and notes with proper HTTP status codes and response formatting",
+        "status": "pending",
+        "testStrategy": "Integration tests for all endpoints, request/response validation, error handling"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "title": "React Frontend Foundation",
+    "description": "Build React SPA with TypeScript, Vite build system, routing, state management with Zustand, and API client integration",
+    "status": "pending",
+    "dependencies": [
+      "2"
+    ],
+    "testStrategy": "Component unit tests, routing tests, state management tests, API integration tests",
+    "executionHint": "Frontend application with multiple components, routing, and state management",
+    "subtasks": [
+      {
+        "id": "3.1",
+        "title": "React Project Setup and Configuration",
+        "description": "Initialize React project with Vite, TypeScript configuration, CSS Modules, and development tools",
+        "status": "pending",
+        "testStrategy": "Test build process, TypeScript compilation, and development server"
+      },
+      {
+        "id": "3.2",
+        "title": "Application Layout and Routing",
+        "description": "Implement main layout components, navigation, and React Router setup for SPA navigation",
+        "status": "pending",
+        "testStrategy": "Test routing functionality, layout responsiveness, and navigation behavior"
+      },
+      {
+        "id": "3.3",
+        "title": "State Management and API Client",
+        "description": "Set up Zustand for state management and create API client with interceptors for backend communication",
+        "status": "pending",
+        "testStrategy": "Test state updates, API client methods, error handling, and data synchronization"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Note Editor and Management UI",
+    "description": "Implement markdown editor with auto-save, note listing with virtualization, project management interface, and basic CRUD operations",
+    "status": "pending",
+    "dependencies": [
+      "3"
+    ],
+    "testStrategy": "Component testing for editor, user interaction tests, auto-save functionality tests",
+    "executionHint": "Complex UI components with editor integration and real-time features",
+    "subtasks": [
+      {
+        "id": "4.1",
+        "title": "Markdown Editor Integration",
+        "description": "Integrate CodeMirror or Monaco editor with markdown support, syntax highlighting, and auto-save functionality",
+        "status": "pending",
+        "testStrategy": "Test editor functionality, auto-save behavior, and markdown rendering"
+      },
+      {
+        "id": "4.2",
+        "title": "Notes List and Management",
+        "description": "Create virtualized notes list component with filtering, sorting, and CRUD operations",
+        "status": "pending",
+        "testStrategy": "Test list performance, filtering logic, and CRUD operations"
+      },
+      {
+        "id": "4.3",
+        "title": "Project Management Interface",
+        "description": "Build project creation, editing, and management components with color and icon selection",
+        "status": "pending",
+        "testStrategy": "Test project CRUD operations, UI interactions, and form validation"
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "title": "Full-Text Search Implementation",
+    "description": "Implement SQLite FTS5 search engine with indexing, real-time search UI with debouncing, result ranking, and filtering capabilities",
+    "status": "pending",
+    "dependencies": [
+      "4"
+    ],
+    "testStrategy": "Search accuracy tests, performance benchmarks, UI interaction tests",
+    "executionHint": "Search system with database indexing and real-time UI components",
+    "subtasks": [
+      {
+        "id": "5.1",
+        "title": "FTS5 Search Engine Setup",
+        "description": "Configure SQLite FTS5 with triggers for automatic indexing of notes content and implement search ranking algorithms",
+        "status": "pending",
+        "testStrategy": "Test search accuracy, indexing performance, and ranking quality"
+      },
+      {
+        "id": "5.2",
+        "title": "Search API and Backend Logic",
+        "description": "Implement search endpoints with filtering, faceting, and result highlighting capabilities",
+        "status": "pending",
+        "testStrategy": "Test search API endpoints, filtering logic, and result formatting"
+      },
+      {
+        "id": "5.3",
+        "title": "Search UI and User Experience",
+        "description": "Create search interface with real-time results, debouncing, filters, and result highlighting",
+        "status": "pending",
+        "testStrategy": "Test search UI responsiveness, debouncing behavior, and user interaction flows"
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "title": "Bidirectional Links and Knowledge Graph",
+    "description": "Implement wikilink parsing system, automatic backlink calculation, link navigation UI, and relationship visualization",
+    "status": "pending",
+    "dependencies": [
+      "5"
+    ],
+    "testStrategy": "Link parsing tests, backlink accuracy tests, navigation functionality tests",
+    "executionHint": "Complex parsing and relationship management system with UI components",
+    "subtasks": [
+      {
+        "id": "6.1",
+        "title": "Wikilink Parser and Link Detection",
+        "description": "Implement real-time parser for [[Note Title]] syntax with auto-completion and link validation",
+        "status": "pending",
+        "testStrategy": "Test parsing accuracy, edge cases, and real-time detection"
+      },
+      {
+        "id": "6.2",
+        "title": "Backlink Calculation and Storage",
+        "description": "Implement automatic backlink calculation, storage in NoteLink model, and relationship updates",
+        "status": "pending",
+        "testStrategy": "Test backlink accuracy, relationship integrity, and update propagation"
+      },
+      {
+        "id": "6.3",
+        "title": "Link Navigation and Backlinks UI",
+        "description": "Create UI components for displaying backlinks, navigating between linked notes, and relationship visualization",
+        "status": "pending",
+        "testStrategy": "Test link navigation, UI responsiveness, and relationship display accuracy"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "Tagging System and Organization",
+    "description": "Implement hierarchical tag system with auto-completion, tag management UI, filtering capabilities, and tag cloud visualization",
+    "status": "pending",
+    "dependencies": [
+      "6"
+    ],
+    "testStrategy": "Tag hierarchy tests, auto-completion accuracy tests, filtering functionality tests",
+    "subtasks": [
+      {
+        "id": "7.1",
+        "title": "Hierarchical Tag Data Model",
+        "description": "Implement tag hierarchy with parent-child relationships and usage count tracking",
+        "status": "pending",
+        "testStrategy": "Test tag hierarchy integrity, usage count accuracy, and relationship queries"
+      },
+      {
+        "id": "7.2",
+        "title": "Tag Auto-completion and Input",
+        "description": "Create tag input component with auto-completion, suggestion ranking, and tag creation workflow",
+        "status": "pending",
+        "testStrategy": "Test auto-completion accuracy, input validation, and tag creation flow"
+      },
+      {
+        "id": "7.3",
+        "title": "Tag Management and Visualization",
+        "description": "Build tag management interface with tag cloud, filtering by tags, and tag organization tools",
+        "status": "pending",
+        "testStrategy": "Test tag visualization, filtering accuracy, and management operations"
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "title": "Application Polish and User Experience",
+    "description": "Implement keyboard shortcuts, theme system, performance optimizations, error handling, and user feedback mechanisms",
+    "status": "pending",
+    "dependencies": [
+      "7"
+    ],
+    "testStrategy": "User experience tests, performance benchmarks, accessibility testing, error scenario tests",
+    "subtasks": [
+      {
+        "id": "8.1",
+        "title": "Keyboard Shortcuts and Navigation",
+        "description": "Implement comprehensive keyboard shortcut system for navigation, editing, and application control",
+        "status": "pending",
+        "testStrategy": "Test keyboard shortcut functionality, conflict detection, and accessibility"
+      },
+      {
+        "id": "8.2",
+        "title": "Theme System and Visual Polish",
+        "description": "Implement light/dark theme system with smooth transitions and visual improvements",
+        "status": "pending",
+        "testStrategy": "Test theme switching, visual consistency, and accessibility compliance"
+      },
+      {
+        "id": "8.3",
+        "title": "Performance Optimization and Error Handling",
+        "description": "Optimize application performance, implement comprehensive error handling, and add user feedback mechanisms",
+        "status": "pending",
+        "testStrategy": "Performance benchmarks, error handling tests, and user feedback validation"
+      }
+    ]
+  }
+]
