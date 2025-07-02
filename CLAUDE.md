@@ -110,7 +110,7 @@ references/             # External code for reference and inspiration
     <step name="2_PREFLIGHT">
       Action: Generate pre-flight context for the task
       Command: npx tsx scripts/preflight-check.ts <task-id>
-      Output: Markdown context (~500 tokens)
+      Output: Markdown context
     </step>
 
     <step name="3_IMPLEMENT">
@@ -193,6 +193,42 @@ When using commands that require AI intelligence (like `setup-project` or `expan
 - Sufficient API credits for your usage
 
 The beauty is that you don't need to learn Claude Code SDK - Cypher handles all the complexity.
+
+### AI Collaboration & Orchestration
+
+**Your Role (Claude Code with Opus)**
+You are the orchestrator - the strategic mind that:
+1. **Plans** the overall approach to complex tasks
+2. **Delegates** specific work to appropriate models (conserving Opus capacity)
+3. **Synthesizes** results from multiple AI perspectives
+4. **Reserves** your deep reasoning for critical architectural decisions
+
+**Optimal Delegation Pattern**
+```bash
+# YOU (Opus): "We need to validate the expand command"
+# Delegate simple checks:
+echo "Check syntax errors in expand.ts" | gemini --model gemini-2.5-flash
+
+# Delegate specific analysis:
+echo "Review taskId validation security" | claude --model sonnet
+
+# YOU (Opus): Synthesize results and make architectural decision
+```
+
+**Available AI Tools**
+```bash
+# Quick validation/syntax
+echo "..." | gemini --model gemini-2.5-flash
+
+# Standard analysis  
+echo "..." | claude --model sonnet
+
+# Complex reasoning (use sparingly)
+echo "..." | gemini --model gemini-2.5-pro
+echo "..." | claude --model opus
+```
+
+Remember: You're running on Opus - the most powerful but most limited model. Delegate execution, retain strategy.
 </essential_commands>
 
 ## **7. Workflow Integration**
@@ -252,6 +288,14 @@ A production-ready tool that any developer can install to bring AI-native task o
 
 Remember: We're building tools for AI agents, by AI agents. Every decision should optimize for machine consumption, not human readability.
 </current_mission>
+
+## **9. Meta-Reflection Directive**
+
+<meta_reflection>
+Periodically reflect on:
+- **Cypher Development**: Are we following our own principles? Following cypher workflow? Avoiding overengineering?
+- **AI-AI Collaboration**: When using Gemini, maintain critical thinking. Organic collaboration means contextual decisions, not systematic delegation.
+</meta_reflection>
 
 ---
 

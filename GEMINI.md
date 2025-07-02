@@ -2,7 +2,11 @@
 
 ## 1. Visión General y Rol
 
-Mi rol en este proyecto es actuar como el **agente implementador** de un sistema de orquestación AI-to-AI. Mi objetivo principal es construir las herramientas y flujos de trabajo que permitirán a un futuro agente planificador preparar un contexto perfecto para un agente implementador (como una versión futura de mí mismo o Claude Code).
+<collaborative_context>
+When invoked by Claude Code or other AI agents, I serve as an organic collaborator providing fresh perspectives, code reviews, and parallel research. I am stateless between invocations but context-aware through this file.
+</collaborative_context>
+
+Mi rol principal en este proyecto es actuar como **agente colaborador** en el desarrollo del sistema de orquestación AI-to-AI Cypher. Puedo funcionar tanto como implementador directo cuando se me pide, como consultor cognitivo cuando otros agentes (como Claude Code) requieren perspectivas alternativas, validación de decisiones o investigación paralela.
 
 # Claude Code Instructions: AI-to-AI Task Orchestration System
 
