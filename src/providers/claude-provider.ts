@@ -84,7 +84,11 @@ export class ClaudeProvider implements AIProvider {
     const response = await this.getTextResponse(prompt);
 
     try {
-      const subtasks = JSON.parse(response);
+      // Extract JSON from markdown code blocks if present
+      const jsonMatch = response.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+      const jsonString = jsonMatch ? jsonMatch[1] : response;
+      
+      const subtasks = JSON.parse(jsonString.trim());
       return Array.isArray(subtasks) ? subtasks : [subtasks];
     } catch (error) {
       throw new Error(`Failed to parse subtasks from Claude response: ${error}`);

@@ -10,6 +10,7 @@ import { validate } from './commands/validate';
 import { next } from './commands/next';
 import { research } from './commands/research';
 import { setupProject } from './commands/setup-project';
+import { expand } from './commands/expand';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -134,6 +135,25 @@ program
       });
     } catch (error) {
       console.error('Error executing setup-project command:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('expand <task-id>')
+  .description('Expand a task into subtasks using AI')
+  .option('-m, --max-subtasks <number>', 'Maximum number of subtasks to generate (default: 5)', '5')
+  .option('--no-details', 'Do not include detailed descriptions')
+  .option('--test-strategy', 'Include test strategy for each subtask')
+  .action(async (taskId: string, options) => {
+    try {
+      await expand(taskId, {
+        maxSubtasks: parseInt(options.maxSubtasks),
+        includeDetails: options.details,
+        includeTestStrategy: options.testStrategy,
+      });
+    } catch (error) {
+      console.error('Error executing expand command:', error);
       process.exit(1);
     }
   });
