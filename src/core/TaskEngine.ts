@@ -95,4 +95,24 @@ export class TaskEngine {
 
     await this.writeTasks(tasks);
   }
+
+  public async addTask(task: Omit<Task, 'status'>): Promise<void> {
+    const tasks = await this.readTasks();
+    
+    // Check if task ID already exists
+    const existing = await this.getTaskById(task.id);
+    if (existing) {
+      throw new Error(`Task with ID ${task.id} already exists.`);
+    }
+
+    // Create new task with default status
+    const newTask: Task = {
+      ...task,
+      status: 'pending'
+    };
+
+    // Add to root level tasks
+    tasks.push(newTask);
+    await this.writeTasks(tasks);
+  }
 }

@@ -118,13 +118,13 @@
             "id": "3.5.1",
             "title": "Create expand command structure",
             "description": "Implement the basic expand command in src/commands/expand.ts following the pattern of existing commands (decode, transmit, update). The command should accept a task ID as argument, validate it exists using TaskEngine, and prepare the task data for AI expansion. Include proper error handling for invalid task IDs.",
-            "status": "pending"
+            "status": "done"
           },
           {
             "id": "3.5.2",
             "title": "Integrate ClaudeProvider for task expansion",
             "description": "Connect the expand command to ClaudeProvider to decompose complex tasks into subtasks. Use the existing ClaudeProvider instance, create a prompt template that includes the task details and context (parent/sibling tasks), and process the AI response to generate an array of subtask objects with proper IDs (e.g., 1.2.1, 1.2.2 for task 1.2).",
-            "status": "pending",
+            "status": "done",
             "dependencies": [
               "3.5.1"
             ]
@@ -133,7 +133,7 @@
             "id": "3.5.3",
             "title": "Save expanded subtasks and display results",
             "description": "Implement the logic to save the AI-generated subtasks back to tasks.json using TaskEngine, ensuring proper nesting under the parent task. Display the expansion results in a clear, AI-consumable format showing the new subtask hierarchy. Handle edge cases like tasks that already have subtasks (prompt for confirmation to replace).",
-            "status": "pending",
+            "status": "done",
             "dependencies": [
               "3.5.2"
             ]
@@ -225,7 +225,7 @@
     "id": "6",
     "title": "Implementar Comando 'add-task'",
     "description": "Crear un nuevo comando 'cypher add-task' que permita añadir una nueva tarea de alto nivel al tasks.json desde la CLI. Debe soportar parámetros para id, title, description, y priority.",
-    "status": "pending",
+    "status": "done",
     "priority": "high",
     "dependencies": [
       "1"

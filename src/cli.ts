@@ -11,6 +11,7 @@ import { next } from './commands/next';
 import { research } from './commands/research';
 import { setupProject } from './commands/setup-project';
 import { expand } from './commands/expand';
+import { addTask } from './commands/add-task';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -154,6 +155,30 @@ program
       });
     } catch (error) {
       console.error('Error executing expand command:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('add-task <id> <title> <description>')
+  .description('Add a new high-level task to tasks.json')
+  .option('-p, --priority <priority>', 'Task priority (low, medium, high)', 'medium')
+  .option('-d, --dependencies <deps>', 'Comma-separated list of dependency task IDs')
+  .action(async (id: string, title: string, description: string, options) => {
+    try {
+      const dependencies = options.dependencies 
+        ? options.dependencies.split(',').map((dep: string) => dep.trim())
+        : undefined;
+      
+      await addTask({
+        id,
+        title,
+        description,
+        priority: options.priority,
+        dependencies
+      });
+    } catch (error) {
+      console.error('Error executing add-task command:', error);
       process.exit(1);
     }
   });
