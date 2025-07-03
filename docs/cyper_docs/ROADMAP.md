@@ -17,7 +17,7 @@ Este documento detalla el plan de construcción por fases para el sistema de orq
 *   **Objetivo:** Primer comando para validar arquitectura CLI y TaskEngine.
 *   **Artefacto:** `src/commands/decode.ts`
 *   **Funcionalidad:**
-    *   `cypher decode tasks` - Listar todas las tareas
+    *   `cypher decode` - Listar todas las tareas
     *   `cypher decode 1.2` - Mostrar tarea específica
 *   **Output:** Markdown estructurado para consumo AI
 *   **Preparación futura:** Estructura que permita añadir `--perspective`

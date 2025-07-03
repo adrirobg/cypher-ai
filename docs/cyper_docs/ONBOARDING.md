@@ -12,7 +12,7 @@
 
 ```bash
 # See pending tasks
-npx tsx src/cli.ts decode tasks --status=pending
+npx tsx src/cli.ts decode
 
 # Get task context
 npx tsx src/cli.ts transmit <task-id>

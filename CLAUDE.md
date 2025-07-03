@@ -193,14 +193,14 @@ All script outputs must be optimized for AI consumption:
 # During development (current)
 npx tsx src/cli.ts next                  # Get next task to work on
 npx tsx src/cli.ts decode <task-id>      # Display task details
-npx tsx src/cli.ts decode tasks          # List all tasks
+npx tsx src/cli.ts decode          # List all tasks
 npx tsx src/cli.ts transmit <id>         # Generate context
 npx tsx src/cli.ts update <id> <status>  # Update task status
 
 # After installation (future)
 cypher next                               # Get next task to work on
 cypher decode <task-id>                   # Display task details
-cypher decode tasks                       # List all tasks  
+cypher decode                             # List all tasks  
 cypher transmit <id>                      # Generate pre-flight context
 cypher update <id> <status>               # Update task status
 ```
