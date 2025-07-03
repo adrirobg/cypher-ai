@@ -73,7 +73,7 @@
     "id": "3",
     "title": "Integración con Claude Code SDK",
     "description": "Añadir capacidades de IA usando Claude SDK para flujos complejos.",
-    "status": "in-progress",
+    "status": "done",
     "priority": "medium",
     "dependencies": [
       "2"
@@ -143,8 +143,8 @@
       {
         "id": "3.6",
         "title": "Añadir flag --perspective a comandos existentes",
-        "description": "Extender transmit, validate y otros comandos para soportar diferentes perspectivas de análisis (architecture, security, performance, etc).",
-        "status": "pending"
+        "description": "EVALUADO: Tras analizar el valor del flag --perspective en otros comandos, se determinó que no aporta beneficio real más allá del comando research donde ya está implementado. La naturaleza determinista de transmit, validate y expand no se beneficia de perspectivas opcionales.",
+        "status": "done"
       },
       {
         "id": "3.7",
@@ -159,7 +159,7 @@
     "id": "4",
     "title": "Sistema Multi-Proveedor (Futuro)",
     "description": "Expandir para soportar múltiples proveedores de IA como Gemini.",
-    "status": "pending",
+    "status": "done",
     "priority": "low",
     "dependencies": [
       "3"
@@ -168,20 +168,20 @@
       {
         "id": "4.1",
         "title": "Implementar GeminiProvider",
-        "description": "Crear src/providers/gemini-provider.ts cuando Gemini CLI esté disponible.",
-        "status": "pending"
+        "description": "NO IMPLEMENTADO: Gemini CLI no está disponible actualmente. El foco se mantiene en la optimización y pulido del SDK de Claude Code que ya está funcionando perfectamente.",
+        "status": "done"
       },
       {
         "id": "4.2",
         "title": "Sistema de selección de proveedor",
-        "description": "Permitir al usuario elegir qué IA usar via flag --provider=claude|gemini.",
-        "status": "pending"
+        "description": "NO NECESARIO: Solo tenemos Claude Provider disponible, por lo que no hay necesidad de un sistema de selección. El sistema usa Claude por defecto.",
+        "status": "done"
       },
       {
         "id": "4.3",
         "title": "Modo colaborativo experimental",
-        "description": "Explorar usar múltiples proveedores de IA simultáneamente para comparar resultados.",
-        "status": "pending"
+        "description": "NO APLICABLE: Sin múltiples proveedores disponibles, no es posible implementar comparación de resultados.",
+        "status": "done"
       }
     ]
   },
@@ -259,6 +259,79 @@
     "priority": "low",
     "dependencies": [
       "3.5"
+    ]
+  },
+  {
+    "id": "8",
+    "title": "[POST-MVP] Implementar el Protocolo Génesis para la Creación de Roles",
+    "description": "Construir las herramientas y artefactos necesarios para que el Orquestador pueda crear, validar e integrar nuevos especialistas de IA en el ecosistema de forma coherente y alineada con la Constitución.",
+    "status": "pending",
+    "priority": "medium",
+    "dependencies": [
+      "1",
+      "2"
+    ],
+    "subtasks": [
+      {
+        "id": "8.1",
+        "title": "Revisar y trabajar sobre la idea de la tarea al completo",
+        "description": "Analizar en profundidad la propuesta, la crítica y los artefactos relacionados para refinar el plan de implementación antes de escribir código.",
+        "status": "pending"
+      },
+      {
+        "id": "8.2",
+        "title": "Crear Artefactos Fundacionales",
+        "description": "Escribir y versionar los archivos CONSTITUTION.md y ROLE_GENOME_TEMPLATE.md en docs/cyper_docs/.",
+        "status": "pending"
+      },
+      {
+        "id": "8.3",
+        "title": "Implementar Comando 'cypher specialize'",
+        "description": "Crear el comando que toma una ruta y una descripción, y utiliza al Orquestador para generar el CLAUDE.md del nuevo especialista a partir del genoma.",
+        "status": "pending"
+      },
+      {
+        "id": "8.4",
+        "title": "Implementar Script de Revisión por Pares",
+        "description": "Crear el script que orquesta la Verificación Socrática, potencialmente invocado por un hook post-uso de 'cypher specialize'.",
+        "status": "pending"
+      },
+      {
+        "id": "8.5",
+        "title": "Implementar Carga de Contexto Jerárquica",
+        "description": "Modificar el núcleo del sistema para que los agentes busquen el contexto (CLAUDE.md/GEMINI.md) desde su directorio actual hacia la raíz.",
+        "status": "pending"
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "title": "[POST-MVP] Implementar la Observabilidad del Ecosistema",
+    "description": "Crear herramientas para visualizar y validar el estado actual del ecosistema de IA, incluyendo los roles existentes y sus relaciones.",
+    "status": "pending",
+    "priority": "medium",
+    "dependencies": [
+      "8"
+    ],
+    "subtasks": [
+      {
+        "id": "9.1",
+        "title": "Revisar y trabajar sobre la idea de la tarea al completo",
+        "description": "Analizar la necesidad de observabilidad y diseñar los comandos y salidas para que sean útiles para el arquitecto humano y el Orquestador.",
+        "status": "pending"
+      },
+      {
+        "id": "9.2",
+        "title": "Implementar Comando 'cypher ecosystem status'",
+        "description": "Crear un comando que escanee el proyecto, identifique todos los especialistas existentes por su archivo de contexto local y los liste.",
+        "status": "pending"
+      },
+      {
+        "id": "9.3",
+        "title": "Implementar Validador de Genoma",
+        "description": "Extender el comando 'status' con un flag --validate que compruebe que cada archivo de contexto de especialista se adhiere a la estructura del ROLE_GENOME_TEMPLATE.md.",
+        "status": "pending"
+      }
     ]
   }
 ]

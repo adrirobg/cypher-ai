@@ -6,10 +6,7 @@ interface ResearchOptions {
   task?: string;
 }
 
-const DEFAULT_PERSPECTIVES = ['architecture', 'security', 'performance'];
-
 export async function research(query: string, options: ResearchOptions = {}): Promise<void> {
-  const perspectives = options.perspectives || DEFAULT_PERSPECTIVES;
   const provider = new ClaudeProvider();
   
   try {
@@ -34,13 +31,17 @@ Research Query: ${query}
     }
     
     console.log(`# RESEARCH: ${query}\n`);
-    console.log(`**Analyzing from ${perspectives.length} perspectives...**\n`);
     
-    // Progreso visual
-    perspectives.forEach((p, i) => {
-      console.log(`[${i+1}/${perspectives.length}] 🔍 ${p} perspective...`);
-    });
-    console.log('');
+    // Use provided perspectives or let AI work with the raw query
+    const perspectives = options.perspectives;
+    
+    if (perspectives && perspectives.length > 0) {
+      console.log(`**Analyzing from ${perspectives.length} perspective(s):**`);
+      perspectives.forEach(p => console.log(`- ${p}`));
+      console.log('');
+    } else {
+      console.log(`**Analyzing query...**\n`);
+    }
     
     const result = await provider.collaborativeAnalysis(fullQuery, {
       perspectives,

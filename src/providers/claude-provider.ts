@@ -99,8 +99,26 @@ export class ClaudeProvider implements AIProvider {
     prompt: string,
     options: CollaborativeAnalysisOptions
   ): Promise<CollaborativeAnalysisResult> {
-    const perspectives = options.perspectives;
     const synthesize = options.synthesize ?? true;
+    
+    // If no perspectives provided, let AI analyze organically
+    if (!options.perspectives || options.perspectives.length === 0) {
+      const organicPrompt = `Analyze the following query comprehensively:
+
+${prompt}
+
+Provide a thorough analysis considering all relevant aspects that would be valuable for implementation.`;
+
+      const response = await this.getTextResponse(organicPrompt);
+      
+      return {
+        analyses: { 'comprehensive': response },
+        synthesis: response
+      };
+    }
+    
+    // Use provided perspectives
+    const perspectives = options.perspectives;
     
     const analysisPromises = perspectives.map(async (perspective) => {
       const perspectivePrompt = this.promptManager.render('collaborative-analysis/perspective', {

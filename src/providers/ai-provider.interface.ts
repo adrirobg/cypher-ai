@@ -13,7 +13,7 @@ export interface TaskExpansionOptions {
 }
 
 export interface CollaborativeAnalysisOptions {
-  perspectives: string[];
+  perspectives?: string[];
   synthesize?: boolean;
 }
 

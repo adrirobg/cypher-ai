@@ -100,8 +100,8 @@ program
 
 program
   .command('research <query>')
-  .description('Research a topic with multiple AI perspectives')
-  .option('-p, --perspectives <perspectives>', 'Comma-separated list of perspectives (default: architecture,security,performance)')
+  .description('Research a topic with AI analysis')
+  .option('-p, --perspectives <perspectives>', 'Comma-separated list of perspectives to analyze from')
   .option('-t, --task <taskId>', 'Research in context of a specific task')
   .action(async (query: string, options) => {
     try {
