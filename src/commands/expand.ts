@@ -1,5 +1,5 @@
 import { ClaudeProvider } from '../providers/claude-provider';
-import { TaskEngine } from '../core/TaskEngine';
+import { TaskEngine, Task } from '../core/TaskEngine';
 
 interface ExpandOptions {
   maxSubtasks?: number;
@@ -45,7 +45,7 @@ export async function expand(taskId: string, options: ExpandOptions = {}): Promi
     }
     
     // Get sibling tasks if parent exists
-    let siblingTasks = [];
+    let siblingTasks: Task[] = [];
     if (parentTask && parentTask.subtasks) {
       siblingTasks = parentTask.subtasks.filter(t => t.id !== taskId);
     }

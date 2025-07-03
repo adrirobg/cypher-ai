@@ -1,9 +1,9 @@
-import { TaskEngine } from '../core/TaskEngine';
+import { TaskEngine, Task } from '../core/TaskEngine';
 
 const VALID_STATUSES = ['pending', 'in-progress', 'done', 'blocked', 'cancelled'];
 const VALID_PRIORITIES = ['low', 'medium', 'high'];
 
-export async function update(taskId: string, updates: Record<string, any>): Promise<void> {
+export async function update(taskId: string, updates: Record<string, any>, options?: { isJsonBatch?: boolean }): Promise<void> {
   try {
     const engine = new TaskEngine();
     const task = await engine.getTaskById(taskId);
@@ -16,6 +16,9 @@ export async function update(taskId: string, updates: Record<string, any>): Prom
     const before = { ...task };
     const processedUpdates: Record<string, any> = {};
     const errors: string[] = [];
+
+    // Check if this is a JSON batch update (contains subtasks and complex structures)
+    const isJsonBatchUpdate = options?.isJsonBatch || updates.hasOwnProperty('subtasks');
 
     for (const [key, value] of Object.entries(updates)) {
       switch (key) {
@@ -46,8 +49,22 @@ export async function update(taskId: string, updates: Record<string, any>): Prom
           break;
           
         case 'id':
-        case 'subtasks':
           errors.push(`Cannot update '${key}' field directly`);
+          break;
+          
+        case 'subtasks':
+          if (!options?.isJsonBatch && !Array.isArray(value)) {
+            errors.push(`Cannot update 'subtasks' field directly. Use --json flag for batch updates.`);
+            break;
+          }
+          
+          // Validate subtasks structure
+          const subtaskErrors = validateSubtasks(value);
+          if (subtaskErrors.length > 0) {
+            errors.push(...subtaskErrors);
+          } else {
+            processedUpdates.subtasks = value;
+          }
           break;
           
         default:
@@ -87,10 +104,67 @@ export async function update(taskId: string, updates: Record<string, any>): Prom
     if (after!.dependencies?.length) {
       console.log(`- **Dependencies:** ${after!.dependencies.join(', ')}`);
     }
+    if (after!.subtasks?.length) {
+      console.log(`- **Subtasks:** ${after!.subtasks.length} subtasks`);
+    }
 
   } catch (error) {
     console.log(`# Error updating task: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
+}
+
+function validateSubtasks(subtasks: any): string[] {
+  const errors: string[] = [];
+  
+  if (!Array.isArray(subtasks)) {
+    errors.push('Subtasks must be an array');
+    return errors;
+  }
+
+  const seenIds = new Set<string>();
+  
+  for (let i = 0; i < subtasks.length; i++) {
+    const subtask = subtasks[i];
+    const prefix = `Subtask ${i + 1}`;
+    
+    // Check required fields
+    if (!subtask.id || typeof subtask.id !== 'string') {
+      errors.push(`${prefix}: Missing or invalid 'id' field`);
+    } else if (seenIds.has(subtask.id)) {
+      errors.push(`${prefix}: Duplicate subtask ID '${subtask.id}'`);
+    } else {
+      seenIds.add(subtask.id);
+    }
+    
+    if (!subtask.title || typeof subtask.title !== 'string') {
+      errors.push(`${prefix}: Missing or invalid 'title' field`);
+    }
+    
+    if (!subtask.description || typeof subtask.description !== 'string') {
+      errors.push(`${prefix}: Missing or invalid 'description' field`);
+    }
+    
+    if (!subtask.status || !VALID_STATUSES.includes(subtask.status)) {
+      errors.push(`${prefix}: Invalid 'status' field. Must be one of: ${VALID_STATUSES.join(', ')}`);
+    }
+    
+    // Check optional fields
+    if (subtask.priority && !VALID_PRIORITIES.includes(subtask.priority)) {
+      errors.push(`${prefix}: Invalid 'priority' field. Must be one of: ${VALID_PRIORITIES.join(', ')}`);
+    }
+    
+    if (subtask.dependencies && !Array.isArray(subtask.dependencies)) {
+      errors.push(`${prefix}: 'dependencies' field must be an array`);
+    }
+    
+    // Recursively validate nested subtasks
+    if (subtask.subtasks) {
+      const nestedErrors = validateSubtasks(subtask.subtasks);
+      errors.push(...nestedErrors.map(err => `${prefix} -> ${err}`));
+    }
+  }
+  
+  return errors;
 }
 
 function formatValue(value: any): string {
