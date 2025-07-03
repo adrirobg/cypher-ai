@@ -83,7 +83,7 @@ Este documento detalla el plan de construcción por fases para el sistema de orq
 *   **Objetivo:** Crear la interfaz de línea de comandos y preparar para distribución npm.
 *   **Artefactos:** 
     *   ✅ `src/cli.ts` - Entry point con Commander.js completamente funcional
-    *   ⏳ `src/commands/init.ts` - Inicializar .cypher/ en proyectos (pendiente)
+    *   ⏳ `src/commands/init.ts` - Inicializar cypher/ en proyectos (pendiente)
     *   ✅ `package.json` actualizado con dependencias y scripts
 *   **Funcionalidad implementada:** 
     *   ✅ `cypher decode/transmit/update/next/validate` - Comandos base

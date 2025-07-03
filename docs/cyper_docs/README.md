@@ -16,7 +16,7 @@ This directory contains core documentation for the Cypher AI-to-AI orchestration
 - `/package.json`: Project dependencies and scripts
 - `/jest.config.js`: Test configuration
 - `/tsconfig.json`: TypeScript configuration
-- `/.cypher/tasks.json`: Current project tasks and status
+- `/cypher/tasks.json`: Current project tasks and status
 
 ### Implementation Notes:
 - Prompt templates are now in `/src/providers/prompts/` (versioned with Git)

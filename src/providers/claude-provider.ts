@@ -14,7 +14,7 @@ export class ClaudeProvider implements AIProvider {
   private async getTextResponse(
     prompt: string, 
     maxTurns: number = 1, 
-    timeoutMs: number = 120000
+    timeoutMs: number = 240000
   ): Promise<string> {
     const messages: SDKMessage[] = [];
     const abortController = new AbortController();

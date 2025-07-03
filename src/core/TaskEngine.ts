@@ -26,7 +26,7 @@ export interface Task {
 export class TaskEngine {
   private tasksFilePath: string;
 
-  constructor(tasksFilePath: string = path.resolve(process.cwd(), '.cypher/tasks.json')) {
+  constructor(tasksFilePath: string = path.resolve(process.cwd(), 'cypher/tasks.json')) {
     this.tasksFilePath = tasksFilePath;
   }
 

@@ -34,4 +34,4 @@ User Input → CLI Parser → Command Handler → TaskEngine ↔ tasks.json
 
 1. **AI as a Service**: AI capabilities are optional - core task management works without AI
 2. **Provider Abstraction**: AI logic is abstracted behind interfaces for future flexibility
-3. **Local-First**: All data stored locally in `.cypher/`, no cloud dependencies for core features
+3. **Local-First**: All data stored locally in `cypher/`, no cloud dependencies for core features

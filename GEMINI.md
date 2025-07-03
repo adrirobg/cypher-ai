@@ -83,7 +83,7 @@ docs/cyper_docs/          # Immutable planning artifacts
 ├── INTERFACES.md       # Data contracts
 ├── PREFLIGHT_TEMPLATE.md # Context template
 
-.cypher/                 # Cypher configuration and data
+cypher/                 # Cypher configuration and data
 └── tasks.json          # System's own tasks
 
 core/                   # Foundation layer
@@ -229,7 +229,7 @@ npx tsx scripts/setup-project.ts <prd>       # Initialize project
 
 ### Meta Development
 We're using the system to build itself:
-- Check .cypher/tasks.json for what to build
+- Check cypher/tasks.json for what to build
 - Update task status as we progress
 - Generate artifacts that future scripts will consume
 </workflow_integration>
@@ -240,7 +240,7 @@ We're using the system to build itself:
 Build the foundation of our AI-to-AI orchestration system:
 
 1. ✅ Planning artifacts created (docs/cyper_docs/)
-2. 🎯 **NEXT:** Check next pending task in .cypher/tasks.json
+2. 🎯 **NEXT:** Check next pending task in cypher/tasks.json
 
 ### Development Phases:
 - **Phase 1 (Current):** Build core functionality using the system to manage itself

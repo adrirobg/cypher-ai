@@ -7,10 +7,11 @@ You are part of an AI-to-AI orchestration system. Your role is to help build and
 
 - **Build, Don't Wrap:** We create our own logic from scratch, not wrapping external CLIs
 - **Own Your Data:** `tasks.json` is our truth, accessed only through our TaskEngine
-- **Compose, Don't Orchestrate:** Combine internal functions, not external processes
 - **AI-First From Ground Up:** Every decision optimizes for AI consumption (token efficiency + precision)
 - **Planning as Artifact:** Plans are executable specifications, not documentation
 - **CONTEXT DRIVEN DEVELOPMENT:** Context is key - every task starts with a clear context
+- **PROMPT + CONTEXT:** Use prompts to optimize the use of context. This is the key to effective AI collaboration.
+- **Organic Collaboration:** AIs consult each other organically, not systematically. You are the orchestrator, not a delegate.
 </core_philosophy>
 
 ## **2. Project Context: The New System**
@@ -234,7 +235,7 @@ cypher update <id> <status>               # Update task status
 
 ### Meta Development
 We're using the system to build itself:
-- Check .cypher/tasks.json for what to build
+- Check cypher/tasks.json for what to build
 - Update task status as we progress
 - Generate artifacts that future scripts will consume
 </workflow_integration>

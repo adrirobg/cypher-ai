@@ -56,7 +56,7 @@ Generate ultra-efficient, structured contexts that maximize AI implementation ac
 
 ### Portable Framework
 Install Cypher in any project - new or existing:
-- 📁 Creates `.cypher/` configuration directory
+- 📁 Creates `cypher/` configuration directory
 - 📋 Installs AI-first task management
 - 🎯 Brings the complete philosophy to your project
 
@@ -104,14 +104,14 @@ cypher init
 This creates:
 ```
 your-project/
-└── .cypher/
+└── cypher/
     ├── manifest.md      # Core philosophy
     ├── tasks.json       # Task database
     └── interfaces.ts    # Type definitions
 ```
 
 ### 2. Define Your Tasks
-Edit `.cypher/tasks.json`:
+Edit `cypher/tasks.json`:
 ```json
 {
   "id": "1",
@@ -132,12 +132,12 @@ Edit `.cypher/tasks.json`:
 ```bash
 cypher transmit 1.1
 ```
-Output saved to `.cypher/contexts/1.1-context.md`
+Output saved to `cypher/contexts/1.1-context.md`
 
 ### 4. Feed to Your AI Agent
 ```bash
 # Copy context to clipboard (Unix)
-cat .cypher/contexts/1.1-context.md | pbcopy
+cat cypher/contexts/1.1-context.md | pbcopy
 
 # Or pipe directly to your AI tool
 cypher transmit 1.1 | your-ai-tool
@@ -179,7 +179,7 @@ cypher/
 │   ├── core/          # TaskEngine - data layer
 │   ├── commands/      # CLI command implementations
 │   └── templates/     # Init templates
-├── .cypher/           # Self-hosted development
+├── cypher/           # Self-hosted development
 │   └── tasks.json     # Cypher's own tasks
 |── docs/             # Documentation
     cypher_docs/

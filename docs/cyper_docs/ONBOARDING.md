@@ -6,7 +6,7 @@
 2. **`docs/cyper_docs/MANIFESTO.md`** - Core vision and principles
 3. **`docs/cyper_docs/INTERFACES.md`** - Task data structure
 4. **`docs/cyper_docs/ROADMAP.md`** - Implementation phases
-5. **`/.cypher/tasks.json`** - Current project status
+5. **`/cypher/tasks.json`** - Current project status
 
 ## Quick Start
 

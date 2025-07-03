@@ -1,275 +1,417 @@
 [
   {
     "id": "1",
-    "title": "Database Layer and Core Data Models",
-    "description": "Implement SQLite database with optimized configuration, core data models (Project, Note, NoteLink, Tag, NoteVersion), and migration system using SQLAlchemy 2.0 and Alembic",
-    "status": "pending",
-    "testStrategy": "Unit tests for all models, integration tests for database operations, performance tests with sample datasets",
-    "executionHint": "Multi-file task involving database schema, models, migrations, and configuration",
+    "title": "Implementar TaskEngine - Core del Sistema",
+    "description": "Crear la capa de acceso a datos minimalista que será la base de todo el sistema, operando directamente sobre este archivo.",
+    "status": "done",
+    "priority": "high",
+    "dependencies": [],
     "subtasks": [
       {
         "id": "1.1",
-        "title": "SQLite Configuration and Setup",
-        "description": "Configure SQLite with WAL mode, FTS5 enabled, 64MB cache, and optimal settings for PKM workload",
-        "status": "pending",
-        "testStrategy": "Test database connection, configuration validation, and performance benchmarks"
+        "title": "Implementar operaciones de lectura (readTasks, getTaskById)",
+        "description": "Implementar las funciones para leer el array completo de tareas y para encontrar una tarea específica por su ID. Incluir manejo de errores básico para archivo no encontrado.",
+        "status": "done"
       },
       {
         "id": "1.2",
-        "title": "Core Data Models",
-        "description": "Implement SQLAlchemy models for Project, Note, NoteLink, Tag, and NoteVersion with proper relationships and constraints",
-        "status": "pending",
-        "testStrategy": "Unit tests for model validation, relationship integrity, and constraint enforcement"
+        "title": "Implementar operaciones de escritura (writeTasks, updateTask)",
+        "description": "Implementar las funciones para escribir el array completo de tareas al archivo y para actualizar una tarea existente. La escritura debe ser atómica para prevenir corrupción de datos.",
+        "status": "done"
       },
       {
         "id": "1.3",
-        "title": "Database Migration System",
-        "description": "Set up Alembic for database migrations and create initial migration scripts",
-        "status": "pending",
-        "testStrategy": "Test migration up/down operations and schema consistency"
+        "title": "Añadir tests básicos para el TaskEngine",
+        "description": "Crear un archivo de test simple para validar que todas las operaciones de lectura y escritura del TaskEngine funcionan como se espera. Usar un archivo tasks.json de prueba.",
+        "status": "done"
       }
     ]
   },
   {
     "id": "2",
-    "title": "FastAPI Backend Core",
-    "description": "Build FastAPI application structure with Controller-Service-Repository pattern, CRUD operations, validation with Pydantic v2, and error handling",
-    "status": "pending",
+    "title": "Implementar Comandos Básicos",
+    "description": "Crear los comandos fundamentales que usan TaskEngine para operaciones básicas.",
+    "status": "done",
+    "priority": "high",
     "dependencies": [
       "1"
     ],
-    "testStrategy": "Unit tests for services, integration tests for API endpoints, API contract testing",
-    "executionHint": "Multi-layered architecture with controllers, services, repositories, and middleware",
     "subtasks": [
       {
         "id": "2.1",
-        "title": "FastAPI Application Structure",
-        "description": "Set up FastAPI app with proper project structure, dependency injection, middleware, and configuration management",
-        "status": "pending",
-        "testStrategy": "Test application startup, middleware chain, and configuration loading"
+        "title": "Comando 'decode' (list/show)",
+        "description": "Mostrar tareas en formato AI-optimizado.",
+        "status": "done"
       },
       {
         "id": "2.2",
-        "title": "Repository Layer Implementation",
-        "description": "Implement repository pattern for data access with CRUD operations for all entities",
-        "status": "pending",
-        "testStrategy": "Unit tests for repository methods and database interaction patterns"
+        "title": "Comando 'transmit' (pre-flight)",
+        "description": "Generar contexto optimizado para una tarea usando PREFLIGHT_TEMPLATE.md.",
+        "status": "done"
       },
       {
         "id": "2.3",
-        "title": "Service Layer and Business Logic",
-        "description": "Implement service layer with business logic, validation, and entity relationship management",
-        "status": "pending",
-        "testStrategy": "Unit tests for business logic and service method validation"
+        "title": "Comando 'update' (universal)",
+        "description": "Actualizar cualquier campo de una tarea: status, title, description, dependencies, subtasks.",
+        "status": "done"
       },
       {
         "id": "2.4",
-        "title": "API Controllers and Endpoints",
-        "description": "Create REST API endpoints for projects and notes with proper HTTP status codes and response formatting",
-        "status": "pending",
-        "testStrategy": "Integration tests for all endpoints, request/response validation, error handling"
+        "title": "Comando 'next'",
+        "description": "Identificar la siguiente tarea a implementar basada en dependencias y prioridades.",
+        "status": "done"
+      },
+      {
+        "id": "2.5",
+        "title": "Comando 'validate'",
+        "description": "Validar la integridad del grafo de tareas, con opción --fix para corregir dependencias inválidas.",
+        "status": "done"
       }
     ]
   },
   {
     "id": "3",
-    "title": "React Frontend Foundation",
-    "description": "Build React SPA with TypeScript, Vite build system, routing, state management with Zustand, and API client integration",
-    "status": "pending",
+    "title": "Integración con Claude Code SDK",
+    "description": "Añadir capacidades de IA usando Claude SDK para flujos complejos.",
+    "status": "done",
+    "priority": "medium",
     "dependencies": [
       "2"
     ],
-    "testStrategy": "Component unit tests, routing tests, state management tests, API integration tests",
-    "executionHint": "Frontend application with multiple components, routing, and state management",
+    "executionHint": {
+      "strategy": "supervisor-executor",
+      "parallelizable": true,
+      "estimatedFiles": 6
+    },
     "subtasks": [
       {
         "id": "3.1",
-        "title": "React Project Setup and Configuration",
-        "description": "Initialize React project with Vite, TypeScript configuration, CSS Modules, and development tools",
-        "status": "pending",
-        "testStrategy": "Test build process, TypeScript compilation, and development server"
+        "title": "Crear interfaz AIProvider con collaborativeAnalysis",
+        "description": "Definir src/providers/ai-provider.interface.ts con métodos generateTasks(), expandTask() y collaborativeAnalysis() para análisis multi-perspectiva.",
+        "status": "done"
       },
       {
         "id": "3.2",
-        "title": "Application Layout and Routing",
-        "description": "Implement main layout components, navigation, and React Router setup for SPA navigation",
-        "status": "pending",
-        "testStrategy": "Test routing functionality, layout responsiveness, and navigation behavior"
+        "title": "Implementar ClaudeProvider",
+        "description": "Crear src/providers/claude-provider.ts usando @anthropic-ai/claude-code para implementar la interfaz.",
+        "status": "done"
       },
       {
         "id": "3.3",
-        "title": "State Management and API Client",
-        "description": "Set up Zustand for state management and create API client with interceptors for backend communication",
-        "status": "pending",
-        "testStrategy": "Test state updates, API client methods, error handling, and data synchronization"
+        "title": "Comando 'research' - Investigación multi-perspectiva",
+        "description": "Implementar el comando estrella que usa collaborativeAnalysis para investigar temas con múltiples perspectivas AI, generando síntesis automática.",
+        "status": "done"
+      },
+      {
+        "id": "3.4",
+        "title": "Comando 'setup-project' con IA",
+        "description": "Implementar comando que use ClaudeProvider para generar tareas desde un PRD.",
+        "status": "done"
+      },
+      {
+        "id": "3.5",
+        "title": "Comando 'expand' con IA",
+        "description": "Implementar comando que use ClaudeProvider para descomponer tareas complejas y generar descripciones detalladas/estrategias de testing.",
+        "status": "done",
+        "subtasks": [
+          {
+            "id": "3.5.1",
+            "title": "Create expand command structure",
+            "description": "Implement the basic expand command in src/commands/expand.ts following the pattern of existing commands (decode, transmit, update). The command should accept a task ID as argument, validate it exists using TaskEngine, and prepare the task data for AI expansion. Include proper error handling for invalid task IDs.",
+            "status": "done"
+          },
+          {
+            "id": "3.5.2",
+            "title": "Integrate ClaudeProvider for task expansion",
+            "description": "Connect the expand command to ClaudeProvider to decompose complex tasks into subtasks. Use the existing ClaudeProvider instance, create a prompt template that includes the task details and context (parent/sibling tasks), and process the AI response to generate an array of subtask objects with proper IDs (e.g., 1.2.1, 1.2.2 for task 1.2).",
+            "status": "done",
+            "dependencies": [
+              "3.5.1"
+            ]
+          },
+          {
+            "id": "3.5.3",
+            "title": "Save expanded subtasks and display results",
+            "description": "Implement the logic to save the AI-generated subtasks back to tasks.json using TaskEngine, ensuring proper nesting under the parent task. Display the expansion results in a clear, AI-consumable format showing the new subtask hierarchy. Handle edge cases like tasks that already have subtasks (prompt for confirmation to replace).",
+            "status": "done",
+            "dependencies": [
+              "3.5.2"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "3.6",
+        "title": "Añadir flag --perspective a comandos existentes",
+        "description": "EVALUADO: Tras analizar el valor del flag --perspective en otros comandos, se determinó que no aporta beneficio real más allá del comando research donde ya está implementado. La naturaleza determinista de transmit, validate y expand no se beneficia de perspectivas opcionales.",
+        "status": "done"
+      },
+      {
+        "id": "3.7",
+        "title": "Externalizar y Versionar Plantillas de Prompts",
+        "description": "Refactorizar ClaudeProvider para cargar las plantillas de prompts desde archivos .md externos en un directorio src/providers/prompts/. Esto permitirá el versionado con Git y facilitará la experimentación.",
+        "status": "done",
+        "priority": "medium"
       }
     ]
   },
   {
     "id": "4",
-    "title": "Note Editor and Management UI",
-    "description": "Implement markdown editor with auto-save, note listing with virtualization, project management interface, and basic CRUD operations",
-    "status": "pending",
+    "title": "Sistema Multi-Proveedor (Futuro)",
+    "description": "Expandir para soportar múltiples proveedores de IA como Gemini.",
+    "status": "done",
+    "priority": "low",
     "dependencies": [
       "3"
     ],
-    "testStrategy": "Component testing for editor, user interaction tests, auto-save functionality tests",
-    "executionHint": "Complex UI components with editor integration and real-time features",
     "subtasks": [
       {
         "id": "4.1",
-        "title": "Markdown Editor Integration",
-        "description": "Integrate CodeMirror or Monaco editor with markdown support, syntax highlighting, and auto-save functionality",
-        "status": "pending",
-        "testStrategy": "Test editor functionality, auto-save behavior, and markdown rendering"
+        "title": "Implementar GeminiProvider",
+        "description": "NO IMPLEMENTADO: Gemini CLI no está disponible actualmente. El foco se mantiene en la optimización y pulido del SDK de Claude Code que ya está funcionando perfectamente.",
+        "status": "done"
       },
       {
         "id": "4.2",
-        "title": "Notes List and Management",
-        "description": "Create virtualized notes list component with filtering, sorting, and CRUD operations",
-        "status": "pending",
-        "testStrategy": "Test list performance, filtering logic, and CRUD operations"
+        "title": "Sistema de selección de proveedor",
+        "description": "NO NECESARIO: Solo tenemos Claude Provider disponible, por lo que no hay necesidad de un sistema de selección. El sistema usa Claude por defecto.",
+        "status": "done"
       },
       {
         "id": "4.3",
-        "title": "Project Management Interface",
-        "description": "Build project creation, editing, and management components with color and icon selection",
-        "status": "pending",
-        "testStrategy": "Test project CRUD operations, UI interactions, and form validation"
+        "title": "Modo colaborativo experimental",
+        "description": "NO APLICABLE: Sin múltiples proveedores disponibles, no es posible implementar comparación de resultados.",
+        "status": "done"
       }
     ]
   },
   {
     "id": "5",
-    "title": "Full-Text Search Implementation",
-    "description": "Implement SQLite FTS5 search engine with indexing, real-time search UI with debouncing, result ranking, and filtering capabilities",
-    "status": "pending",
+    "title": "Implementar Pipeline de IA Heterogéneo (Multi-Modelo)",
+    "description": "POSPUESTO: Optimización prematura. Mejor implementar cuando el sistema esté completo y tengamos métricas reales de uso para tomar decisiones informadas.",
+    "status": "done",
+    "priority": "medium",
     "dependencies": [
-      "4"
+      "3"
     ],
-    "testStrategy": "Search accuracy tests, performance benchmarks, UI interaction tests",
-    "executionHint": "Search system with database indexing and real-time UI components",
     "subtasks": [
       {
         "id": "5.1",
-        "title": "FTS5 Search Engine Setup",
-        "description": "Configure SQLite FTS5 with triggers for automatic indexing of notes content and implement search ranking algorithms",
-        "status": "pending",
-        "testStrategy": "Test search accuracy, indexing performance, and ranking quality"
+        "title": "Diseñar arquitectura de pipeline multi-modelo",
+        "description": "POSPUESTO: Parte del pipeline multi-modelo que se implementará en el futuro.",
+        "status": "done"
       },
       {
         "id": "5.2",
-        "title": "Search API and Backend Logic",
-        "description": "Implement search endpoints with filtering, faceting, and result highlighting capabilities",
-        "status": "pending",
-        "testStrategy": "Test search API endpoints, filtering logic, and result formatting"
+        "title": "Implementar selección dinámica de modelos",
+        "description": "POSPUESTO: Parte del pipeline multi-modelo que se implementará en el futuro.",
+        "status": "done"
       },
       {
         "id": "5.3",
-        "title": "Search UI and User Experience",
-        "description": "Create search interface with real-time results, debouncing, filters, and result highlighting",
-        "status": "pending",
-        "testStrategy": "Test search UI responsiveness, debouncing behavior, and user interaction flows"
+        "title": "Optimizar collaborativeAnalysis con pipeline heterogéneo",
+        "description": "POSPUESTO: Parte del pipeline multi-modelo que se implementará en el futuro.",
+        "status": "done"
+      },
+      {
+        "id": "5.4",
+        "title": "Añadir métricas de rendimiento y coste",
+        "description": "POSPUESTO: Parte del pipeline multi-modelo que se implementará en el futuro.",
+        "status": "done"
       }
     ]
   },
   {
     "id": "6",
-    "title": "Bidirectional Links and Knowledge Graph",
-    "description": "Implement wikilink parsing system, automatic backlink calculation, link navigation UI, and relationship visualization",
-    "status": "pending",
+    "title": "Implementar Comando 'add-task'",
+    "description": "Crear un nuevo comando 'cypher add-task' que permita añadir una nueva tarea de alto nivel al tasks.json desde la CLI. Debe soportar parámetros para id, title, description, y priority.",
+    "status": "done",
+    "priority": "high",
     "dependencies": [
-      "5"
+      "1"
     ],
-    "testStrategy": "Link parsing tests, backlink accuracy tests, navigation functionality tests",
-    "executionHint": "Complex parsing and relationship management system with UI components",
     "subtasks": [
       {
         "id": "6.1",
-        "title": "Wikilink Parser and Link Detection",
-        "description": "Implement real-time parser for [[Note Title]] syntax with auto-completion and link validation",
-        "status": "pending",
-        "testStrategy": "Test parsing accuracy, edge cases, and real-time detection"
+        "title": "Diseñar interface CLI para add-task",
+        "description": "✅ COMPLETADO: Interface CLI implementada con argumentos posicionales (id, title, description) y flags opcionales (-p priority, -d dependencies).",
+        "status": "done"
       },
       {
         "id": "6.2",
-        "title": "Backlink Calculation and Storage",
-        "description": "Implement automatic backlink calculation, storage in NoteLink model, and relationship updates",
-        "status": "pending",
-        "testStrategy": "Test backlink accuracy, relationship integrity, and update propagation"
+        "title": "Implementar lógica de validación",
+        "description": "✅ COMPLETADO: Validación completa implementada - ID único, dependencias válidas, campos requeridos, formato de ID y prioridad.",
+        "status": "done"
       },
       {
         "id": "6.3",
-        "title": "Link Navigation and Backlinks UI",
-        "description": "Create UI components for displaying backlinks, navigating between linked notes, and relationship visualization",
-        "status": "pending",
-        "testStrategy": "Test link navigation, UI responsiveness, and relationship display accuracy"
+        "title": "Integrar con TaskEngine",
+        "description": "✅ COMPLETADO: Integración con TaskEngine.addTask() implementada, mantiene integridad del archivo tasks.json.",
+        "status": "done"
       }
     ]
   },
   {
     "id": "7",
-    "title": "Tagging System and Organization",
-    "description": "Implement hierarchical tag system with auto-completion, tag management UI, filtering capabilities, and tag cloud visualization",
+    "title": "Optimización Iterativa del Sistema Cypher",
+    "description": "Ejecutar análisis iterativo de mejora continua sobre cada comando de Cypher. Identificar fricciones en UX, optimizar outputs para consumo AI, refinar flujos de trabajo y refactorizar basándose en hallazgos reales de uso. Enfoque en mejora y refinamiento, no en testing básico.",
     "status": "pending",
+    "priority": "low",
     "dependencies": [
-      "6"
+      "3.5"
     ],
-    "testStrategy": "Tag hierarchy tests, auto-completion accuracy tests, filtering functionality tests",
     "subtasks": [
       {
+        "id": "7.0",
+        "title": "Implementar actualizaciones batch para eliminar fricción",
+        "description": "Crear soporte para --json flag en comando update que permita actualizaciones atómicas de múltiples campos incluyendo subtareas. Eliminar la necesidad de múltiples comandos separados para operaciones relacionadas.",
+        "status": "done"
+      },
+      {
         "id": "7.1",
-        "title": "Hierarchical Tag Data Model",
-        "description": "Implement tag hierarchy with parent-child relationships and usage count tracking",
-        "status": "pending",
-        "testStrategy": "Test tag hierarchy integrity, usage count accuracy, and relationship queries"
+        "title": "Análisis y Optimización: Comandos Core (next, decode)",
+        "description": "Ejecutar flujo next→decode en escenarios reales. Analizar fricciones en UX, evaluar calidad de outputs para consumo AI. FRICCIÓN DETECTADA: decode necesita filtros avanzados (--filter status=pending). OPTIMIZACIÓN: Añadir queries complejas y proyecciones (--fields id,title,status). PRINCIPIO: Minimizar llamadas para obtener información específica.",
+        "status": "pending"
       },
       {
         "id": "7.2",
-        "title": "Tag Auto-completion and Input",
-        "description": "Create tag input component with auto-completion, suggestion ranking, and tag creation workflow",
-        "status": "pending",
-        "testStrategy": "Test auto-completion accuracy, input validation, and tag creation flow"
+        "title": "Análisis y Optimización: Comando Transmit",
+        "description": "Analizar calidad del contexto generado. FRICCIÓN DETECTADA: Solo procesa una tarea, múltiples tareas relacionadas requieren múltiples llamadas. OPTIMIZACIÓN: Añadir --include-subtasks para contexto completo, transmit múltiple (7.1,7.2,7.3). PRINCIPIO: Contexto completo en una llamada reduce tokens y mejora comprensión.",
+        "status": "pending"
       },
       {
         "id": "7.3",
-        "title": "Tag Management and Visualization",
-        "description": "Build tag management interface with tag cloud, filtering by tags, and tag organization tools",
-        "status": "pending",
-        "testStrategy": "Test tag visualization, filtering accuracy, and management operations"
+        "title": "Análisis y Optimización: Comandos Update y Validate",
+        "description": "Evaluar UX de actualizaciones. Update ya optimizado con --json. Validate ya tiene --fix (patrón correcto). FOCUS: Mejorar mensajes de error, añadir --dry-run para preview de cambios. PRINCIPIO: Feedback claro y operaciones seguras.",
+        "status": "pending"
+      },
+      {
+        "id": "7.4",
+        "title": "Análisis y Optimización: Comandos con IA",
+        "description": "Evaluar comandos AI. FRICCIÓN CRÍTICA: add-task solo crea tareas root, requiere update posterior para subtareas. OPTIMIZACIÓN: Añadir --parent flag, --json para batch creation. Research y expand evaluar prompts. PRINCIPIO: Operaciones conceptualmente atómicas deben ser ejecutables atómicamente.",
+        "status": "pending"
+      },
+      {
+        "id": "7.5",
+        "title": "Síntesis y Refactorización: Flujo End-to-End",
+        "description": "Ejecutar flujos completos. Sintetizar patrones de optimización: 1) Batch operations (--json), 2) Filtros y proyecciones, 3) Operaciones atómicas, 4) Contexto expandido. Documentar nueva UI_STRATEGY con estos principios. ENTREGABLE: Guía de optimización para futuros comandos.",
+        "status": "pending"
       }
     ]
   },
   {
     "id": "8",
-    "title": "Application Polish and User Experience",
-    "description": "Implement keyboard shortcuts, theme system, performance optimizations, error handling, and user feedback mechanisms",
+    "title": "[POST-MVP] Implementar el Protocolo Génesis para la Creación de Roles",
+    "description": "Construir las herramientas y artefactos necesarios para que el Orquestador pueda crear, validar e integrar nuevos especialistas de IA en el ecosistema de forma coherente y alineada con la Constitución.",
     "status": "pending",
+    "priority": "medium",
     "dependencies": [
-      "7"
+      "1",
+      "2"
     ],
-    "testStrategy": "User experience tests, performance benchmarks, accessibility testing, error scenario tests",
     "subtasks": [
       {
         "id": "8.1",
-        "title": "Keyboard Shortcuts and Navigation",
-        "description": "Implement comprehensive keyboard shortcut system for navigation, editing, and application control",
-        "status": "pending",
-        "testStrategy": "Test keyboard shortcut functionality, conflict detection, and accessibility"
+        "title": "Revisar y trabajar sobre la idea de la tarea al completo",
+        "description": "Analizar en profundidad la propuesta, la crítica y los artefactos relacionados para refinar el plan de implementación antes de escribir código.",
+        "status": "pending"
       },
       {
         "id": "8.2",
-        "title": "Theme System and Visual Polish",
-        "description": "Implement light/dark theme system with smooth transitions and visual improvements",
-        "status": "pending",
-        "testStrategy": "Test theme switching, visual consistency, and accessibility compliance"
+        "title": "Crear Artefactos Fundacionales",
+        "description": "Escribir y versionar los archivos CONSTITUTION.md y ROLE_GENOME_TEMPLATE.md en docs/cyper_docs/.",
+        "status": "pending"
       },
       {
         "id": "8.3",
-        "title": "Performance Optimization and Error Handling",
-        "description": "Optimize application performance, implement comprehensive error handling, and add user feedback mechanisms",
-        "status": "pending",
-        "testStrategy": "Performance benchmarks, error handling tests, and user feedback validation"
+        "title": "Implementar Comando 'cypher specialize'",
+        "description": "Crear el comando que toma una ruta y una descripción, y utiliza al Orquestador para generar el CLAUDE.md del nuevo especialista a partir del genoma.",
+        "status": "pending"
+      },
+      {
+        "id": "8.4",
+        "title": "Implementar Script de Revisión por Pares",
+        "description": "Crear el script que orquesta la Verificación Socrática, potencialmente invocado por un hook post-uso de 'cypher specialize'.",
+        "status": "pending"
+      },
+      {
+        "id": "8.5",
+        "title": "Implementar Carga de Contexto Jerárquica",
+        "description": "Modificar el núcleo del sistema para que los agentes busquen el contexto (CLAUDE.md/GEMINI.md) desde su directorio actual hacia la raíz.",
+        "status": "pending"
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "title": "[POST-MVP] Implementar la Observabilidad del Ecosistema",
+    "description": "Crear herramientas para visualizar y validar el estado actual del ecosistema de IA, incluyendo los roles existentes y sus relaciones.",
+    "status": "pending",
+    "priority": "medium",
+    "dependencies": [
+      "8"
+    ],
+    "subtasks": [
+      {
+        "id": "9.1",
+        "title": "Revisar y trabajar sobre la idea de la tarea al completo",
+        "description": "Analizar la necesidad de observabilidad y diseñar los comandos y salidas para que sean útiles para el arquitecto humano y el Orquestador.",
+        "status": "pending"
+      },
+      {
+        "id": "9.2",
+        "title": "Implementar Comando 'cypher ecosystem status'",
+        "description": "Crear un comando que escanee el proyecto, identifique todos los especialistas existentes por su archivo de contexto local y los liste.",
+        "status": "pending"
+      },
+      {
+        "id": "9.3",
+        "title": "Implementar Validador de Genoma",
+        "description": "Extender el comando 'status' con un flag --validate que compruebe que cada archivo de contexto de especialista se adhiere a la estructura del ROLE_GENOME_TEMPLATE.md.",
+        "status": "pending"
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "title": "Implementar Context-Driven Development (CDD)",
+    "description": "Implementar persistencia de artefactos CDD en cypher/cdd/. Mejorar transmit para guardar contexto enriquecido. Crear comando 'delegate' que genera contexto + prompt y los persiste antes de delegar. CDD protege contra: over-engineering (contexto restrictivo), interrupciones (artefactos), ambigüedad (prompt preciso). Simple: guardar lo que ya generamos.",
+    "priority": "high",
+    "dependencies": [
+      "1",
+      "2"
+    ],
+    "status": "pending",
+    "subtasks": [
+      {
+        "id": "10.1",
+        "title": "Create CDD artifact directory structure",
+        "description": "Create cypher/cdd/ directory structure for storing CDD artifacts (contexts and prompts). Simple mkdir operations, no complex logic.",
+        "status": "done"
+      },
+      {
+        "id": "10.2",
+        "title": "Enhance transmit to persist context",
+        "description": "Modify transmit command to save generated context to cypher/cdd/<task-id>/context.md. Reuse existing context generation, just add file write.",
+        "status": "done"
+      },
+      {
+        "id": "10.3",
+        "title": "Create delegate command",
+        "description": "New command that generates context + prompt, saves to cypher/cdd/<task-id>/, then outputs delegation command. Build on transmit's context generation.",
+        "status": "done"
+      },
+      {
+        "id": "10.4",
+        "title": "Add CDD artifact loading",
+        "description": "Add function to load existing CDD artifacts from cypher/cdd/<task-id>/ if they exist. Enable resuming work with full context.",
+        "status": "pending"
+      },
+      {
+        "id": "10.5",
+        "title": "Document CDD workflow",
+        "description": "Update CLAUDE.md with CDD workflow: transmit → delegate → persist. Show how artifacts protect against interruptions and ambiguity.",
+        "status": "pending"
       }
     ]
   }
