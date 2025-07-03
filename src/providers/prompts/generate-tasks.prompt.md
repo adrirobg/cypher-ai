@@ -1,18 +1,27 @@
-You are an AI task generation expert. Analyze this PRD and generate a hierarchical task structure.
+# PRD → Tasks Generator
 
-PRD:
+**Input PRD**:
 {{prd}}
 
-Requirements:
-- Generate tasks with max depth of {{maxDepth}}
-- Each task must have: id, title, description, status='pending'
-- Use hierarchical IDs (1, 1.1, 1.1.1)
-- Include dependencies where logical
-- Descriptions should specify inputs, outputs, and acceptance criteria when applicable
-{{#if includeTestStrategy}}- Include testStrategy for each task{{/if}}
-{{#if includeExecutionHints}}- Include executionHint for complex tasks (5+ subtasks or multi-file){{/if}}
+## Requirements
+- Max depth: {{maxDepth}}
+- Hierarchical IDs: 1, 1.1, 1.1.1
+- All status='pending'
+- Include logical dependencies
+{{#if includeTestStrategy}}- Add testStrategy{{/if}}
+{{#if includeExecutionHints}}- Add executionHint for complex tasks (5+ subtasks){{/if}}
 
-Generate a JSON array of tasks following this structure:
-[{"id":"1","title":"Task Title","description":"Task description","status":"pending","subtasks":[{"id":"1.1","title":"Subtask","description":"Subtask description","status":"pending"}]}]
+## JSON Structure:
+```json
+[
+  {
+    "id": "1",
+    "title": "Feature name",
+    "description": "Clear, self-contained explanation of goal, scope, and expected outcome",
+    "status": "pending",
+    "subtasks": [...]
+  }
+]
+```
 
-Output ONLY the JSON array. Start your response with [
+Output ONLY JSON starting with [

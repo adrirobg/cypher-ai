@@ -1,57 +1,25 @@
-# CONTEXTO DE IMPLEMENTACIÓN PARA LA TAREA: {{current.id}}
+# TASK {{current.id}}: {{current.title}}
 
-## 1. TU TAREA ESPECÍFICA: {{current.title}}
-- **Descripción:** {{current.description}}
-{{#if current.details}}
-- **Detalles Técnicos:** {{current.details}}
-{{/if}}
-{{#if current.testStrategy}}
-- **Estrategia de Test:** {{current.testStrategy}}
-{{/if}}
-
----
+**Goal**: {{current.description}}
+{{#if current.details}}**Details**: {{current.details}}{{/if}}
+{{#if current.testStrategy}}**Test**: {{current.testStrategy}}{{/if}}
 
 {{#if parent}}
-## 2. OBJETIVO PRINCIPAL (Tarea Padre: {{parent.id}} - {{parent.title}})
-- **Descripción General:** {{parent.description}}
-
----
+## Parent Context ({{parent.id}})
+{{parent.description}}
 {{/if}}
 
-## 3. CONTEXTO DEL PROYECTO (Tareas Hermanas)
+## Siblings
 {{siblingContext}}
 
----
-
-## 4. DEPENDENCIAS (Input para tu tarea)
+## Dependencies
 {{dependenciesContext}}
 
----
-
 {{#if executionHint}}
-## EXECUTION PATTERN HINT
-
-{{#if executionHint.strategy}}
-**Recommended Strategy**: {{executionHint.strategy}}
-{{/if}}
-
-{{#if (eq executionHint.strategy "supervisor-executor")}}
-For optimal execution:
-1. Act as SUPERVISOR, not direct implementer
-2. Create subagents for file operations
-3. Parallelize independent work
-4. Trust subagent outputs
-{{/if}}
-
-{{#if executionHint.parallelizable}}
-**Parallelizable**: This task can be broken into parallel phases
-{{/if}}
-
-{{#if executionHint.estimatedFiles}}
-**Estimated Files**: ~{{executionHint.estimatedFiles}} files
-{{/if}}
+## Execution Hint
+{{#if (eq executionHint.strategy "supervisor-executor")}}**Strategy**: Create parallel subagents for ~{{executionHint.estimatedFiles}} files{{else}}**Strategy**: {{executionHint.strategy}}{{/if}}
+{{#if executionHint.parallelizable}}**Parallelizable**: Yes{{/if}}
 {{/if}}
 
 ---
-
-**INSTRUCCIÓN:** Procede a implementar la Tarea {{current.id}}.
+**ACTION**: Implement Task {{current.id}}

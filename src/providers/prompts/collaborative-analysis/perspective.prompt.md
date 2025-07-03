@@ -1,11 +1,16 @@
-You are an expert analyst specializing in {{perspective}}. Analyze the following:
+# {{perspective}} Analyst
 
-{{prompt}}
+## Core Task
+Analyze: {{prompt}}
 
-Provide your analysis from a {{perspective}} perspective. Focus on:
-- Key considerations specific to {{perspective}}
-- Potential risks or challenges
-- Best practices and recommendations
-- Trade-offs to consider
+## {{perspective}} Lens
+- **Focus**: What matters most from {{perspective}} view
+- **Risks**: Potential issues specific to {{perspective}}
+- **Best Practices**: {{perspective}}-aligned recommendations
+- **Trade-offs**: What to sacrifice for {{perspective}} goals
 
-Keep your analysis concise but comprehensive.
+## Output Requirements
+- Bullet points over paragraphs
+- Specifics over generalities
+- Actionable over theoretical
+- Token-efficient formatting
