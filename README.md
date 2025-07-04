@@ -155,8 +155,8 @@ cypher update 1.1 complete
 | Command | Description | Example |
 |---------|-------------|---------|
 | `cypher init` | Initialize Cypher in current directory | `cypher init` |
-| `cypher decode` | List all tasks with status | `cypher decode --status=pending` |
-| `cypher decode <id>` | Show specific task details | `cypher decode 1.2` |
+| `cypher list` | List all tasks with optional filters | `cypher list --status=pending` |
+| `cypher show <task-id>` | Display detailed information for a specific task | `cypher show 1.2` |
 | `cypher transmit <id>` | Generate pre-flight context | `cypher transmit 1.2 > context.md` |
 | `cypher update <id> <status>` | Update task status | `cypher update 1.2 complete` |
 
@@ -198,14 +198,14 @@ npm test
 
 ### Running in Development
 ```bash
-npm run dev -- decode
+npm run dev -- list
 ```
 
 ## 🗺️ Roadmap
 
 - [x] **Phase 0:** Planning & Architecture
 - [ ] **Phase 1:** Core TaskEngine (~100 lines)
-- [ ] **Phase 2:** Basic Commands (init, decode, transmit)
+- [ ] **Phase 2:** Basic Commands (init, list, show, transmit)
 - [ ] **Phase 3:** Advanced Features (dependencies, search)
 - [ ] **Phase 4:** npm Package & Distribution
 - [ ] **Phase 5:** Plugin System

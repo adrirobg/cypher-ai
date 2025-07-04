@@ -13,12 +13,12 @@ Este documento detalla el plan de construcción por fases para el sistema de orq
 *   **Anti-Sobreingeniería:** No tendrá caché, ni validación compleja. Será un simple adaptador de sistema de archivos.
 *   **Estado:** ✅ Implementado con tests completos
 
-## Fase 1: Comando Read - `decode` ✅ COMPLETADO
-*   **Objetivo:** Primer comando para validar arquitectura CLI y TaskEngine.
-*   **Artefacto:** `src/commands/decode.ts`
+## Fase 1: Comandos Read - `list` y `show` ✅ COMPLETADO
+*   **Objetivo:** Primeros comandos para validar arquitectura CLI y TaskEngine.
+*   **Artefactos:** `src/commands/list.ts` y `src/commands/show.ts`
 *   **Funcionalidad:**
-    *   `cypher decode` - Listar todas las tareas
-    *   `cypher decode 1.2` - Mostrar tarea específica
+    *   `cypher list` - Listar todas las tareas con filtros opcionales
+    *   `cypher show <task-id>` - Mostrar información detallada de tarea específica
 *   **Output:** Markdown estructurado para consumo AI
 *   **Preparación futura:** Estructura que permita añadir `--perspective`
 *   **Estado:** ✅ Implementado con architecture CLI validada
@@ -86,7 +86,7 @@ Este documento detalla el plan de construcción por fases para el sistema de orq
     *   ⏳ `src/commands/init.ts` - Inicializar cypher/ en proyectos (pendiente)
     *   ✅ `package.json` actualizado con dependencias y scripts
 *   **Funcionalidad implementada:** 
-    *   ✅ `cypher decode/transmit/update/next/validate` - Comandos base
+    *   ✅ `cypher list/show/transmit/update/next/validate` - Comandos base
     *   ✅ `cypher research/setup-project` - Comandos con IA
     *   ✅ CLI completo con help, validación y manejo de errores
 *   **Estado:** ✅ Tool completamente usable localmente, listo para distribución

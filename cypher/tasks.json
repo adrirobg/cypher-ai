@@ -271,7 +271,7 @@
         "id": "7.1",
         "title": "Análisis y Optimización: Comandos Core (next, decode)",
         "description": "Ejecutar flujo next→decode en escenarios reales. Analizar fricciones en UX, evaluar calidad de outputs para consumo AI. FRICCIÓN DETECTADA: decode necesita filtros avanzados (--filter status=pending). OPTIMIZACIÓN: Añadir queries complejas y proyecciones (--fields id,title,status). PRINCIPIO: Minimizar llamadas para obtener información específica.",
-        "status": "in-progress"
+        "status": "done"
       },
       {
         "id": "7.2",
@@ -414,5 +414,15 @@
         "status": "done"
       }
     ]
+  },
+  {
+    "id": "7.1.1",
+    "title": "Reestructuración de Comandos Core",
+    "description": "Implementar la reestructuración completa de comandos basada en el análisis de la tarea 7.1. CAMBIOS: decode→list/show (done), transmit→context, mejorar next para auto-preparar contexto. OBJETIVO: Flujo intuitivo y eficiente para sesiones de trabajo AI. REFERENCIA: Análisis con Gemini y propuesta de optimización.",
+    "priority": "high",
+    "dependencies": [
+      "7.1"
+    ],
+    "status": "pending"
   }
 ]

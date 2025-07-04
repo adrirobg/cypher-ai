@@ -3,7 +3,8 @@
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { decode } from './commands/decode';
+import { list } from './commands/list';
+import { show } from './commands/show';
 import { transmit } from './commands/transmit';
 import { update } from './commands/update';
 import { validate } from './commands/validate';
@@ -26,13 +27,36 @@ program
   .version(packageJson.version);
 
 program
-  .command('decode [task-id]')
-  .description('Display task details or list all tasks')
-  .action(async (taskId?: string) => {
+  .command('list')
+  .description('List tasks with optional filters')
+  .option('-s, --status <status>', 'Filter by status (pending, in-progress, done)')
+  .option('-p, --priority <priority>', 'Filter by priority (low, medium, high)')
+  .option('-f, --fields <fields>', 'Comma-separated list of fields to display')
+  .action(async (options) => {
     try {
-      await decode(taskId);
+      const fields = options.fields 
+        ? options.fields.split(',').map((f: string) => f.trim())
+        : undefined;
+      
+      await list({
+        status: options.status,
+        priority: options.priority,
+        fields
+      });
     } catch (error) {
-      console.error('Error executing decode command:', error);
+      console.error('Error executing list command:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('show <task-id>')
+  .description('Show detailed information for a specific task')
+  .action(async (taskId: string) => {
+    try {
+      await show(taskId);
+    } catch (error) {
+      console.error('Error executing show command:', error);
       process.exit(1);
     }
   });

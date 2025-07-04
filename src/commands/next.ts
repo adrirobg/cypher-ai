@@ -99,12 +99,12 @@ function displayNextTask(task: Task) {
   console.log('### Suggested Actions\n');
   
   if (task.status === 'pending') {
-    console.log(`1. Mark as in-progress: \`cypher update ${task.id} in-progress\``);
+    console.log(`1. Mark as in-progress: \`cypher update ${task.id} status=in-progress\``);
     console.log(`2. Generate context: \`cypher transmit ${task.id}\``);
   } else {
     console.log(`1. Generate context: \`cypher transmit ${task.id}\``);
-    console.log(`2. Complete task: \`cypher update ${task.id} done\``);
+    console.log(`2. Complete task: \`cypher update ${task.id} status=done\``);
   }
   
-  console.log(`3. View full details: \`cypher decode ${task.id}\``);
+  console.log(`3. View full details: \`cypher show ${task.id}\``);
 }

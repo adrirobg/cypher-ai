@@ -11,8 +11,11 @@
 ## Quick Start
 
 ```bash
-# See pending tasks
-npx tsx src/cli.ts decode
+# List all tasks
+npx tsx src/cli.ts list
+
+# Show detailed task information
+npx tsx src/cli.ts show <task-id>
 
 # Get task context
 npx tsx src/cli.ts transmit <task-id>
