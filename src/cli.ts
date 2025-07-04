@@ -12,6 +12,7 @@ import { research } from './commands/research';
 import { setupProject } from './commands/setup-project';
 import { expand } from './commands/expand';
 import { addTask } from './commands/add-task';
+import { delegate } from './commands/delegate';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -51,22 +52,33 @@ program
 program
   .command('update <task-id> [updates...]')
   .description('Update task properties (e.g., status=done priority=high)')
-  .action(async (taskId: string, updates: string[]) => {
+  .option('--json <json>', 'JSON string with batch updates')
+  .action(async (taskId: string, updates: string[], options) => {
     try {
-      // Parse key=value pairs into an object
-      const updateObject: Record<string, string> = {};
+      let updateObject: Record<string, any> = {};
       
-      for (const update of updates) {
-        const [key, value] = update.split('=');
-        if (key && value) {
-          updateObject[key] = value;
-        } else {
-          console.error(`Invalid update format: ${update}. Use key=value format.`);
+      if (options.json) {
+        // Parse JSON batch updates
+        try {
+          updateObject = JSON.parse(options.json);
+        } catch (error) {
+          console.error(`Invalid JSON format: ${error instanceof Error ? error.message : 'Unknown error'}`);
           process.exit(1);
+        }
+      } else {
+        // Parse key=value pairs into an object
+        for (const update of updates) {
+          const [key, value] = update.split('=');
+          if (key && value) {
+            updateObject[key] = value;
+          } else {
+            console.error(`Invalid update format: ${update}. Use key=value format.`);
+            process.exit(1);
+          }
         }
       }
       
-      await update(taskId, updateObject);
+      await update(taskId, updateObject, { isJsonBatch: !!options.json });
     } catch (error) {
       console.error('Error executing update command:', error);
       process.exit(1);
@@ -179,6 +191,18 @@ program
       });
     } catch (error) {
       console.error('Error executing add-task command:', error);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('delegate <task-id>')
+  .description('Generate CDD context and prompt for delegation')
+  .action(async (taskId: string) => {
+    try {
+      await delegate(taskId);
+    } catch (error) {
+      console.error('Error executing delegate command:', error);
       process.exit(1);
     }
   });

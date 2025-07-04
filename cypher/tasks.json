@@ -271,7 +271,7 @@
         "id": "7.1",
         "title": "Análisis y Optimización: Comandos Core (next, decode)",
         "description": "Ejecutar flujo next→decode en escenarios reales. Analizar fricciones en UX, evaluar calidad de outputs para consumo AI. FRICCIÓN DETECTADA: decode necesita filtros avanzados (--filter status=pending). OPTIMIZACIÓN: Añadir queries complejas y proyecciones (--fields id,title,status). PRINCIPIO: Minimizar llamadas para obtener información específica.",
-        "status": "pending"
+        "status": "in-progress"
       },
       {
         "id": "7.2",
@@ -381,7 +381,7 @@
       "1",
       "2"
     ],
-    "status": "pending",
+    "status": "done",
     "subtasks": [
       {
         "id": "10.1",
@@ -405,13 +405,13 @@
         "id": "10.4",
         "title": "Add CDD artifact loading",
         "description": "Add function to load existing CDD artifacts from cypher/cdd/<task-id>/ if they exist. Enable resuming work with full context.",
-        "status": "pending"
+        "status": "done"
       },
       {
         "id": "10.5",
         "title": "Document CDD workflow",
         "description": "Update CLAUDE.md with CDD workflow: transmit → delegate → persist. Show how artifacts protect against interruptions and ambiguity.",
-        "status": "pending"
+        "status": "done"
       }
     ]
   }

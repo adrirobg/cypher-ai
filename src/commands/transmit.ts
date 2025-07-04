@@ -1,6 +1,7 @@
 import { TaskEngine, Task } from '../core/TaskEngine';
 import { PromptManager } from '../utils/PromptManager';
 import * as path from 'path';
+import * as fs from 'fs-extra';
 
 async function getParentTask(taskId: string, tasks: Task[]): Promise<Task | null> {
   for (const task of tasks) {
@@ -53,7 +54,21 @@ export async function transmit(taskId: string): Promise<void> {
       executionHint: task.executionHint
     });
     
-    console.log(output);
+    // Save context to CDD artifacts
+    try {
+      const cddDir = path.resolve(process.cwd(), 'cypher/cdd', taskId);
+      await fs.ensureDir(cddDir);
+      
+      const contextPath = path.join(cddDir, 'context.md');
+      await fs.writeFile(contextPath, output, 'utf8');
+      
+      console.log(`# Context Generated for Task ${taskId}\n`);
+      console.log(`📁 **Saved to:** \`${contextPath}\`\n`);
+      console.log(output);
+    } catch (saveError: any) {
+      console.log(`# Warning: Could not save context to file: ${saveError.message}\n`);
+      console.log(output);
+    }
   } catch (error: any) {
     console.log(`# Error\n\n${error.message}`);
   }

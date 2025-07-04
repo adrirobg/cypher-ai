@@ -39,3 +39,7 @@ Thumbs.db
 
 # Reference repositories
 /references
+
+# Cypher development directory
+/cypher/cdd
+/cypher/cdd/*

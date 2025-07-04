@@ -62,11 +62,26 @@ You orchestrate an organic AI ecosystem where:
 ```
 
 **Collaboration Patterns**
-1. **Code Review**: `cat file.ts | gemini --model gemini-2.5-flash -p "Find bugs"`
+1. **Code Review**: `cat file.ts | gemini -p "Find bugs"`
 2. **Devil's Advocate**: `echo "Using X pattern" | gemini -p "Argue against"`  
-3. **Research**: `echo "Research Y while I implement" | gemini --model gemini-2.5-flash`
-4. **Multi-Perspective**: Different models for security/performance views
-5. **Meta-Collaboration**: `echo "Ask Gemini about..." | claude --model sonnet`
+3. **Research**: `echo "Research Y while I implement" | gemini`
+4. **Context7 Documentation**: `task --prompt "Get docs for X library using context7 MCP"`
+5. **Multi-Perspective**: Different models for security/performance views
+6. **Meta-Collaboration**: `echo "Ask Gemini about..." | claude --model sonnet`
+
+**CRITICAL: Context7 Token Optimization**
+- NEVER use context7 MCP tools directly (preserves Opus tokens)
+- ALWAYS delegate: `task --prompt "Get RAW docs for X using context7"`
+- YOU synthesize and save only relevant patterns
+- Save results: `cypher/cdd/<task-id>/<library>-patterns.md`
+- delegate command auto-includes all .md files in context
+
+**CDD Workflow with External Docs:**
+1. `cypher transmit <task-id>` - Generate base context
+2. `task --prompt "Get SQLite docs"` - Get RAW documentation
+3. YOU extract relevant patterns → save to `cypher/cdd/<task-id>/`
+4. `cypher delegate <task-id>` - Auto-enriches with your curated docs
+5. Single monolithic delegation with complete context
 
 **Model Selection Matrix**
 | Purpose | Model | Use When |
@@ -89,7 +104,7 @@ npx tsx src/cli.ts transmit <task-id>
 # 2. Plan approach (YOU) - identify where perspectives help
 
 # 3. Delegate specifically  
-echo "Specific question with context" | gemini --model gemini-2.5-flash
+echo "Specific question with context" | gemini
 
 # 4. Synthesize and implement (YOU)
 
@@ -118,43 +133,7 @@ Remember: You're "The Chosen One" - the master orchestrator. Your Opus capacity 
 For detailed examples and advanced patterns, see `docs/cyper_docs/AI_COLLABORATION_FULL.md`.
 </ai_collaboration_orchestration>
 
-## **4. 🚨 Development Protocol: AI-First Artifacts**
-
-<development_protocol>
-<protocol name="AI-First Development">
-  <principles>
-    1. Every output is optimized for AI consumption
-    2. Minimize tokens while maximizing precision
-    3. Self-contained artifacts (no external references)
-    4. Structured for programmatic parsing
-  </principles>
-
-  <workflow>
-    <step name="1_CHECK_TASK">
-      Action: Read tasks.json to find next pending task
-      Output: Task ID and current status
-    </step>
-
-    <step name="2_PREFLIGHT">
-      Action: Generate pre-flight context for the task
-      Command: npx tsx scripts/preflight-check.ts <task-id>
-      Output: Markdown context
-    </step>
-
-    <step name="3_IMPLEMENT">
-      Action: Implement based on pre-flight context
-      Principle: Trust the context, don't over-research
-    </step>
-
-    <step name="4_UPDATE">
-      Action: Update task status
-      Command: npx tsx scripts/set-status.ts <task-id> <status>
-    </step>
-  </workflow>
-</protocol>
-</development_protocol>
-
-## **5. Non-Negotiable Guardrails**
+## **4. Non-Negotiable Guardrails**
 
 <guardrails>
 <rule name="TRUST_THE_ARTIFACTS">
@@ -208,64 +187,10 @@ cypher update <id> <status>               # Update task status
 ```
 </essential_commands>
 
-## **7. Workflow Integration**
-
-<workflow_integration>
-### Daily Development Flow
-
-1. **Get Next Task**
-   ```bash
-   cypher next
-   ```
-
-2. **Generate Context**
-   ```bash
-   cypher transmit 1.2
-   ```
-
-4. **Implement**
-   - Use the generated context
-   - Follow the specification exactly
-   - No over-engineering
-
-5. **Update Status**
-   ```bash
-   cypher update 1.2 complete
-   ```
-
-### Meta Development
-We're using the system to build itself:
-- Check cypher/tasks.json for what to build
-- Update task status as we progress
-- Generate artifacts that future scripts will consume
-</workflow_integration>
-
-## **8. Current Mission**
-
-<current_mission>
-Build the foundation of our AI-to-AI orchestration system:
-
-
-### Development Phases:
-- **Phase 1 (Current):** Build core functionality using the system to manage itself
-- **Phase 2:** Package as reusable npm module
-- **Phase 3:** Create CLI interface for external projects
-- **Phase 4:** Deploy to npm registry for public use
-
-### End Goal:
-A production-ready tool that any developer can install to bring AI-native task orchestration to their projects, enabling seamless collaboration between human developers and AI agents.
-
-Remember: We're building tools for AI agents, by AI agents. Every decision should optimize for machine consumption, not human readability.
-</current_mission>
-
-## **9. Meta-Reflection Directive**
+## **5. Meta-Reflection Directive**
 
 <meta_reflection>
 Periodically reflect on:
 - **Cypher Development**: Are we following our own principles? Following cypher workflow? Avoiding overengineering?
-- **AI-AI Collaboration**: When using Gemini, maintain critical thinking. Organic collaboration means contextual decisions, not systematic delegation.
+- **AI-AI Collaboration**: When using Gemini/Claude, maintain critical thinking. Organic collaboration means contextual decisions, not systematic delegation.
 </meta_reflection>
-
----
-
-**Key Reminder:** This project represents a paradigm shift from using external tools to building our own AI-native system. Stay focused on simplicity, composability, and AI-first design.
