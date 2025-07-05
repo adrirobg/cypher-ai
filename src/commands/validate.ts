@@ -1,4 +1,5 @@
 import { TaskEngine, Task } from '../core/TaskEngine';
+import { TaskQueries } from '../core/TaskQueries';
 
 interface ValidationIssue {
   type: 'duplicate_id' | 'invalid_dependency' | 'circular_dependency' | 'missing_field';
@@ -9,87 +10,49 @@ interface ValidationIssue {
 }
 
 function collectAllTaskIds(tasks: Task[]): Set<string> {
-  const ids = new Set<string>();
-  
-  const collectRecursive = (taskList: Task[]): void => {
-    taskList.forEach(task => {
-      ids.add(task.id);
-      if (task.subtasks?.length) {
-        collectRecursive(task.subtasks);
-      }
-    });
-  };
-  
-  collectRecursive(tasks);
-  return ids;
+  return new Set(TaskQueries.getAllIds(tasks));
 }
 
 function findDuplicateIds(tasks: Task[]): ValidationIssue[] {
-  const issues: ValidationIssue[] = [];
-  const seenIds = new Set<string>();
-  
-  const checkRecursive = (taskList: Task[]): void => {
-    taskList.forEach(task => {
-      if (seenIds.has(task.id)) {
-        issues.push({
-          type: 'duplicate_id',
-          taskId: task.id,
-          message: `Duplicate task ID found: ${task.id}`,
-          fixable: false
-        });
-      }
-      seenIds.add(task.id);
-      if (task.subtasks?.length) {
-        checkRecursive(task.subtasks);
-      }
-    });
-  };
-  
-  checkRecursive(tasks);
-  return issues;
+  const duplicates = TaskQueries.findDuplicateIds(tasks);
+  return duplicates.map(id => ({
+    type: 'duplicate_id' as const,
+    taskId: id,
+    message: `Duplicate task ID found: ${id}`,
+    fixable: false
+  }));
 }
 
 function checkInvalidDependencies(tasks: Task[], validIds: Set<string>): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
+  const allTasks = TaskQueries.flatten(tasks);
   
-  const checkRecursive = (taskList: Task[]): void => {
-    taskList.forEach(task => {
-      if (task.dependencies?.length) {
-        const invalidDeps = task.dependencies.filter(dep => !validIds.has(dep));
-        if (invalidDeps.length > 0) {
-          issues.push({
-            type: 'invalid_dependency',
-            taskId: task.id,
-            message: `Task ${task.id} has invalid dependencies: ${invalidDeps.join(', ')}`,
-            fixable: true,
-            details: { invalidDeps }
-          });
-        }
+  allTasks.forEach(task => {
+    if (task.dependencies?.length) {
+      const invalidDeps = task.dependencies.filter(dep => !validIds.has(dep));
+      if (invalidDeps.length > 0) {
+        issues.push({
+          type: 'invalid_dependency',
+          taskId: task.id,
+          message: `Task ${task.id} has invalid dependencies: ${invalidDeps.join(', ')}`,
+          fixable: true,
+          details: { invalidDeps }
+        });
       }
-      if (task.subtasks?.length) {
-        checkRecursive(task.subtasks);
-      }
-    });
-  };
+    }
+  });
   
-  checkRecursive(tasks);
   return issues;
 }
 
 function checkCircularDependencies(tasks: Task[]): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
+  const allTasks = TaskQueries.flatten(tasks);
   const taskMap = new Map<string, Task>();
   
-  const buildTaskMap = (taskList: Task[]): void => {
-    taskList.forEach(task => {
-      taskMap.set(task.id, task);
-      if (task.subtasks?.length) {
-        buildTaskMap(task.subtasks);
-      }
-    });
-  };
-  
-  buildTaskMap(tasks);
+  allTasks.forEach(task => {
+    taskMap.set(task.id, task);
+  });
   
   const checkCycle = (taskId: string, visited: Set<string>, path: string[]): boolean => {
     if (visited.has(taskId)) {
@@ -127,30 +90,25 @@ function checkCircularDependencies(tasks: Task[]): ValidationIssue[] {
 
 function checkRequiredFields(tasks: Task[]): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
+  const allTasks = TaskQueries.flatten(tasks);
   
-  const checkRecursive = (taskList: Task[]): void => {
-    taskList.forEach(task => {
-      if (!task.id || !task.title || !task.description || !task.status) {
-        const missing = [];
-        if (!task.id) missing.push('id');
-        if (!task.title) missing.push('title');
-        if (!task.description) missing.push('description');
-        if (!task.status) missing.push('status');
-        
-        issues.push({
-          type: 'missing_field',
-          taskId: task.id || 'unknown',
-          message: `Task missing required fields: ${missing.join(', ')}`,
-          fixable: false
-        });
-      }
-      if (task.subtasks?.length) {
-        checkRecursive(task.subtasks);
-      }
-    });
-  };
+  allTasks.forEach(task => {
+    if (!task.id || !task.title || !task.description || !task.status) {
+      const missing = [];
+      if (!task.id) missing.push('id');
+      if (!task.title) missing.push('title');
+      if (!task.description) missing.push('description');
+      if (!task.status) missing.push('status');
+      
+      issues.push({
+        type: 'missing_field',
+        taskId: task.id || 'unknown',
+        message: `Task missing required fields: ${missing.join(', ')}`,
+        fixable: false
+      });
+    }
+  });
   
-  checkRecursive(tasks);
   return issues;
 }
 

@@ -1,22 +1,8 @@
 import { TaskEngine, Task } from '../core/TaskEngine';
+import { TaskQueries } from '../core/TaskQueries';
 import { PromptManager } from '../utils/PromptManager';
 import * as path from 'path';
 import * as fs from 'fs-extra';
-
-async function getParentTask(taskId: string, tasks: Task[]): Promise<Task | null> {
-  for (const task of tasks) {
-    if (task.subtasks) {
-      for (const subtask of task.subtasks) {
-        if (subtask.id === taskId) return task;
-        if (subtask.subtasks) {
-          const found = await getParentTask(taskId, subtask.subtasks);
-          if (found) return found;
-        }
-      }
-    }
-  }
-  return null;
-}
 
 function generatePrompt(task: Task, context: string): string {
   return `# Implementation Guide for Task ${task.id}: ${task.title}
@@ -109,11 +95,11 @@ export async function delegate(taskId: string): Promise<void> {
     }
     
     const tasks = await engine.readTasks();
-    const parentTask = await getParentTask(taskId, tasks);
+    const parentTask = TaskQueries.getParent(tasks, taskId);
     
     let siblingContext = '';
     if (parentTask) {
-      const siblings = parentTask.subtasks?.filter(t => t.id !== taskId) || [];
+      const siblings = TaskQueries.getSiblings(tasks, taskId);
       siblingContext = siblings.length > 0
         ? siblings.map(s => `- **${s.id} - ${s.title}** (Status: ${s.status})`).join('\n')
         : '- **No hay tareas hermanas.** Esta es la única subtarea.';

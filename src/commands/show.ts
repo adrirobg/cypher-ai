@@ -1,4 +1,5 @@
 import { TaskEngine, Task } from '../core/TaskEngine';
+import { TaskQueries } from '../core/TaskQueries';
 
 async function formatTaskDetail(task: Task, allTasks: Task[]): Promise<string> {
   const lines: string[] = [];
@@ -11,11 +12,7 @@ async function formatTaskDetail(task: Task, allTasks: Task[]): Promise<string> {
   
   // Check if task is ready to work on
   if (task.status === 'pending' || task.status === 'in-progress') {
-    const isBlocked = task.dependencies?.some(depId => {
-      const dep = findTaskById(allTasks, depId);
-      return dep && dep.status !== 'done';
-    });
-    
+    const isBlocked = TaskQueries.isBlocked(task, allTasks);
     statusLine += isBlocked ? ' | **Blocked**' : ' | **Ready**';
   }
   
@@ -31,9 +28,9 @@ async function formatTaskDetail(task: Task, allTasks: Task[]): Promise<string> {
   if (task.dependencies?.length) {
     lines.push(`\n### Dependencies`);
     task.dependencies.forEach(depId => {
-      const dep = findTaskById(allTasks, depId);
+      const dep = TaskQueries.findById(allTasks, depId);
       if (dep) {
-        const status = dep.status === 'done' ? '✓' : dep.status === 'in-progress' ? '▶' : '○';
+        const status = dep.status === 'done' ? 'x' : dep.status === 'in-progress' ? '>' : ' ';
         lines.push(`- [${status}] **${dep.id}** - ${dep.title}`);
       } else {
         lines.push(`- [?] **${depId}** - *Not found*`);
@@ -42,12 +39,9 @@ async function formatTaskDetail(task: Task, allTasks: Task[]): Promise<string> {
   }
   
   // Parent context
-  const parentId = task.id.includes('.') ? task.id.substring(0, task.id.lastIndexOf('.')) : null;
-  if (parentId) {
-    const parent = findTaskById(allTasks, parentId);
-    if (parent) {
-      lines.push(`\n### Parent Task\n**${parent.id}** - ${parent.title}`);
-    }
+  const parent = TaskQueries.getParent(allTasks, task.id);
+  if (parent) {
+    lines.push(`\n### Parent Task\n**${parent.id}** - ${parent.title}`);
   }
   
   // Blocks which tasks
@@ -93,8 +87,8 @@ async function formatTaskDetail(task: Task, allTasks: Task[]): Promise<string> {
     lines.push(`**Progress:** ${done}/${task.subtasks.length} completed | ${inProgress} in-progress | ${pending} pending\n`);
     
     task.subtasks.forEach(subtask => {
-      const icon = subtask.status === 'done' ? '✓' : 
-                   subtask.status === 'in-progress' ? '▶' : ' ';
+      const icon = subtask.status === 'done' ? 'x' : 
+                   subtask.status === 'in-progress' ? '>' : ' ';
       lines.push(`- [${icon}] **${subtask.id}** - ${subtask.title}`);
     });
   }
@@ -104,7 +98,7 @@ async function formatTaskDetail(task: Task, allTasks: Task[]): Promise<string> {
   if (task.status === 'done') {
     lines.push(`Task completed. No action needed.`);
   } else if (task.dependencies?.some(depId => {
-    const dep = findTaskById(allTasks, depId);
+    const dep = TaskQueries.findById(allTasks, depId);
     return dep && dep.status !== 'done';
   })) {
     lines.push(`Wait for dependencies to complete before starting.`);
@@ -119,31 +113,10 @@ async function formatTaskDetail(task: Task, allTasks: Task[]): Promise<string> {
   return lines.join('\n');
 }
 
-function findTaskById(tasks: Task[], id: string): Task | undefined {
-  for (const task of tasks) {
-    if (task.id === id) return task;
-    if (task.subtasks) {
-      const found = findTaskById(task.subtasks, id);
-      if (found) return found;
-    }
-  }
-  return undefined;
-}
-
 function findTasksBlockedBy(tasks: Task[], blockerId: string): Task[] {
-  const blocked: Task[] = [];
-  
-  const checkTask = (task: Task) => {
-    if (task.dependencies?.includes(blockerId) && task.status !== 'done') {
-      blocked.push(task);
-    }
-    if (task.subtasks) {
-      task.subtasks.forEach(checkTask);
-    }
-  };
-  
-  tasks.forEach(checkTask);
-  return blocked;
+  return TaskQueries.findDependents(tasks, blockerId).filter(
+    task => task.status !== 'done'
+  );
 }
 
 export async function show(taskId: string): Promise<void> {

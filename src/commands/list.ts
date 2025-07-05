@@ -1,4 +1,5 @@
 import { TaskEngine, Task } from '../core/TaskEngine';
+import { TaskQueries } from '../core/TaskQueries';
 
 interface ListOptions {
   status?: string;
@@ -7,56 +8,22 @@ interface ListOptions {
 }
 
 function filterTasks(tasks: Task[], options: ListOptions): Task[] {
-  const filtered: Task[] = [];
-  
-  const processTask = (task: Task) => {
-    let matches = true;
-    
-    if (options.status && task.status !== options.status) {
-      matches = false;
-    }
-    
-    if (options.priority && task.priority !== options.priority) {
-      matches = false;
-    }
-    
-    if (matches) {
-      filtered.push(task);
-    }
-    
-    // Always process subtasks
-    if (task.subtasks?.length) {
-      task.subtasks.forEach(processTask);
-    }
-  };
-  
-  tasks.forEach(processTask);
-  return filtered;
+  return TaskQueries.filter(tasks, (task) => {
+    if (options.status && task.status !== options.status) return false;
+    if (options.priority && task.priority !== options.priority) return false;
+    return true;
+  });
 }
 
 function formatTaskList(tasks: Task[], allTasks: Task[], options: ListOptions): string {
   const lines: string[] = [];
   
   // Count task statistics from all tasks
-  let totalCount = 0;
-  let pendingCount = 0;
-  let inProgressCount = 0;
-  let doneCount = 0;
-  
-  const countTasks = (taskList: Task[]) => {
-    taskList.forEach(task => {
-      totalCount++;
-      if (task.status === 'pending') pendingCount++;
-      else if (task.status === 'in-progress') inProgressCount++;
-      else if (task.status === 'done') doneCount++;
-      
-      if (task.subtasks?.length) {
-        countTasks(task.subtasks);
-      }
-    });
-  };
-  
-  countTasks(allTasks);
+  const counts = TaskQueries.countByStatus(allTasks);
+  const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+  const pendingCount = counts.pending || 0;
+  const inProgressCount = counts['in-progress'] || 0;
+  const doneCount = counts.done || 0;
   
   // Header with summary
   lines.push('## Task List\n');
@@ -85,8 +52,8 @@ function formatTaskList(tasks: Task[], allTasks: Task[], options: ListOptions): 
     
     const indent = '  '.repeat(depth);
     const statusIcon = task.status === 'done' ? 'x' : 
-                      task.status === 'in-progress' ? '▶' : 
-                      task.status === 'blocked' ? '⚠' : ' ';
+                      task.status === 'in-progress' ? '>' : 
+                      task.status === 'blocked' ? '!' : ' ';
     
     let line = `${indent}- [${statusIcon}] **${task.id}** - ${task.title}`;
     
@@ -106,7 +73,7 @@ function formatTaskList(tasks: Task[], allTasks: Task[], options: ListOptions): 
     // Show blocking info
     if (task.dependencies?.length) {
       const unresolvedDeps = task.dependencies.filter(depId => {
-        const dep = findTaskById(allTasks, depId);
+        const dep = TaskQueries.findById(allTasks, depId);
         return dep && dep.status !== 'done';
       });
       if (unresolvedDeps.length > 0) {
@@ -135,17 +102,6 @@ function formatTaskList(tasks: Task[], allTasks: Task[], options: ListOptions): 
   });
   
   return lines.join('\n');
-}
-
-function findTaskById(tasks: Task[], id: string): Task | undefined {
-  for (const task of tasks) {
-    if (task.id === id) return task;
-    if (task.subtasks) {
-      const found = findTaskById(task.subtasks, id);
-      if (found) return found;
-    }
-  }
-  return undefined;
 }
 
 export async function list(options: ListOptions = {}): Promise<void> {

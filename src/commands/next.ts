@@ -1,4 +1,5 @@
 import { TaskEngine, Task } from '../core/TaskEngine';
+import { TaskQueries } from '../core/TaskQueries';
 
 const PRIORITY_WEIGHT = { high: 3, medium: 2, low: 1 };
 
@@ -6,7 +7,7 @@ export async function next() {
   const engine = new TaskEngine();
   const allTasks = await engine.readTasks();
   
-  const flattenedTasks = flattenTasks(allTasks);
+  const flattenedTasks = TaskQueries.flatten(allTasks);
   const eligibleTasks = flattenedTasks.filter(isEligible(flattenedTasks));
   
   if (eligibleTasks.length === 0) {
@@ -24,34 +25,13 @@ export async function next() {
   displayNextTask(nextTask);
 }
 
-function flattenTasks(tasks: Task[]): Task[] {
-  const flattened: Task[] = [];
-  
-  const processTask = (task: Task) => {
-    flattened.push(task);
-    if (task.subtasks) {
-      task.subtasks.forEach(processTask);
-    }
-  };
-  
-  tasks.forEach(processTask);
-  return flattened;
-}
-
 function isEligible(allTasks: Task[]) {
   return (task: Task): boolean => {
     if (task.status !== 'pending' && task.status !== 'in-progress') {
       return false;
     }
     
-    if (!task.dependencies || task.dependencies.length === 0) {
-      return true;
-    }
-    
-    return task.dependencies.every(depId => {
-      const dep = allTasks.find(t => t.id === depId);
-      return dep && dep.status === 'done';
-    });
+    return !TaskQueries.isBlocked(task, allTasks);
   };
 }
 

@@ -423,7 +423,7 @@
     "dependencies": [
       "7.1"
     ],
-    "status": "pending",
+    "status": "in-progress",
     "subtasks": [
       {
         "id": "7.1.1.1",
@@ -441,7 +441,7 @@
         "id": "7.1.1.3",
         "title": "Extraer TaskQueries para eliminar duplicación",
         "description": "Crear src/core/TaskQueries.ts con funciones comunes: findById, getParent, getSiblings, flatten, traverseWithVisitor. Refactorizar list, show, delegate, transmit, next, validate para usar TaskQueries. PRINCIPIO: DRY sin over-engineering.",
-        "status": "pending"
+        "status": "done"
       },
       {
         "id": "7.1.1.4",

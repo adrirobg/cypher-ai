@@ -47,23 +47,44 @@ export class ContextBuilder {
 
 ---
 
-#### 3. **OutputFormatter - Consistencia AI-First** ⭐ MEDIA PRIORIDAD
+#### 3. **OutputFormatter - Consistencia AI-First** ⭐ ALTA PRIORIDAD
 **Problema**: Inconsistencia en outputs
 - expand.ts emite JSON
 - Resto emite Markdown
 - Sin flag común para cambiar formato
+- Output actual optimizado para humanos, no para AI
 
-**Solución Cypher**:
+**Nueva Propuesta - AI-First por defecto**:
 ```typescript
 // src/utils/OutputFormatter.ts
 export class OutputFormatter {
-  constructor(private format: 'markdown' | 'json' = 'markdown')
+  constructor(private format: 'ai' | 'human' | 'json' = 'ai')
   format(data: any): string
   static fromFlags(flags: Map<string, any>): OutputFormatter
 }
 ```
 
-**Implementación**: Añadir `--json` flag a TODOS los comandos
+**Formatos**:
+1. **Por defecto (AI-First)**: Markdown ultra-conciso optimizado para tokens
+   ```
+   # 7.1.1: Reestructuración de Comandos Core
+   status: in-progress | priority: high | parent: 7.1
+   deps: 7.1[done]
+   subtasks: 1/5 done (7.1.1.3[done])
+   next: update 7.1.1.4 status=in-progress
+   ```
+
+2. **--human**: Formato actual bonito para lectura humana
+   
+3. **--json**: Para integración programática
+   ```json
+   {"id":"7.1.1","status":"in-progress","ready":true,...}
+   ```
+
+**Beneficios**:
+- Reduce tokens en ~70% para casos AI
+- Mantiene compatibilidad con formato humano
+- Permite integración con scripts vía JSON
 
 ---
 
@@ -114,10 +135,12 @@ export class TaskValidator {
 2. Simplificar transmit.ts y delegate.ts
 3. Alinear con tarea 7.1.1 (transmit→context)
 
-#### Fase 3: Output Standardization
-1. Crear OutputFormatter
-2. Añadir --json flag a parseArguments base
-3. Actualizar todos los comandos
+#### Fase 3: Output Standardization (AI-First)
+1. Crear OutputFormatter con formato AI por defecto
+2. Añadir flags --human y --json a parseArguments base
+3. Actualizar todos los comandos para usar OutputFormatter
+4. Migrar formato actual a modo --human
+5. Implementar formato AI ultra-conciso
 
 ### ⚡ Principios de Refactorización Cypher
 
