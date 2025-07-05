@@ -1,42 +1,64 @@
-# MANIFESTO: Cypher - Bridging Human Intent and AI Implementation
-
-# Cypher Manifesto
+# MANIFESTO: Cypher - AI-Native Development Through Organic Orchestration
 
 ## Vision
-Build **Cypher**: a reusable AI-to-AI orchestration tool that can be installed in any project to provide a complete framework for AI-driven development.
+Build **Cypher**: a minimalist AI orchestration system that enables organic collaboration between human developers and AI agents through the filesystem itself.
 
-Just as Task Master revolutionized task management for humans, Cypher will revolutionize collaboration between developers and AI agents - but built from scratch with an AI-first mindset.
+> "Unfortunately, no one can be told what Cypher is. You have to see it for yourself."
 
-**End Goal:** An npm tool that any developer can install to bring AI-native task orchestration to their projects.
+## Core Principles (Evolved Through Practice)
 
-> "Unfortunately, no one can be told what Cypher is. You have to see it for yourself." - But we'll try anyway.
+### 1. AI-First From Ground Up
+Every decision optimizes for AI consumption: token efficiency + structural precision.
 
-## Problema a Resolver
-La orquestación de herramientas CLI externas es frágil, ineficiente y crea un acoplamiento no deseado. No podemos optimizar el contexto para los agentes de IA si no somos dueños de la lógica y los datos.
+### 2. The Most Powerful System is No System
+Complexity emerges from simple conventions, not architectural decisions.
+- No frameworks, just files
+- No protocols, just pipes  
+- No hierarchies, just directories
 
-## Principios Rectores (Inmutables)
+### 3. Organic Over Systematic
+Collaboration happens naturally, not through predetermined workflows.
+```bash
+# Not: if (complexity > 5) useGemini()
+# But: if (needPerspective()) consultGemini()
+```
 
-1.  **Build, Don't Wrap (Construir, no Envolver):**
-    Creamos nuestra propia lógica de negocio desde la base. No envolvemos ni dependemos de las implementaciones de herramientas externas.
+### 4. Context as Currency
+Context is the primary value we create and trade. Every operation optimizes context effectiveness.
 
-2.  **Own Your Data (Ser Dueños de los Datos):**
-    La fuente de verdad (ej. `tasks.json`) es nuestra. La leemos y escribimos exclusivamente a través de nuestro propio motor de datos (`TaskEngine`).
+### 5. Filesystem as Architecture
+Directory structure IS the system design. Context files (CLAUDE.md, GEMINI.md) create specialized agents through location, not configuration.
 
-3.  **Compose, Don't Orchestrate (Componer, no Orquestar):**
-    Creamos flujos de trabajo complejos mediante la composición de funciones y herramientas internas, no orquestando llamadas a procesos CLI externos.
+### 6. Everything as Artifact
+Plans, contexts, prompts - all are persistent, versionable, reusable artifacts.
 
-4.  **AI-First From Ground Up (Mentalidad AI-First desde la Base):**
-    Cada decisión, desde la estructura de datos hasta el formato de salida, está optimizada para ser consumida por un agente de IA. La eficiencia de tokens y la precisión estructural son las métricas primarias de calidad.
+### 7. Precision Through Extraction
+Focused prompts are curated extracts from shared context, not duplicated information.
 
-5.  **Planning as Artifact (La Planificación como Artefacto):**
-    La planificación no es un documento de referencia, es un paso de "compilación". Genera artefactos (especificaciones) precisos, accionables y verificables que sirven como input directo para la siguiente fase del sistema.
+### 8. Compose, Don't Complicate
+Leverage existing tools through their natural interfaces. Complexity should emerge from composition, not architecture.
 
-## Technical Foundation
+### 9. Own Your Data  
+The source of truth (`tasks.json`) is ours, accessed only through our TaskEngine.
 
-Cypher leverages the Claude Code SDK (@anthropic-ai/claude-code) as its intelligence engine. This is fundamentally different from wrapping external CLIs:
+### 10. Diversity Through Simplicity
+Multiple AI perspectives emerge from simple tool usage, not complex orchestration.
 
-- **We compose with the SDK**: Claude Code SDK is our AI brain, not a wrapped tool
-- **We build our own logic**: Task management, context generation, and orchestration are our code
-- **We abstract complexity**: Users don't need to know Claude Code SDK syntax
+## What We've Learned
 
-The result: A specialized AI-native tool that happens to use Claude as its intelligence provider, with future support for other AI providers (Gemini, GPT).
+- **Orchestration != Management**: We guide, not control
+- **Context + Prompt + Orchestration = Success**: The trinity of effective AI collaboration  
+- **Simplicity Scales**: Every feature should make the system simpler, not more complex
+- **Emergence Over Design**: The best patterns are discovered, not invented
+
+## The Cypher Way
+
+When in doubt:
+1. Can this be a file? Make it a file.
+2. Can this be a convention? Don't make it a command.
+3. Can this emerge naturally? Don't systematize it.
+4. Can existing tools do this? Use them directly.
+
+## Remember
+
+Cypher is not a framework. It's a philosophy materialized through minimal, precise tools that amplify AI-human collaboration without constraining it.

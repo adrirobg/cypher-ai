@@ -423,6 +423,47 @@
     "dependencies": [
       "7.1"
     ],
-    "status": "pending"
+    "status": "pending",
+    "subtasks": [
+      {
+        "id": "7.1.1.1",
+        "title": "Refactorizar comando transmit a context",
+        "description": "Renombrar comando transmit a context. Mantener alias transmit por compatibilidad. MEJORAS: Aceptar múltiples task IDs, añadir flag --include-subtasks para contexto completo, mejorar formato de salida para ser más conciso.",
+        "status": "pending"
+      },
+      {
+        "id": "7.1.1.2",
+        "title": "Mejorar comando next con auto-contexto",
+        "description": "Añadir flag --context a comando next que automáticamente ejecute context para la tarea seleccionada. Reducir fricción en flujo de trabajo típico: next → context → implementar. OPCIONAL: Flag --delegate para ir directo a delegación.",
+        "status": "pending"
+      },
+      {
+        "id": "7.1.1.3",
+        "title": "Extraer TaskQueries para eliminar duplicación",
+        "description": "Crear src/core/TaskQueries.ts con funciones comunes: findById, getParent, getSiblings, flatten, traverseWithVisitor. Refactorizar list, show, delegate, transmit, next, validate para usar TaskQueries. PRINCIPIO: DRY sin over-engineering.",
+        "status": "pending"
+      },
+      {
+        "id": "7.1.1.4",
+        "title": "Implementar ContextBuilder para unificar lógica",
+        "description": "Crear src/core/ContextBuilder.ts que unifique la construcción de contexto compartida entre transmit (context) y delegate. MÉTODOS: buildTaskContext(), formatAsMarkdown(). Simplificar ambos comandos significativamente.",
+        "status": "pending"
+      },
+      {
+        "id": "7.1.1.5",
+        "title": "Añadir OutputFormatter para consistencia AI-First",
+        "description": "Crear src/utils/OutputFormatter.ts con soporte markdown/json. Añadir --json flag global a todos los comandos. Estandarizar salida para consumo óptimo por AI. REFERENCIA: expand.ts ya emite JSON, generalizar patrón.",
+        "status": "pending"
+      }
+    ]
+  },
+  {
+    "id": "test-1",
+    "title": "Implement Mini Notes System",
+    "description": "Create a simple notes system with file storage, CRUD operations, and CLI interface. Store notes as JSON files in example/notes/data/. Include API module for operations, storage module for file handling, and CLI for user interaction. Add basic tests.",
+    "status": "pending",
+    "priority": "high",
+    "dependencies": [],
+    "subtasks": []
   }
 ]

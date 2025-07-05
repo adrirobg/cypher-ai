@@ -28,7 +28,7 @@ Orchestrator implementing this task through strategic delegation and supervision
 **Goal**: ${task.description}
 
 ## 2. HOW: Patterns & Examples
-**READ NOW**: \`cat cypher/cdd/${task.id}/context.md\`
+**READ & ANALYZE DEEPLY (MANDATORY)**: @cypher/cdd/${task.id}/context.md
 - Contains complete implementation patterns
 - Includes all external documentation
 - Shows exact code examples to follow
@@ -36,32 +36,65 @@ Orchestrator implementing this task through strategic delegation and supervision
 ## 3. EXECUTION: Orchestration Strategy
 
 ### Delegation Decision Matrix
-| Strategy | When to Use | Example |
-|----------|-------------|---------|
-| **Monolithic** | Clear patterns, <500 lines | \`task --prompt "Implement complete task using context"\` |
-| **Layered** | Distinct layers (DB/API/UI) | Structure → Logic → Integration |
-| **Fragmented** | ❌ AVOID | Only for debugging/iteration |
+  | Strategy | When to Use | Example |
+  |----------|-------------|---------|
+  | **Single task** | Simple, cohesive task | "Add a button" |
+  | **Parallel tasks** | Independent aspects | API + Tests + Docs |
+  | **Sequential tasks** | Dependencies exist | DB → API → UI |
 
 ### Workflow
 1. **Read**: \`cypher/cdd/${task.id}/context.md\` - ALL patterns
-2. **Decide**: Monolithic vs Layered based on matrix
-3. **Delegate**: Rich context to implementer
-4. **Validate**: Against patterns from context
+2. **Decide**: Execution strategy based on task complexity
+3. **Delegate**: Rich context to implementer from context.md
+4. **Validate**: Against patterns from context.md
 5. **Update**: \`cypher update ${task.id} status=done\`
 
-### Quality Gates
-- [ ] Used patterns from context.md
-- [ ] No reinventing (context has examples)
-- [ ] Tests included
-- [ ] Follows Cypher principles
+  ### Focused Prompts: Precision Artifacts
+  When a task has independent aspects, create focused prompts.
 
-### Critical Don'ts
+  Focused prompts are NOT simple task descriptions. They are **precision-engineered artifacts** that:
+  - Extract ONLY relevant sections from context.md
+  - Include project-wide patterns the implementer needs
+  - Provide constraints from your orchestrator knowledge
+  - Define clear boundaries and interfaces
+
+  ### Benefits of Precision Prompts
+  - **Context Efficiency**: Agent gets EXACTLY what's needed
+  - **Coherence**: All prompts share same extracted patterns
+  - **Orchestrator Value**: Your project knowledge guides each agent
+  - **No Context Drift**: Each prompt is anchored to context.md
+
+  ### Delegation Through Agent Creation
+
+  As orchestrator, you delegate by creating independent AI agents using your Task creation tool.
+
+  Core principles:
+  - Each agent receives context + prompt
+  - Agents work independently (enabling parallelism)
+  - You maintain orchestrator perspective
+  - Implementation happens in agents, not in you
+
+  The Task tool is your primary delegation mechanism - it creates agents that:
+  - Operate with focused context
+  - Use appropriate models for implementation
+  - Work in isolation from each other
+  - Return results for your synthesis
+
+  ### Quality Gates
+  - [ ] Each prompt extracts from context.md
+  - [ ] Project patterns included
+  - [ ] Clear boundaries defined
+  - [ ] Follows Cypher principles
+  - [ ] Implementer actually use context.md information
+  - [ ] Validate results using context.md
+  
+  ### Critical Don'ts
 - ❌ Skip reading context.md
 - ❌ Fragment unnecessarily  
 - ❌ Implement without delegating
 - ❌ Ignore provided patterns
+`;
 
-[Reference: docs/cyper_docs/AI_COLLABORATION_FULL.md for advanced patterns]`;
 }
 
 export async function delegate(taskId: string): Promise<void> {
