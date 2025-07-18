@@ -7,7 +7,7 @@ import { list } from './commands/list';
 import { show } from './commands/show';
 import { transmit } from './commands/transmit';
 import { update } from './commands/update';
-import { validate } from './commands/validate';
+import { validateStructure } from './commands/validate-structure';
 import { next } from './commands/next';
 import { research } from './commands/research';
 import { setupProject } from './commands/setup-project';
@@ -15,6 +15,9 @@ import { expand } from './commands/expand';
 import { addTask } from './commands/add-task';
 import { delegate } from './commands/delegate';
 import { planCommand } from './commands/plan';
+import { learnCommand } from './commands/learn';
+import { contextCommand } from './commands/context';
+import { validateCommand as validateGuideCommand } from './commands/validate';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -128,7 +131,7 @@ program
   .option('-f, --fix', 'Automatically fix fixable issues')
   .action(async (options) => {
     try {
-      await validate({ fix: options.fix });
+      await validateStructure({ fix: options.fix });
     } catch (error) {
       console.error('Error executing validate command:', error);
       process.exit(1);
@@ -234,6 +237,9 @@ program
 
 // Add new GuideCommand-based commands
 program.addCommand(planCommand);
+program.addCommand(learnCommand);
+program.addCommand(contextCommand);
+program.addCommand(validateGuideCommand);
 
 program.parse();
 
