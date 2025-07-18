@@ -14,6 +14,7 @@ import { setupProject } from './commands/setup-project';
 import { expand } from './commands/expand';
 import { addTask } from './commands/add-task';
 import { delegate } from './commands/delegate';
+import { planCommand } from './commands/plan';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -230,6 +231,9 @@ program
       process.exit(1);
     }
   });
+
+// Add new GuideCommand-based commands
+program.addCommand(planCommand);
 
 program.parse();
 
