@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash(task-master show:*)",
+      "Bash(ls:*)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(npx task-master:*)",
+      "WebFetch(domain:www.anthropic.com)",
+      "WebFetch(domain:claudelog.com)",
+      "Bash(find:*)"
+    ],
+    "deny": []
+  }
+}
