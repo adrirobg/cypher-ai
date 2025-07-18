@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "description": "Metrics tracking for Cypher's learning and evolution",
+    "created": "2025-01-18",
+    "version": "1.0.0"
+  },
+  "stats": {
+    "total_tasks_analyzed": 0,
+    "patterns_extracted": 0,
+    "guides_updated": 0,
+    "anti_patterns_documented": 0
+  },
+  "guide_versions": {
+    "plan-guide.md": "3.0.0",
+    "learn-guide.md": "2.0.0",
+    "context-guide.md": "1.0.0",
+    "validate-guide.md": "1.0.0"
+  },
+  "last_evolution": null
+}
