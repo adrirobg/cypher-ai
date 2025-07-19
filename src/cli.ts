@@ -18,6 +18,7 @@ import { planCommand } from './commands/plan';
 import { learnCommand } from './commands/learn';
 import { contextCommand } from './commands/context';
 import { validateCommand as validateGuideCommand } from './commands/validate';
+import { exploreCommand } from './commands/explore';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -240,6 +241,7 @@ program.addCommand(planCommand);
 program.addCommand(learnCommand);
 program.addCommand(contextCommand);
 program.addCommand(validateGuideCommand);
+program.addCommand(exploreCommand);
 
 program.parse();
 
