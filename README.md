@@ -22,48 +22,49 @@
 
 Traditional task management tools are built for humans. When AI agents use them, they're forced to adapt to human-centric interfaces, creating inefficiency and fragility.
 
-**Cypher changes the game:**
+**Cypher has evolved beyond automation:**
 
-- 🤖 **Built BY AI, FOR AI** - Every decision optimizes for AI consumption
+- 🧑‍🏫 **Commands as Teachers** - Each command guides your process, not replaces it
+- 🤖 **Built BY AI, FOR AI** - Every decision optimizes for AI collaboration
 - 📦 **Zero External Dependencies** - No brittle CLI wrappers, pure TypeScript
 - ⚡ **90% Token Reduction** - Pre-flight contexts use ~500 tokens vs ~5000
 - 🔄 **Self-Hosted Development** - Cypher manages its own development using itself
+- 📚 **Evolving Knowledge** - The system gets wiser with every use
 
 > "Unfortunately, no one can be told what Cypher is. You have to see it for yourself."
 
-## 🌟 Features
+## 🌟 The Philosophy: Commands as Teachers
 
-### AI-Native Context Generation
-Generate ultra-efficient, structured contexts that maximize AI implementation accuracy:
+Cypher commands don't execute tasks - they teach you to execute them better. Each command is a guide that facilitates human-AI collaboration, not automation.
 
-```markdown
-# CONTEXT FOR TASK 1.3
+### Process Commands (Interactive Guides)
+- **`cypher plan`** - Guides collaborative planning with cognitive strategies
+- **`cypher context`** - Teaches effective context construction
+- **`cypher learn`** - Facilitates knowledge extraction and pattern discovery
+- **`cypher validate`** - Guides comprehensive validation processes
+- **`cypher explore`** - Assists open-ended research and discovery
 
-## YOUR SPECIFIC TASK: Implement user authentication
-- **Description:** Create JWT-based auth endpoints
-- **Test Strategy:** Unit tests for token generation
+### Information Commands (Simple Queries)
+- **`cypher list`** - Lists tasks with filters
+- **`cypher show`** - Displays task details
+- **`cypher update`** - Updates task status
+- **`cypher next`** - Shows next pending task
 
-## PARENT OBJECTIVE: Build secure API (Task 1)
-- **Description:** RESTful API with authentication
-
-## SIBLING CONTEXT
-- **1.1 - Database schema (Status: done)**
-- **1.2 - User model (Status: done)**
-- **1.4 - Protected routes (Status: pending)**
-
-**INSTRUCTION:** Implement Task 1.3
+### AI-Native Architecture
 ```
-
-### Portable Framework
-Install Cypher in any project - new or existing:
-- 📁 Creates `cypher/` configuration directory
-- 📋 Installs AI-first task management
-- 🎯 Brings the complete philosophy to your project
-
-### Smart Task Management
-- Hierarchical task structure (1, 1.1, 1.1.1)
-- Dependency tracking and validation
-- Multiple status states (pending, in-progress, done, blocked)
+cypher/
+├── prompts/           # Archetype guides (system intelligence)
+│   ├── planning-guide.md
+│   ├── context-guide.md
+│   └── learning-guide.md
+├── patterns/          # Discovered patterns
+├── knowledge/         # Accumulated wisdom
+└── cdd/              # Collaborative dialogue artifacts
+    └── <task-id>/
+        ├── plan.md
+        ├── context.md
+        └── retrospective.md
+```
 
 ## 🧠 Powered by AI
 
@@ -97,6 +98,8 @@ npm link
 
 ## 🚀 Quick Start
 
+👉 **New to Cypher?** Check out our [interactive tutorial](docs/tutorial/FIRST_TASK_EKP.md) for a complete walkthrough of the Commands as Teachers philosophy.
+
 ### 1. Initialize Cypher in Your Project
 ```bash
 cypher init
@@ -128,47 +131,56 @@ Edit `cypher/tasks.json`:
 }
 ```
 
-### 3. Generate AI Context
+### 3. Plan with AI Guidance
 ```bash
-cypher transmit 1.1
+cypher plan 1.1
 ```
-Output saved to `cypher/contexts/1.1-context.md`
+Engages an interactive planning dialogue with your AI orchestrator.
 
-### 4. Feed to Your AI Agent
+### 4. Build Context Collaboratively
 ```bash
-# Copy context to clipboard (Unix)
-cat cypher/contexts/1.1-context.md | pbcopy
-
-# Or pipe directly to your AI tool
-cypher transmit 1.1 | your-ai-tool
+cypher context 1.1
 ```
+Guides you through effective context construction for the task.
 
-### 5. Update Task Status
+### 5. Execute with Your Tools
+Use your preferred editor, terminal, and development tools. Cypher guides the process but you maintain control.
+
+### 6. Extract Knowledge
 ```bash
-cypher update 1.1 complete
+cypher learn 1.1
 ```
+Facilitates pattern extraction and system evolution from completed work.
 
 ## 📖 Documentation
 
 ### Command Reference
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `cypher init` | Initialize Cypher in current directory | `cypher init` |
-| `cypher list` | List all tasks with optional filters | `cypher list --status=pending` |
-| `cypher show <task-id>` | Display detailed information for a specific task | `cypher show 1.2` |
-| `cypher transmit <id>` | Generate pre-flight context | `cypher transmit 1.2 > context.md` |
-| `cypher update <id> <status>` | Update task status | `cypher update 1.2 complete` |
+| Command | Type | Description | Example |
+|---------|------|-------------|---------|
+| `cypher init` | Setup | Initialize Cypher in current directory | `cypher init` |
+| **Process Commands** | | | |
+| `cypher plan <id>` | Guide | Interactive planning dialogue | `cypher plan 1.2` |
+| `cypher context <id>` | Guide | Context construction assistance | `cypher context 1.2` |
+| `cypher learn <id>` | Guide | Knowledge extraction facilitation | `cypher learn 1.2` |
+| `cypher validate <id>` | Guide | Comprehensive validation guidance | `cypher validate 1.2` |
+| `cypher explore <topic>` | Guide | Research and discovery assistance | `cypher explore auth` |
+| **Information Commands** | | | |
+| `cypher list` | Query | List tasks with filters | `cypher list --status=pending` |
+| `cypher show <id>` | Query | Display task details | `cypher show 1.2` |
+| `cypher update <id> <field>=<value>` | Action | Update task fields | `cypher update 1.2 status=done` |
+| `cypher next` | Query | Show next pending task | `cypher next` |
 
 ### Core Philosophy
 
-Cypher is built on 5 immutable principles:
+Cypher is built on 6 immutable principles:
 
-1. **Build, Don't Wrap** - Own the implementation, no external CLI dependencies
-2. **Own Your Data** - Complete control over task data structure
-3. **Compose, Don't Orchestrate** - Internal function composition over process spawning
-4. **AI-First From Ground Up** - Every byte optimized for AI consumption
-5. **Planning as Artifact** - Plans are executable specifications
+1. **Commands as Teachers** - Guide processes, don't automate them
+2. **Build, Don't Wrap** - Own the implementation, no external CLI dependencies
+3. **Own Your Data** - Complete control over task data structure
+4. **Compose, Don't Orchestrate** - Internal function composition over process spawning
+5. **AI-First From Ground Up** - Every byte optimized for AI collaboration
+6. **Knowledge Evolution** - The system learns and improves with every use
 
 ## 🛠️ Development
 
@@ -204,11 +216,12 @@ npm run dev -- list
 ## 🗺️ Roadmap
 
 - [x] **Phase 0:** Planning & Architecture
-- [ ] **Phase 1:** Core TaskEngine (~100 lines)
-- [ ] **Phase 2:** Basic Commands (init, list, show, transmit)
-- [ ] **Phase 3:** Advanced Features (dependencies, search)
-- [ ] **Phase 4:** npm Package & Distribution
-- [ ] **Phase 5:** Plugin System
+- [x] **Phase 1:** Core TaskEngine & Basic Commands
+- [x] **Phase 2:** EKP v1 - External Knowledge Protocol
+- [x] **Phase 3:** Commands as Teachers Migration
+- [ ] **Phase 4:** Documentation & Polish (Current)
+- [ ] **Phase 5:** npm Package & Distribution
+- [ ] **Phase 6:** Community Patterns & Evolution
 
 
 
