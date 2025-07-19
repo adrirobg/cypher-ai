@@ -5,19 +5,15 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { list } from './commands/list';
 import { show } from './commands/show';
-import { transmit } from './commands/transmit';
 import { update } from './commands/update';
-import { validateStructure } from './commands/validate-structure';
+import { validateStructure } from './commands/validate-graph';
 import { next } from './commands/next';
-import { research } from './commands/research';
-import { setupProject } from './commands/setup-project';
-import { expand } from './commands/expand';
 import { addTask } from './commands/add-task';
-import { delegate } from './commands/delegate';
 import { planCommand } from './commands/plan';
 import { learnCommand } from './commands/learn';
 import { contextCommand } from './commands/context';
 import { validateCommand as validateGuideCommand } from './commands/validate';
+import { exploreCommand } from './commands/explore';
 
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')
@@ -65,17 +61,6 @@ program
     }
   });
 
-program
-  .command('transmit <task-id>')
-  .description('Generate pre-flight context for a task')
-  .action(async (taskId: string) => {
-    try {
-      await transmit(taskId);
-    } catch (error) {
-      console.error('Error executing transmit command:', error);
-      process.exit(1);
-    }
-  });
 
 program
   .command('update <task-id> [updates...]')
@@ -126,8 +111,8 @@ program
   });
 
 program
-  .command('validate')
-  .description('Validate tasks.json structure')
+  .command('validate-graph')
+  .description('Validate task graph integrity and dependencies')
   .option('-f, --fix', 'Automatically fix fixable issues')
   .action(async (options) => {
     try {
@@ -138,66 +123,8 @@ program
     }
   });
 
-program
-  .command('research <query>')
-  .description('Research a topic with AI analysis')
-  .option('-p, --perspectives <perspectives>', 'Comma-separated list of perspectives to analyze from')
-  .option('-t, --task <taskId>', 'Research in context of a specific task')
-  .action(async (query: string, options) => {
-    try {
-      const perspectives = options.perspectives 
-        ? options.perspectives.split(',').map((p: string) => p.trim())
-        : undefined;
-      
-      await research(query, {
-        perspectives,
-        task: options.task
-      });
-    } catch (error) {
-      console.error('Error executing research command:', error);
-      process.exit(1);
-    }
-  });
 
-program
-  .command('setup-project <prd-path>')
-  .description('Generate tasks from a PRD file')
-  .option('-d, --max-depth <depth>', 'Maximum task hierarchy depth (default: 2)', '2')
-  .option('-f, --force', 'Overwrite existing tasks without confirmation')
-  .option('--no-test-strategy', 'Do not include test strategy in generated tasks')
-  .option('--no-execution-hints', 'Do not include execution hints for complex tasks')
-  .action(async (prdPath: string, options) => {
-    try {
-      await setupProject(prdPath, {
-        maxDepth: parseInt(options.maxDepth),
-        force: options.force,
-        includeTestStrategy: options.testStrategy,
-        includeExecutionHints: options.executionHints,
-      });
-    } catch (error) {
-      console.error('Error executing setup-project command:', error);
-      process.exit(1);
-    }
-  });
 
-program
-  .command('expand <task-id>')
-  .description('Expand a task into subtasks using AI')
-  .option('-m, --max-subtasks <number>', 'Maximum number of subtasks to generate (default: 5)', '5')
-  .option('--no-details', 'Do not include detailed descriptions')
-  .option('--test-strategy', 'Include test strategy for each subtask')
-  .action(async (taskId: string, options) => {
-    try {
-      await expand(taskId, {
-        maxSubtasks: parseInt(options.maxSubtasks),
-        includeDetails: options.details,
-        includeTestStrategy: options.testStrategy,
-      });
-    } catch (error) {
-      console.error('Error executing expand command:', error);
-      process.exit(1);
-    }
-  });
 
 program
   .command('add-task <id> <title> <description>')
@@ -223,23 +150,13 @@ program
     }
   });
 
-program
-  .command('delegate <task-id>')
-  .description('Generate CDD context and prompt for delegation')
-  .action(async (taskId: string) => {
-    try {
-      await delegate(taskId);
-    } catch (error) {
-      console.error('Error executing delegate command:', error);
-      process.exit(1);
-    }
-  });
 
 // Add new GuideCommand-based commands
 program.addCommand(planCommand);
 program.addCommand(learnCommand);
 program.addCommand(contextCommand);
 program.addCommand(validateGuideCommand);
+program.addCommand(exploreCommand);
 
 program.parse();
 
