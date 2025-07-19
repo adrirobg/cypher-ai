@@ -2,79 +2,79 @@
 
 # 🔐 Cypher
 
-### Bridging Human Intent and AI Implementation
+### A Living Knowledge Ecosystem Where Commands Teach Rather Than Execute
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://img.shields.io/npm/v/cypher-ai.svg?style=flat)](https://www.npmjs.com/package/cypher-ai)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Node.js Version](https://img.shields.io/node/v/cypher-ai.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue.svg)](https://www.typescriptlang.org/)
+[![Node.js Version](https://img.shields.io/node/v/cypher-ai.svg)](https://nodejs.org)
 
-**Cypher is an AI-native development orchestration tool that transforms human requirements into precision-engineered contexts for AI implementation.**
+**The best tool is the one that teaches you not to need it.**
 
-[Features](#-features) • [Installation](#-installation) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
+[Philosophy](#-philosophy) • [Installation](#-installation) • [Commands](#-commands) • [Quick Start](#-quick-start) • [Documentation](#-documentation)
 
 </div>
 
 ---
 
-## 🎯 Why Cypher?
+## 🎯 What is Cypher?
 
-Traditional task management tools are built for humans. When AI agents use them, they're forced to adapt to human-centric interfaces, creating inefficiency and fragility.
+We began building a task orchestrator. We discovered we were cultivating a garden of knowledge.
 
-**Cypher has evolved beyond automation:**
+Cypher is a living, learning ecosystem where:
+- **Commands don't execute tasks** - they teach you to execute them better
+- **Every interaction makes the system wiser** - knowledge compounds, not resets
+- **Dialogue IS the process** - plans emerge from conversation, not templates
+- **The filesystem thinks** - distributed intelligence lives where it belongs
 
-- 🧑‍🏫 **Commands as Teachers** - Each command guides your process, not replaces it
-- 🤖 **Built BY AI, FOR AI** - Every decision optimizes for AI collaboration
-- 📦 **Zero External Dependencies** - No brittle CLI wrappers, pure TypeScript
-- ⚡ **90% Token Reduction** - Pre-flight contexts use ~500 tokens vs ~5000
-- 🔄 **Self-Hosted Development** - Cypher manages its own development using itself
-- 📚 **Evolving Knowledge** - The system gets wiser with every use
+> "You are not implementing tasks. You are teaching an ecosystem to understand itself better."
 
-> "Unfortunately, no one can be told what Cypher is. You have to see it for yourself."
+## 📚 Philosophy
 
-## 🌟 The Philosophy: Commands as Teachers
+### Commands as Teachers
+```bash
+# Not: cypher generate-context → generates context
+# But: cypher context → teaches HOW to build context
+```
 
-Cypher commands don't execute tasks - they teach you to execute them better. Each command is a guide that facilitates human-AI collaboration, not automation.
+### The Learning Cycle
+```
+Plan (dialogue) → Execute (with guidance) → Learn (extract wisdom) → Evolve (update guides)
+```
+
+Each cycle makes the entire ecosystem more intelligent.
+
+## 🛠️ Commands
 
 ### Process Commands (Interactive Guides)
-- **`cypher plan`** - Guides collaborative planning with cognitive strategies
-- **`cypher context`** - Teaches effective context construction
-- **`cypher learn`** - Facilitates knowledge extraction and pattern discovery
-- **`cypher validate`** - Guides comprehensive validation processes
-- **`cypher explore`** - Assists open-ended research and discovery
+- **`cypher plan`** - "Let's talk about this" - Facilitates planning dialogue
+- **`cypher context`** - Guides effective context construction
+- **`cypher validate`** - Multi-layer validation guidance
+- **`cypher learn`** - Extract patterns, update guides, evolve
+- **`cypher explore`** - Open-ended research assistance
 
 ### Information Commands (Simple Queries)
-- **`cypher list`** - Lists tasks with filters
-- **`cypher show`** - Displays task details
-- **`cypher update`** - Updates task status
-- **`cypher next`** - Shows next pending task
+- **`cypher list`** - List tasks with filters
+- **`cypher show`** - Display task details
+- **`cypher update`** - Update task status
+- **`cypher next`** - Show next pending task
 
-### AI-Native Architecture
+## 🏗️ Architecture
+
 ```
 cypher/
-├── prompts/           # Archetype guides (system intelligence)
-│   ├── planning-guide.md
-│   ├── context-guide.md
-│   └── learning-guide.md
-├── patterns/          # Discovered patterns
-├── knowledge/         # Accumulated wisdom
-└── cdd/              # Collaborative dialogue artifacts
+├── prompts/        # Living guides that improve with use
+├── patterns/       # Extracted wisdom from experience
+├── project-rules/  # How we work (AI standards, protocols)
+├── knowledge/      # Accumulated insights
+├── core-docs/      # Essential documentation
+└── cdd/           # Lightweight task dialogues
     └── <task-id>/
         ├── plan.md
         ├── context.md
         └── retrospective.md
 ```
 
-## 🧠 Powered by AI
-
-Cypher itself is AI-powered, using Claude Code SDK (@anthropic-ai/claude-code) internally to provide intelligent orchestration:
-
-- **Task Generation**: Transforms PRDs into structured tasks using AI
-- **Smart Expansion**: Breaks complex tasks into subtasks with AI analysis
-- **Context Optimization**: Uses AI to generate the most efficient pre-flight contexts
-
-This creates a unique **AI-to-AI pipeline**: Cypher (powered by Claude) generates perfect contexts for other AI agents (Claude, GPT, Gemini) to implement.
+The filesystem isn't just organization - it's distributed intelligence.
 
 ## 📦 Installation
 
@@ -82,15 +82,10 @@ This creates a unique **AI-to-AI pipeline**: Cypher (powered by Claude) generate
 - Node.js >= 18.0.0
 - npm or yarn
 
-### Install (Coming Soon)
+### Install from Source
 ```bash
-npm install -g cypher-ai
-```
-
-### Development Installation
-```bash
-git clone https://github.com/adrirobg/cypher-ai.git
-cd cypher-ai
+git clone https://github.com/user/cypher.git
+cd cypher
 npm install
 npm run build
 npm link
@@ -98,143 +93,87 @@ npm link
 
 ## 🚀 Quick Start
 
-👉 **New to Cypher?** Check out our [interactive tutorial](docs/tutorial/FIRST_TASK_EKP.md) for a complete walkthrough of the Commands as Teachers philosophy.
-
-### 1. Initialize Cypher in Your Project
+### 1. Initialize Cypher
 ```bash
 cypher init
 ```
-This creates:
-```
-your-project/
-└── cypher/
-    ├── manifest.md      # Core philosophy
-    ├── tasks.json       # Task database
-    └── interfaces.ts    # Type definitions
+
+Creates the knowledge ecosystem structure in your project.
+
+### 2. View Tasks
+```bash
+cypher list
 ```
 
-### 2. Define Your Tasks
-Edit `cypher/tasks.json`:
-```json
-{
-  "id": "1",
-  "title": "Implement authentication system",
-  "description": "JWT-based auth with refresh tokens",
-  "status": "pending",
-  "subtasks": [
-    {
-      "id": "1.1",
-      "title": "Create user model",
-      "status": "pending"
-    }
-  ]
-}
-```
-
-### 3. Plan with AI Guidance
+### 3. Start a Planning Dialogue
 ```bash
 cypher plan 1.1
 ```
-Engages an interactive planning dialogue with your AI orchestrator.
+This doesn't generate a plan - it starts a conversation about how to approach the task.
 
-### 4. Build Context Collaboratively
+### 4. Build Context Together
 ```bash
 cypher context 1.1
 ```
-Guides you through effective context construction for the task.
+The guide teaches you what context to gather and why.
 
-### 5. Execute with Your Tools
-Use your preferred editor, terminal, and development tools. Cypher guides the process but you maintain control.
+### 5. Execute
+Use your normal tools. The context ensures AI understands:
+- Project conventions
+- Existing patterns
+- What to avoid
 
-### 6. Extract Knowledge
+### 6. Learn and Evolve
 ```bash
 cypher learn 1.1
 ```
-Facilitates pattern extraction and system evolution from completed work.
+Extract patterns, update guides, make the system wiser.
 
-## 📖 Documentation
+## 📖 Key Concepts
 
-### Command Reference
+### The Cypher Way
 
-| Command | Type | Description | Example |
-|---------|------|-------------|---------|
-| `cypher init` | Setup | Initialize Cypher in current directory | `cypher init` |
-| **Process Commands** | | | |
-| `cypher plan <id>` | Guide | Interactive planning dialogue | `cypher plan 1.2` |
-| `cypher context <id>` | Guide | Context construction assistance | `cypher context 1.2` |
-| `cypher learn <id>` | Guide | Knowledge extraction facilitation | `cypher learn 1.2` |
-| `cypher validate <id>` | Guide | Comprehensive validation guidance | `cypher validate 1.2` |
-| `cypher explore <topic>` | Guide | Research and discovery assistance | `cypher explore auth` |
-| **Information Commands** | | | |
-| `cypher list` | Query | List tasks with filters | `cypher list --status=pending` |
-| `cypher show <id>` | Query | Display task details | `cypher show 1.2` |
-| `cypher update <id> <field>=<value>` | Action | Update task fields | `cypher update 1.2 status=done` |
-| `cypher next` | Query | Show next pending task | `cypher next` |
+When approaching any task:
+1. **Start with dialogue** - Let understanding emerge through conversation
+2. **Seek existing wisdom** - Check patterns and past retrospectives
+3. **Create minimal artifacts** - Only what emerges from need
+4. **Capture learnings** - Every task should make the system wiser
+5. **Trust the process** - The framework guides, you decide
 
-### Core Philosophy
-
-Cypher is built on 6 immutable principles:
+### Core Principles
 
 1. **Commands as Teachers** - Guide processes, don't automate them
-2. **Build, Don't Wrap** - Own the implementation, no external CLI dependencies
-3. **Own Your Data** - Complete control over task data structure
-4. **Compose, Don't Orchestrate** - Internal function composition over process spawning
-5. **AI-First From Ground Up** - Every byte optimized for AI collaboration
-6. **Knowledge Evolution** - The system learns and improves with every use
+2. **Dialogue IS the Process** - Plans emerge from conversation
+3. **Evolution Through Use** - Every task makes the system smarter
+4. **Context is Living Memory** - Not loaded, but inhabited
+5. **Patterns Over Rules** - Capture what works, not what should work
+6. **Organic Over Systematic** - Let patterns emerge from usage
 
-## 🛠️ Development
+## 🔍 Learn More
 
-### Project Structure
-```
-cypher/
-├── src/
-│   ├── core/          # TaskEngine - data layer
-│   ├── commands/      # CLI command implementations
-│   └── templates/     # Init templates
-├── cypher/           # Self-hosted development
-│   └── tasks.json     # Cypher's own tasks
-|── docs/             # Documentation
-    cypher_docs/
-    task_master_docs/
-    claude_code_sdk_docs/    
+- **[Tutorial](docs/tutorial/FIRST_TASK_EKP.md)** - Complete walkthrough
+- **[Philosophy](cypher/core-docs/philosophy.md)** - Deep dive into principles
+- **[Architecture](cypher/core-docs/architecture.md)** - Technical details
+- **[Quickstart](cypher/core-docs/quickstart.md)** - Get running fast
 
-└── package.json
-```
+## 🌱 The Evolution Continues
 
-### Building from Source
-```bash
-npm install
-npm run build
-npm test
-```
+Cypher is not a framework that does things. It's an ecosystem that teaches you to do things better, and gets wiser every time you use it.
 
-### Running in Development
-```bash
-npm run dev -- list
-```
+We don't manage tasks. We cultivate understanding.
+We don't generate solutions. We discover them through dialogue.
+We don't execute plans. We learn from experiences.
 
-## 🗺️ Roadmap
-
-- [x] **Phase 0:** Planning & Architecture
-- [x] **Phase 1:** Core TaskEngine & Basic Commands
-- [x] **Phase 2:** EKP v1 - External Knowledge Protocol
-- [x] **Phase 3:** Commands as Teachers Migration
-- [ ] **Phase 4:** Documentation & Polish (Current)
-- [ ] **Phase 5:** npm Package & Distribution
-- [ ] **Phase 6:** Community Patterns & Evolution
+The ultimate goal isn't task completion - it's system evolution.
 
 
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-**Built with 🤖 by AI, for AI**
+**"Unfortunately, no one can be told what Cypher is. You have to see it for yourself."**
 
-*"Welcome to the real world."*
+MIT License
 
 </div>
