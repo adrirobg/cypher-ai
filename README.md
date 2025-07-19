@@ -93,6 +93,9 @@ npm link
 
 ## 🚀 Quick Start
 
+### 0. Start with Your Requirements
+Transform your project requirements into tasks. See `cypher/core-docs/prd-to-tasks.md`.
+
 ### 1. Initialize Cypher
 ```bash
 cypher init

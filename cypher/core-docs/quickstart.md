@@ -5,6 +5,10 @@ Updated: 2025-01-19
 
 ## First Task in 5 Minutes
 
+### 0. Prerequisites
+You need a `cypher/tasks.json` file with your project tasks. 
+See `cypher/core-docs/prd-to-tasks.md` for guidance on creating this from your requirements.
+
 ### 1. View Your Tasks
 ```bash
 cypher list

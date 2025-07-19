@@ -15,15 +15,19 @@ Hands-on guide to your first task. Learn by doing with practical examples.
 ### `architecture.md`
 Technical overview of system components. For developers who want to understand or extend Cypher.
 
+### `prd-to-tasks.md`
+The missing link: How to transform project requirements into Cypher tasks. Essential reading before starting.
+
 ### `manifest.md`
 This index file. Helps AI agents navigate documentation efficiently.
 
 ## Reading Order
 
 ### For New Users
-1. `quickstart.md` - Get hands-on immediately
-2. `philosophy.md` - Understand the deeper principles
-3. `architecture.md` - Dive into technical details (optional)
+1. `prd-to-tasks.md` - Transform your requirements into tasks
+2. `quickstart.md` - Get hands-on immediately
+3. `philosophy.md` - Understand the deeper principles
+4. `architecture.md` - Dive into technical details (optional)
 
 ### For AI Agents
 - Task planning → Start with `quickstart.md` section 2
