@@ -53,7 +53,7 @@ Usuario: El componente de sesiones es crítico, necesita migración cuidadosa.
 AI: Entendido. Ajustaré el plan para aislar el componente de sesiones...
 ```
 
-**Commit de eliminación**: [Se añadirá tras la eliminación]
+**Commit de eliminación**: 26656c0
 
 ---
 
@@ -102,7 +102,7 @@ Encontré que en task-089 se implementó algo similar. Las lecciones clave fuero
 ¿Alguna restricción no documentada que conozcas?
 ```
 
-**Commit de eliminación**: [Se añadirá tras la eliminación]
+**Commit de eliminación**: 26656c0
 
 ---
 
@@ -160,7 +160,7 @@ AI: Entendido. Para zero-downtime en producción, sugiero este enfoque:
 ¿Este approach se alinea con tu infraestructura actual?
 ```
 
-**Commit de eliminación**: [Se añadirá tras la eliminación]
+**Commit de eliminación**: 26656c0
 
 ---
 

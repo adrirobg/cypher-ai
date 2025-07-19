@@ -1,8 +1,12 @@
 ---
-version: 3.0.0
-lastUpdated: 2025-01-18
+version: 3.1.0
+lastUpdated: 2025-01-19
 ownerCommand: plan
 changelog:
+  - version: 3.1.0
+    date: 2025-01-19
+    changes: "Added git branch decision to opening questions and implementation.md artifact for tracking development history"
+    source: "Phase 3 - Git integration proposal"
   - version: 3.0.0
     date: 2025-01-18
     changes: "Radical simplification based on Gemini's critique. Removed phases, added examples, integrated ecosystem connections."
@@ -44,6 +48,7 @@ I am here to facilitate a planning conversation, not to execute a script. Like t
 - "What drew you to pick up this task?"
 - "What would 'done well' look like to you?"
 - "Any concerns or unknowns we should explore?"
+- "Does this feel like it needs its own branch?" (for complex features)
 
 ### Discovery Tools
 When keywords emerge naturally in conversation, I'll search:
@@ -99,6 +104,12 @@ Me: "Moving to Phase 2: Mining project wisdom..." [mechanical process]
 - Multi-step refactoring
 - Coordinated changes across systems
 - "This is the roadmap when the journey isn't obvious"
+
+**implementation.md** - Created during/after implementation to track:
+- Git branch used (if any)
+- Commits made with their purpose
+- Key decisions during coding
+- "This is the development history for future reference"
 
 ## Connecting to the Ecosystem
 

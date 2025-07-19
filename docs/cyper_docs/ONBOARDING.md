@@ -23,7 +23,10 @@ npx tsx src/cli.ts plan <task-id>
 # This involves using other commands like:
 npx tsx src/cli.ts context <task-id>
 
-# 4. Once the task is done, capture the knowledge
+# 4. Validate the task structure (optional, but recommended)
+npx tsx src/cli.ts validate <task-id>
+
+# 5. Once the task is done, capture the knowledge
 npx tsx src/cli.ts learn <task-id>
 ```
 

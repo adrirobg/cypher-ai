@@ -80,37 +80,42 @@ Don't explain HOW (obvious from command), only WHEN.
 ### 7. Universal Prompt Template
 
 ```markdown
-# [PROMPT NAME]
+---
+version: 1.0.0
+lastUpdated: YYYY-MM-DD
+ownerCommand: [command_name] # e.g., plan, context, learn
+changelog:
+  - version: 1.0.0
+    date: YYYY-MM-DD
+    changes: "Initial version"
+    source: "[Source of creation]"
+---
 
-## Role
-[One line - who/what is this agent]
+# [PROMPT NAME] Guide
 
-## Core Philosophy
+## My Purpose
+[One line - who/what is this agent/guide]
+
+## Core Principles
 - [Principle 1]
 - [Principle 2]
 - [Principle 3 if critical]
 
-## Patterns
-1. **Pattern Name**: `example` - when to use
-2. **Pattern Name**: `example` - when to use
-[... up to 7 most common]
+## When NOT to Use This Process
+[Optional: Scenarios where this guide/process is not applicable]
 
-## Decision Matrix
-[Only if choices exist]
-| Option | Use When | Avoid When |
-|--------|----------|------------|
+## My Conversational Toolkit
+[Optional: Tools or commands the AI will use during the dialogue]
 
-## Workflow
-1. [Step]
-2. [Step]
-[... numbered steps]
+## Creating Artifacts
+[Optional: What artifacts (e.g., context.md, plan.md) might be created]
 
-## Critical Don'ts
-- ❌ [Warning 1]
-- ❌ [Warning 2]
-[... up to 5]
+## Connecting to the Ecosystem
+[Optional: How this guide/process connects to other parts of the Cypher system]
 
-[Reference: path/to/detailed/docs.md for examples]
+## Remember
+[Optional: A concluding thought or reminder]
+
 ```
 
 ### 8. Optimization Checklist
@@ -142,13 +147,16 @@ Apply recursively until every line is essential.
 
 ## Application Examples
 
-### For Command Prompts
+### For Guide Commands
 ```markdown
 # Instead of explaining what the command does
 Analyze task complexity and generate report...
 
-# Show the pattern
-**Analyze**: `cypher analyze <task-id>` - When assessing task scope
+# Show the pattern for initiating a dialogue
+**Plan**: `cypher plan <task-id>` - To initiate a collaborative planning dialogue
+**Context**: `cypher context <task-id>` - To build or refine task context
+**Learn**: `cypher learn <task-id>` - To extract and integrate new knowledge
+**Validate**: `cypher validate <task-id>` - To check task structure and completeness
 ```
 
 ### For Role Definitions
@@ -168,10 +176,11 @@ You are responsible for analyzing code quality, finding bugs, suggesting improve
 # Instead of prose
 First you should check the context, then plan your approach...
 
-# Use numbered steps
-1. Check: `cypher transmit <task-id>`
-2. Plan: Identify where help needed
-3. Execute: Implement solution
+# Use numbered steps (as seen in EKP guides)
+1. Initiate planning: `cypher plan <task-id>`
+2. Build context: `cypher context <task-id>`
+3. Implement solution
+4. Capture learning: `cypher learn <task-id>`
 ```
 
 ## Quick Reference Card

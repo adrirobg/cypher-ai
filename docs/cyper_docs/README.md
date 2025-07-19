@@ -4,10 +4,12 @@ This directory contains core documentation for the Cypher AI-to-AI orchestration
 
 ### Core Documentation Files:
 - `MANIFESTO_v2.md`: The current vision and "Commands as Teachers" philosophy (START HERE).
-- `THE_CYPHER_EVOLUTION.md`: Essential reading to understand the "why" behind the EKP v2 architecture.
+- `../research/THE_CYPHER_EVOLUTION.md`: Essential reading to understand the "why" behind the EKP v2 architecture.
 - `EKP_v2_Commands_as_Teachers_Roadmap.md`: The technical roadmap for the current EKP v2 implementation.
 - `ARCHITECTURE.md`: System architecture (needs update to reflect EKP).
+- `../research/IA_Pensamiento_CoT_ToT_ReAct.md`: Fundamental theoretical document on cognitive architectures.
 - `INTERFACES.md`: Core data structures (Task interface).
+- `AI_ECOSYSTEM_PHILOSOPHY.md`: Excellent summary of collaboration principles.
 
 ### Project Configuration:
 - `/CLAUDE.md`: Claude Code instructions (IMPORTANT: AI agents should read this)

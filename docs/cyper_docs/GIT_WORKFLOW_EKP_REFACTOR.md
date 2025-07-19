@@ -6,57 +6,51 @@
 
 ```
 master
-  └── feature/ekp-v2-refactor              # Rama principal de refactorización
-        ├── ekp-v2/phase-1-foundation      # Fase 1: Fundación (2 días)
-        ├── ekp-v2/phase-2-core-commands   # Fase 2: Comandos núcleo (3 días)
-        ├── ekp-v2/phase-3-patterns        # Fase 3: Patrones (2 días)
-        └── ekp-v2/phase-4-migration       # Fase 4: Migración (3 días)
+  └── feature/nombre-de-la-feature
+  └── fix/descripcion-del-fix
+  └── docs/descripcion-de-docs
 ```
 
 ### Convenciones de Nombres
 
-- **Rama principal**: `feature/ekp-v2-refactor`
-- **Sub-ramas**: `ekp-v2/phase-X-descripcion`
-- **Hotfixes**: `ekp-v2/hotfix-descripcion`
-- **Experimentos**: `ekp-v2/exp-descripcion`
+- **Rama principal**: `master`
+- **Ramas de desarrollo**:
+  - `feature/descripcion-de-la-feature`
+  - `fix/descripcion-del-fix`
+  - `docs/descripcion-de-docs`
+  - `chore/descripcion-de-tarea`
 
 ## Workflow de Trabajo
 
-### 1. Inicio de Refactorización
+### 1. Inicio de una Nueva Tarea
 
 ```bash
-# Crear rama principal desde master
+# Asegúrate de estar en master y actualizado
 git checkout master
 git pull origin master
-git checkout -b feature/ekp-v2-refactor
 
-# Crear primera sub-rama de fase
-git checkout -b ekp-v2/phase-1-foundation
+# Crea una nueva rama para tu tarea
+git checkout -b <tipo>/<descripcion-corta>
+# Ejemplo: git checkout -b feature/add-new-command
+# Ejemplo: git checkout -b fix/bug-in-task-engine
 ```
 
-### 2. Trabajo en Cada Fase
+### 2. Desarrollo y Commits
 
 ```bash
-# Al iniciar una fase
-git checkout feature/ekp-v2-refactor
-git pull origin master  # Mantener sincronizado
-git checkout -b ekp-v2/phase-X-nombre
-
-# Durante el trabajo
+# Durante el trabajo, haz commits atómicos y descriptivos
 git add .
-git commit -m "[PHASE X] feat: descripción concisa"
+git commit -m "tipo: descripción concisa del cambio"
 
-# Al completar la fase
-git checkout feature/ekp-v2-refactor
-git merge --no-ff ekp-v2/phase-X-nombre
-git push origin feature/ekp-v2-refactor
+# Ejemplo: git commit -m "feat: implementar nuevo comando 'explore'"
+# Ejemplo: git commit -m "fix: corregir error de parseo en TaskEngine"
 ```
 
 ### 3. Convenciones de Commits
 
 #### Formato
 ```
-[PHASE X] tipo: descripción breve
+tipo: descripción breve
 
 Cuerpo opcional explicando:
 - Qué cambios se hicieron
@@ -76,95 +70,63 @@ Refs: #task-id (si aplica)
 
 #### Ejemplos
 ```bash
-[PHASE 1] feat: crear estructura base prompts/ y patterns/
-[PHASE 1] feat: implementar comando 'cypher plan' como primer teacher
-[PHASE 2] refactor: migrar comando context a nuevo paradigma
-[PHASE 3] docs: añadir patrón react-component.md
+feat: implementar nuevo comando 'explore'
+refactor: migrar comando context a nuevo paradigma
+docs: actualizar README con nueva estructura
 ```
 
-### 4. Sincronización con Master
+### 3. Sincronización con Master
 
 ```bash
-# Semanalmente o cuando haya cambios importantes en master
-git checkout feature/ekp-v2-refactor
-git fetch origin
-git merge origin/master  # o rebase si prefieres historial limpio
-git push origin feature/ekp-v2-refactor
+# Mantén tu rama actualizada con master frecuentemente
+git checkout <tu-rama>
+git pull origin master
 ```
 
-### 5. Validación y Checkpoints
-
-#### Por Fase
-- [ ] Tests pasando
-- [ ] Documentación actualizada
-- [ ] Revisión de código (self-review)
-- [ ] Smoke test de funcionalidad
-
-#### Checkpoints Principales
-1. **Post-Fase 1**: Validar que el comando `plan` funciona correctamente
-2. **Post-Fase 2**: Validar que todos los comandos core están migrados
-3. **Post-Fase 3**: Validar que los patrones son útiles y reutilizables
-4. **Post-Fase 4**: Validar compatibilidad completa y limpieza
-
-### 6. Merge Final a Master
+### 4. Finalización de la Tarea y Merge
 
 ```bash
-# Cuando todo el roadmap esté completo
+# Cuando tu tarea esté completa y lista para integrar
 git checkout master
 git pull origin master
-git merge --no-ff feature/ekp-v2-refactor
+git merge --no-ff <tu-rama>
 
-# O crear PR para revisión si trabajas en equipo
-gh pr create --base master --head feature/ekp-v2-refactor
+# O, si trabajas en equipo, crea un Pull Request (PR)
+# gh pr create --base master --head <tu-rama>
 ```
 
 ## Manejo de Situaciones Especiales
 
-### Hotfixes Durante Refactorización
+### Hotfixes
 
 ```bash
-# Si encuentras un bug crítico
-git checkout feature/ekp-v2-refactor
-git checkout -b ekp-v2/hotfix-descripcion
-# ... fix ...
-git checkout feature/ekp-v2-refactor
-git merge --no-ff ekp-v2/hotfix-descripcion
+# Para corregir un bug crítico en producción
+git checkout master
+git pull origin master
+git checkout -b hotfix/descripcion-del-bug
+# ... corrige el bug ...
+git commit -m "fix: corrige bug crítico"
+git checkout master
+git merge --no-ff hotfix/descripcion-del-bug
 ```
 
 ### Experimentos
 
 ```bash
 # Para probar ideas sin comprometer la rama principal
-git checkout feature/ekp-v2-refactor
-git checkout -b ekp-v2/exp-nueva-idea
+git checkout master
+git checkout -b exp/nueva-idea
 # ... experimentar ...
-# Si funciona, merge; si no, simplemente eliminar la rama
-```
-
-### Rollback de Fase
-
-```bash
-# Si una fase introduce problemas
-git checkout feature/ekp-v2-refactor
-git revert -m 1 <merge-commit-de-la-fase>
+# Si funciona, puedes mergear a una rama de feature; si no, simplemente eliminar la rama
 ```
 
 ## Mejores Prácticas
 
-1. **Commits Atómicos**: Cada commit debe ser una unidad funcional completa
-2. **Push Frecuente**: Push al menos una vez al día a origin
-3. **No Reescribir Historia**: Una vez pushed, no hacer rebase o amend
-4. **Documentar Decisiones**: Usar commit messages descriptivos
-5. **Tests Primero**: Escribir tests antes de refactorizar cuando sea posible
-
-## Timeline Estimado
-
-- **Fase 1**: 2 días (Fundación)
-- **Fase 2**: 3 días (Comandos Core)
-- **Fase 3**: 2 días (Patrones)
-- **Fase 4**: 3 días (Migración)
-- **Buffer**: 2 días (Validación y pulido)
-- **Total**: ~12 días
+1. **Commits Atómicos**: Cada commit debe ser una unidad funcional completa y con un mensaje claro.
+2. **Push Frecuente**: Haz push a tu rama remota al menos una vez al día.
+3. **No Reescribir Historia Pública**: Una vez que los commits han sido pushed a una rama compartida, evita reescribir su historia (e.g., con `rebase -i`).
+4. **Documentar Decisiones**: Usa mensajes de commit descriptivos para explicar el "por qué" de los cambios.
+5. **Tests Primero**: Siempre que sea posible, escribe tests antes de implementar o refactorizar código.
 
 ## Comandos Útiles
 
@@ -173,7 +135,7 @@ git revert -m 1 <merge-commit-de-la-fase>
 git log --graph --pretty=oneline --abbrev-commit --all
 
 # Ver cambios entre ramas
-git diff master..feature/ekp-v2-refactor
+git diff <rama-1>..<rama-2>
 
 # Limpiar ramas locales mergeadas
 git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
