@@ -13,14 +13,14 @@
 
 ### Alta Prioridad
 
-- [ ] `docs/cyper_docs/README.md`
+- [x] `docs/cyper_docs/README.md`
   - **Cambios necesarios**: El README es el punto de entrada principal. Debe reflejar la nueva filosofía y los comandos EKP.
   - **Secciones afectadas**:
     - "Core Documentation Files": Actualizar la lista y las descripciones.
     - "Implementation Notes": La ruta de los prompts es ahora `cypher/prompts/`, no `src/providers/prompts/`.
     - Eliminar referencias a comandos antiguos si las hubiera.
 
-- [ ] `docs/cyper_docs/ONBOARDING.md`
+- [x] `docs/cyper_docs/ONBOARDING.md`
   - **Cambios necesarios**: El flujo de "Quick Start" está completamente desactualizado. Menciona `transmit`, que está deprecado. Debe ser reescrito para reflejar el nuevo flujo de `plan` -> `context` -> `validate` -> `learn`.
   - **Secciones afectadas**:
     - "Quick Start": Reemplazar `transmit` con los nuevos comandos guía.

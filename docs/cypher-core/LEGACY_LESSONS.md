@@ -222,7 +222,7 @@ AI: Te voy a guiar en una investigación completa. La exploración moderna va m�
 ¿Necesitas explorar alternativas como Server-Sent Events?
 ```
 
-**Commit de transformación**: [Se añadirá tras la implementación]
+**Commit de transformación**: dc15113
 
 ---
 
