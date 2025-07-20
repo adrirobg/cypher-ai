@@ -27,12 +27,18 @@ Reusable solutions extracted from successful tasks. Grows over time.
 - Various pattern files (task-specific)
 - Empty initially, populated through use
 
+### `/orchestrator/`
+AI Orchestrator operational protocols. How the AI operates.
+- `git-protocol.md` - Git operations philosophy and practice
+- `documentation-protocol.md` - Writing AI-optimized documentation
+- `gemini-collaboration.md` - Collaborating with Gemini
+- `manifest.md` - Protocol index
+
 ### `/project-rules/`
-Operational rules for consistency and collaboration.
-- `git-workflow.md` - Git conventions and processes
-- `ai-documentation-standards.md` - How to write for AI consumption
-- `gemini-collaboration-protocol.md` - Gemini CLI integration
-- `context7-integration.md` - Real-time documentation access
+Team conventions and project standards for human developers.
+- `git-workflow.md` - Team git conventions
+- `context7-integration.md` - Documentation access setup
+- `claude-md-best-practices.md` - CLAUDE.md file guidelines
 
 ### `/knowledge/`
 Strategic insights and high-level wisdom. Grows through use.
@@ -58,9 +64,14 @@ Collaborative Dialogue Documents. Task-specific workspaces.
 2. Context: `/prompts/context-guide.md`
 3. Validation: `/prompts/validation-guide.md`
 
-### For Following Rules
+### For AI Operations
+- Git: `/orchestrator/git-protocol.md`
+- Docs: `/orchestrator/documentation-protocol.md`
+- Gemini: `/orchestrator/gemini-collaboration.md`
+
+### For Team Conventions
 - Git: `/project-rules/git-workflow.md`
-- Docs: `/project-rules/ai-documentation-standards.md`
+- Tools: `/project-rules/context7-integration.md`
 
 ### For Finding Solutions
 - Check `/patterns/` for similar problems

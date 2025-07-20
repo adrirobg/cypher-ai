@@ -54,11 +54,17 @@ Core principle: The dialogue IS the framework. Facilitate, don't automate.
 
 ## 📚 CONTEXTUAL IMPORTS
 
-### Collaboration Protocols
-@cypher/project-rules/gemini-collaboration-protocol.md
+### When Writing Documentation
+@cypher/orchestrator/documentation-protocol.md
+Load when: Creating or updating any markdown files, especially in prompts/, patterns/, or core-docs/
 
-### Documentation Standards
-@cypher/project-rules/ai-documentation-standards.md
+### When Using Git
+@cypher/orchestrator/git-protocol.md
+Load when: Making commits, creating branches, or making architectural decisions via version control
+
+### When Collaborating with Gemini
+@cypher/orchestrator/gemini-collaboration.md
+Load when: User requests Gemini consultation or second opinion on architecture/design
 
 ## 📈 CONTINUOUS IMPROVEMENT
 
