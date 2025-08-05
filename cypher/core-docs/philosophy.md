@@ -25,7 +25,7 @@ Updated: 2025-01-19
 
 1. **Commands as Teachers** - Guide processes, don't automate them
 2. **Dialogue Over Delegation** - Collaborative discovery beats automated generation
-3. **Evolution Through Use** - Every task makes the system smarter
+3. **Evolution Through Use** - Every task makes the system smarter by contributing to a living, custom-built Knowledge Framework for your specific domain.
 4. **Context is King** - Rich context enables precise implementation
 5. **Patterns Over Rules** - Capture what works, not what should work
 6. **Human Judgment Prevails** - AI suggests, human decides

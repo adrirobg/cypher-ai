@@ -18,7 +18,9 @@
 
 ## 🎯 What is Cypher?
 
-We began building a task orchestrator. We discovered we were cultivating a garden of knowledge.
+Cypher is not a framework for building applications. It is a **meta-framework for building custom Knowledge Frameworks** while you build applications.
+
+We began building a task orchestrator. We discovered we were cultivating a garden of knowledge. The application you build is the catalyst; the **reusable wisdom** for that specific tech stack is the true product.
 
 Cypher is a living, learning ecosystem where:
 - **Commands don't execute tasks** - they teach you to execute them better

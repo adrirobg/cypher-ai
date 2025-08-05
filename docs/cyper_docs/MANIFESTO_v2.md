@@ -1,7 +1,7 @@
 # MANIFESTO: Cypher - A Living Knowledge Ecosystem
 
 ## Vision
-Build **Cypher**: a living, learning ecosystem where commands teach rather than execute, and every interaction makes the entire system wiser.
+Build **Cypher**: a meta-framework for creating **Living Knowledge Frameworks**. We build these custom frameworks through a process where commands teach rather than execute, and every interaction makes the entire system wiser.
 
 > "The best tool is the one that teaches you to not need it."
 
@@ -80,6 +80,7 @@ When approaching any task:
 3. **Create minimal artifacts**: Only what emerges from need
 4. **Capture learnings**: Every task should make the system wiser
 5. **Trust the process**: The framework guides, you decide
+6. **Build the manual, not just the product**: Remember that the primary goal is to generate a reusable Knowledge Framework for your stack. The application is the proof.
 
 When building features:
 
